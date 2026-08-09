@@ -1,0 +1,91 @@
+HistGradientBoosting Classification Report
+
+Messungen: 53192
+Features:  17
+
+Gelernte Klassen: [0, 1, 2, 3]
+Anzahl Boosting-Iterationen: 512
+
+P3_THRESHOLD: 0.8
+P0_THRESHOLD: 0.6
+
+Label-Verteilung gesamt:
+label
+0     7314
+1     7976
+2     3716
+3    34186
+
+================================================================================
+
+TEST — HistGradientBoosting raw argmax
+
+Accuracy:          0.8201
+Balanced Accuracy: 0.8131
+Macro F1:          0.7540
+Weighted F1:       0.8387
+
+Kritische Fehler:
+1 oder 2 als 3 klassifiziert: 200
+Kritische FN-Rate: 8.55%
+
+False Alarms:
+3 als 1 oder 2 klassifiziert: 1025
+False-Alarm-Rate: 14.99%
+
+Classification Report:
+                       precision    recall  f1-score   support
+
+  0_schlechte_messung       0.76      0.84      0.80      1463
+           1_hohlraum       0.90      0.86      0.88      1595
+2_vielleicht_hohlraum       0.33      0.73      0.45       743
+      3_kein_hohlraum       0.95      0.81      0.88      6838
+
+             accuracy                           0.82     10639
+            macro avg       0.74      0.81      0.75     10639
+         weighted avg       0.88      0.82      0.84     10639
+
+
+Confusion Matrix:
+        pred_0  pred_1  pred_2  pred_3
+true_0    1231      62      93      77
+true_1      85    1378      65      67
+true_2      55      11     544     133
+true_3     241      78     947    5572
+
+================================================================================
+
+TEST — HistGradientBoosting mit Entscheidungsschwellen
+
+Accuracy:          0.7138
+Balanced Accuracy: 0.7977
+Macro F1:          0.6892
+Weighted F1:       0.7570
+
+Kritische Fehler:
+1 oder 2 als 3 klassifiziert: 61
+Kritische FN-Rate: 2.61%
+
+False Alarms:
+3 als 1 oder 2 klassifiziert: 2338
+False-Alarm-Rate: 34.19%
+
+Classification Report:
+                       precision    recall  f1-score   support
+
+  0_schlechte_messung       0.84      0.77      0.81      1463
+           1_hohlraum       0.76      0.90      0.82      1595
+2_vielleicht_hohlraum       0.22      0.88      0.35       743
+      3_kein_hohlraum       0.98      0.64      0.78      6838
+
+             accuracy                           0.71     10639
+            macro avg       0.70      0.80      0.69     10639
+         weighted avg       0.88      0.71      0.76     10639
+
+
+Confusion Matrix:
+        pred_0  pred_1  pred_2  pred_3
+true_0    1132     121     195      15
+true_1      52    1435      84      24
+true_2      34      20     652      37
+true_3     125     322    2016    4375

@@ -1,0 +1,70 @@
+Multinomiale logistische Regression
+
+Beste Parameter:
+{'logistic_regression__C': 10, 'logistic_regression__class_weight': 'balanced'}
+
+Bester CV Macro F1:
+0.6352
+
+============================================================
+Alle Grid-Search-Ergebnisse
+============================================================
+
+     C class_weight cv_macro_f1_mean cv_macro_f1_std  rank
+ 10.00     balanced           0.6352          0.0023     1
+100.00     balanced           0.6345          0.0037     2
+  1.00     balanced           0.6275          0.0021     3
+  0.10     balanced           0.6108          0.0053     4
+100.00         None           0.5997          0.0079     5
+ 10.00         None           0.5868          0.0033     6
+  0.01     balanced           0.5829          0.0049     7
+  1.00         None           0.5711          0.0017     8
+  0.10         None           0.5634          0.0015     9
+  0.01         None           0.5414          0.0041    10
+
+============================================================
+Evaluation des besten Modells auf dem Testdatensatz
+============================================================
+
+Messungen: 53192
+Features: 17
+
+Label-Verteilung:
+label
+0     7314
+1     7976
+2     3716
+3    34186
+
+Accuracy: 0.6918
+Balanced Accuracy: 0.7145
+Macro F1: 0.6339
+Weighted F1: 0.7337
+
+Kritische Fehler:
+Klasse 1 oder 2 als 3 klassifiziert: 131
+Kritische FN-Rate: 5.60%
+
+False Alarms:
+Klasse 3 als 1 oder 2 klassifiziert: 1845
+False Alarm Rate: 26.98%
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0     0.6140    0.6938    0.6515      1463
+           1     0.7932    0.7455    0.7686      1595
+           2     0.2104    0.7456    0.3282       743
+           3     0.9481    0.6730    0.7872      6838
+
+    accuracy                         0.6918     10639
+   macro avg     0.6414    0.7145    0.6339     10639
+weighted avg     0.8274    0.6918    0.7337     10639
+
+
+Confusion Matrix:
+        pred_0  pred_1  pred_2  pred_3
+true_0    1015     133     194     121
+true_1     172    1189     176      58
+true_2      75      41     554      73
+true_3     391     136    1709    4602

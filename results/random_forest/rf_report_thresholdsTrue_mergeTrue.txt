@@ -1,0 +1,41 @@
+Random Forest Baseline
+
+Messungen: 53192
+Features:  17
+
+Label-Verteilung gesamt:
+label_conservative
+0     7314
+1    11692
+3    34186
+
+Accuracy:          0.7595
+Balanced Accuracy: 0.7565
+Macro F1:          0.7330
+Weighted F1:       0.7776
+
+Kritische Fehler:
+Klasse 1 (Hohlraum/Verdacht) als 3: 128
+Kritische FN-Rate: 5.47%
+
+False Alarms:
+Klasse 3 als 1 (Hohlraum/Verdacht): 1761
+False-Alarm-Rate: 25.75%
+
+Classification Report:
+                          precision    recall  f1-score   support
+
+     0_schlechte_messung       0.89      0.62      0.73      1463
+1_hohlraum_oder_verdacht       0.48      0.91      0.63      2338
+         3_kein_hohlraum       0.97      0.74      0.84      6838
+
+                accuracy                           0.76     10639
+               macro avg       0.78      0.76      0.73     10639
+            weighted avg       0.85      0.76      0.78     10639
+
+
+Confusion Matrix:
+        pred_0  pred_1  pred_3
+true_0     906     538      19
+true_1      74    2136     128
+true_3      39    1761    5038
