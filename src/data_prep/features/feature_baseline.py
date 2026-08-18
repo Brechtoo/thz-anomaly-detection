@@ -6,7 +6,7 @@ import numpy as np
 # ============================================================
 
 
-CSV_PATH = ("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised"
+INPUT_PATH = ("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised"
             "/results/measurements/combined_dataset.csv")
 OUTPUT_PATH = ("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised"
                "/results/feature_tables/feature_baseline.csv")
@@ -15,7 +15,7 @@ OUTPUT_PATH = ("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised"
 # n = n messungen verwenden
 MAX_MEASUREMENTS = None
 
-df = pd.read_csv(CSV_PATH)
+df = pd.read_csv(INPUT_PATH)
 
 # zufälliges ziehen
 if MAX_MEASUREMENTS is not None:

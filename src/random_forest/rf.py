@@ -28,12 +28,15 @@ from sklearn.metrics import (
     f1_score,
 )
 
+import joblib
+
+from src.paths import FEATURE_BASELINE_ROOT
 
 # ============================================================
 # settings
 # ============================================================
 
-MERGE_HOHLRAUM_CLASSES = True # wenn label 1 und 2 zusammengelegt werden sollen
+MERGE_HOHLRAUM_CLASSES = False # wenn label 1 und 2 zusammengelegt werden sollen
 USE_THRESHOLDS = True # wenn erst ab gewissen thresholds klassen vorhersagen vorgenommen werden sollen
 
 P3_THRESHOLD = 0.85
@@ -41,17 +44,17 @@ P0_THRESHOLD = 0.60
 
 RANDOM_STATE = 42
 
-FEATURE_CSV_PATH = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised"
-                        "/results/feature_tables/feature_baseline.csv")
+FEATURE_CSV_PATH = FEATURE_BASELINE_ROOT
+OUTPUT_PATH = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/random_forest")
 
-OUTPUT_DIR = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/random_forest")
+OUTPUT_DIR = Path(OUTPUT_PATH / "rf_merge_and_thresholds")
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-OUTPUT_REPORT_PATH = (OUTPUT_DIR
-                      / f"rf_report_thresholds{USE_THRESHOLDS}_"
-                        f"merge{MERGE_HOHLRAUM_CLASSES}.txt")
+OUTPUT_REPORT_PATH = (OUTPUT_DIR / f"rf_{MERGE_HOHLRAUM_CLASSES}_{USE_THRESHOLDS}.txt")
 
-MARKDOWN_RF_PATH = Path("/docs/overview_rf.md")
+MARKDOWN_RF_PATH = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/docs/overview_rf.md")
 
+JOBLIB_PATH = Path(OUTPUT_DIR / f"rf_{MERGE_HOHLRAUM_CLASSES}_{USE_THRESHOLDS}.joblib")
 
 TARGET_COL = "label"
 
@@ -376,6 +379,8 @@ Confusion Matrix:
 # save and write into .md
 # ============================================================
 
+joblib.dump(rf, JOBLIB_PATH)
+
 with open(OUTPUT_REPORT_PATH, "w", encoding="utf-8") as f:
     f.write(output_text)
 
@@ -393,7 +398,7 @@ if not MARKDOWN_RF_PATH.exists():
 
 with open(MARKDOWN_RF_PATH, "a", encoding="utf-8") as f:
     f.write(
-        f"| Merge: {MERGE_HOHLRAUM_CLASSES}, Thresholds: {USE_THRESHOLDS} "
+        f"| EXTENDED: M {MERGE_HOHLRAUM_CLASSES}, T {USE_THRESHOLDS} "
         f"| {accuracy:.4f} "
         f"| {balanced_acc:.4f} "
         f"| {macro_f1:.4f} "

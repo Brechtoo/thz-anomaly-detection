@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import joblib
 import numpy as np
 import pandas as pd
 
@@ -41,17 +42,17 @@ TARGET_NAMES = [
 # Pfade / Einstellungen
 # ============================================================
 
-FEATURE_TABLE_PATH = Path(
-    FEATURE_BASELINE_ROOT
-)
+FEATURE_TABLE_PATH = Path(FEATURE_BASELINE_ROOT)
 
-OUTPUT_DIR = Path(
-    HGB_OUTPUT_ROOT
-)
+OUTPUT_PATH = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/hgb")
+
+OUTPUT_DIR = OUTPUT_PATH / "hgb_baseline"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-OUTPUT_REPORT_PATH = OUTPUT_DIR / f"hgb_classification_report_P3: {P3_THRESHOLD}.txt"
+OUTPUT_REPORT_PATH = OUTPUT_DIR / f"hgb_baseline_report.txt"
+
+JOBLIB_PATH = Path(OUTPUT_DIR / "hgb_baseline.joblib")
 
 TARGET_COL = "label"
 
@@ -59,7 +60,7 @@ RANDOM_STATE = 42
 TEST_SIZE = 0.2
 
 EXPERIMENT_NAME = "hgb_baseline"
-MARKDOWN_PATH = "/docs/overview_hgb.md"
+MARKDOWN_PATH = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/docs/overview_hgb.md")
 
 # ============================================================
 # Hilfsfunktionen
@@ -259,7 +260,7 @@ X_test = imputer.transform(X_test)
 print("training model...")
 
 
-model = HistGradientBoostingClassifier(
+hgb = HistGradientBoostingClassifier(
     loss="log_loss",
     learning_rate=0.03,
     max_iter=800,
@@ -277,20 +278,20 @@ sample_weight = compute_sample_weight(
     y=y_train,
 ) # klasse 3 niedrigere gewichte, weil häufigeres vorkommen
 
-model.fit(X_train, y_train, sample_weight=sample_weight)
+hgb.fit(X_train, y_train, sample_weight=sample_weight)
 
 
 # ============================================================
 # Vorhersagen
 # ============================================================
 
-proba_test = model.predict_proba(X_test) # bei 10 000 testmessungen ein array der form (10 000, 4), eine zeile [0.04, 0.2, 0.16, 0.6]
+proba_test = hgb.predict_proba(X_test) # bei 10 000 testmessungen ein array der form (10 000, 4), eine zeile [0.04, 0.2, 0.16, 0.6]
 
-y_pred_raw = model.classes_[np.argmax(proba_test, axis=1)] # sucht in jeder zeile die position des größten wertes
+y_pred_raw = hgb.classes_[np.argmax(proba_test, axis=1)] # sucht in jeder zeile die position des größten wertes
 
 y_pred_threshold = threshold_predict(
     proba=proba_test,
-    classes=model.classes_,
+    classes=hgb.classes_,
     p3_threshold=P3_THRESHOLD,
     p0_threshold=P0_THRESHOLD,
 )
@@ -318,8 +319,8 @@ HistGradientBoosting Classification Report
 Messungen: {len(df)}
 Features:  {X.shape[1]}
 
-Gelernte Klassen: {list(model.classes_)}
-Anzahl Boosting-Iterationen: {model.n_iter_}
+Gelernte Klassen: {list(hgb.classes_)}
+Anzahl Boosting-Iterationen: {hgb.n_iter_}
 
 P3_THRESHOLD: {P3_THRESHOLD}
 P0_THRESHOLD: {P0_THRESHOLD}
@@ -388,6 +389,8 @@ threshold_weighted_f1 = f1_score(
 # Markdown-Ergebnisübersicht speichern
 # ============================================================
 
+joblib.dump(hgb, JOBLIB_PATH)
+
 if not MARKDOWN_PATH.exists():
     with open(MARKDOWN_PATH, "w", encoding="utf-8") as f:
         f.write(
@@ -408,7 +411,7 @@ with open(MARKDOWN_PATH, "a", encoding="utf-8") as f:
         f"| Raw Argmax "
         f"| - "
         f"| - "
-        f"| {model.n_iter_} "
+        f"| {hgb.n_iter_} "
         f"| {raw_accuracy:.4f} "
         f"| {raw_balanced_acc:.4f} "
         f"| {raw_macro_f1:.4f} "
@@ -425,7 +428,7 @@ with open(MARKDOWN_PATH, "a", encoding="utf-8") as f:
         f"| Thresholds "
         f"| {P3_THRESHOLD:.2f} "
         f"| {P0_THRESHOLD:.2f} "
-        f"| {model.n_iter_} "
+        f"| {hgb.n_iter_} "
         f"| {threshold_accuracy:.4f} "
         f"| {threshold_balanced_acc:.4f} "
         f"| {threshold_macro_f1:.4f} "
