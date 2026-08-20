@@ -32,3 +32,5 @@ LABELS_3_ROOT = ("/Users/flo/Desktop/Isenhagen/labeled data/"
 FEATURE_BASELINE_ROOT = "/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/feature_tables/feature_baseline.csv"
 RF_OUTPUT_ROOT = "/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/random_forest"
 HGB_OUTPUT_ROOT = "/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/hgb"
+
+FEATURE_EXTENSION_ROOT = "/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/feature_tables/feature_extension_block1.csv"

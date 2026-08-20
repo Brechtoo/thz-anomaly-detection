@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 # ============================================================
-# erste feature erstellen
+# erste features erstellen
 # ============================================================
 
 
@@ -78,7 +78,6 @@ def extract_features(file_path):
     }
 
     return features
-
 
 rows = []
 
