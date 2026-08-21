@@ -36,3 +36,9 @@ results/feature_tables/
 fragen papenbrock
 notes anomaly detection
 notizen für die geschriebene BA
+
+# ============================================================
+# joblibs
+# ============================================================
+*.joblib
+
