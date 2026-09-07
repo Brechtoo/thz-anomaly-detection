@@ -12,17 +12,17 @@ import matplotlib.pyplot as plt
 INPUT_PATH = FEATURE_BASELINE_ROOT
 
 OUTPUT_DIR = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/analysis/feature_baseline_analysis/stats_and_boxplots")
-OUTPUT_PATH = OUTPUT_DIR / "boxplots.txt"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-df = pd.read_csv(FEATURE_BASELINE_ROOT)
+df = pd.read_csv(INPUT_PATH)
 
 FEATURES = [
     "y_min",
     "y_peak_to_peak",
-    "first_third_std",
-    "y_energy",
+    "y_std",
+    "y_median",
+    "first_third_std"
 ]
 
 # ============================================================
@@ -52,4 +52,4 @@ for feature in FEATURES:
     plt.close()
 
 
-print(f"Boxplots gespeichert unter: {OUTPUT_DIR}")
+print(f"boxplots gespeichert unter: {OUTPUT_DIR}")

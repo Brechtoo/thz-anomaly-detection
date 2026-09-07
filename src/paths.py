@@ -1,5 +1,5 @@
 # ============================================================
-# Projekt
+# projekt
 # ============================================================
 
 PROJECT_ROOT = "/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised"
@@ -7,7 +7,7 @@ SRC_ROOT = "/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/src"
 RESULTS_ROOT = "/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results"
 
 # ============================================================
-# Testkörper Messungen
+# testkörper messungen
 # ============================================================
 
 HOHLRAUM_TESTKÖRPER_1_ROOT = "/Users/flo/Desktop/Isenhagen/labeled data/Hohlraumtestk1_tr/scan"
@@ -15,7 +15,7 @@ HOHLRAUM_TESTKÖRPER_2_ROOT = "/Users/flo/Desktop/Isenhagen/labeled data/Hohlrau
 HOHLRAUM_TESTKÖRPER_3_ROOT = "/Users/flo/Desktop/Isenhagen/labeled data/Hohlraumtestk3_tr/scan"
 
 # ============================================================
-# Unzugeordnete Labels
+# unzugeordnete labels
 # ============================================================
 
 LABELS_1_ROOT = ("/Users/flo/Desktop/Isenhagen/labeled data/"
@@ -26,11 +26,9 @@ LABELS_3_ROOT = ("/Users/flo/Desktop/Isenhagen/labeled data/"
                  "Hohlraumtestk3_tr/hohltestk3_tr_markArea_XYList.txt")
 
 # ============================================================
-# Ergebnisse
+# feature tabelle
 # ============================================================
 
 FEATURE_BASELINE_ROOT = "/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/feature_tables/feature_baseline.csv"
-RF_OUTPUT_ROOT = "/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/random_forest"
-HGB_OUTPUT_ROOT = "/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/hgb"
 
-FEATURE_EXTENSION_ROOT = "/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/feature_tables/feature_extension_block1.csv"
+FEATURE_TABLE_ROOT = "/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/feature_tables/feature_table.csv"

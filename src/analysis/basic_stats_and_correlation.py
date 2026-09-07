@@ -12,11 +12,14 @@ from pathlib import Path
 INPUT_PATH = FEATURE_BASELINE_ROOT
 
 OUTPUT_DIR = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/analysis/feature_baseline_analysis/stats_and_boxplots")
-OUTPUT_PATH = OUTPUT_DIR / "stats_and_correlation.txt"
+OUTPUT_PATH = OUTPUT_DIR / "stats_and_correlation_baseline_features.txt"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-df = pd.read_csv(FEATURE_BASELINE_ROOT)
+HEATMAP_NAME = "baseline_features_heatmap"
+PLOT_NAME = "Korrelationsmatrix der Baseline-Features"
+
+df = pd.read_csv(INPUT_PATH)
 
 EXCLUDE_COLUMNES = ["label", "file_path", "x", "y", "source_dataset", "instance_id"]
 
@@ -24,10 +27,8 @@ FEATURES = [col for col in df.columns if col not in EXCLUDE_COLUMNES]
 
 corr = df[FEATURES].corr()
 
-
-
 # ============================================================
-# Heatmap
+# heatmap
 # ============================================================
 
 fig, ax = plt.subplots(figsize=(12, 10))
@@ -51,11 +52,11 @@ fig.colorbar(
     label="Pearson-Korrelation"
 )
 
-plt.title("Korrelationsmatrix der Baseline-Features")
+plt.title(f"{PLOT_NAME}")
 plt.tight_layout()
 
 plt.savefig(
-    OUTPUT_DIR / "correlation_heatmap.png",
+    OUTPUT_DIR / f"{HEATMAP_NAME}.png",
     dpi=300,
     bbox_inches="tight",
 )
@@ -72,3 +73,31 @@ with open(OUTPUT_PATH, "w") as f:
         f.write(f"\n{feature}")
         f.write(stats.to_string())
     f.write("\n\n" + corr.to_string())
+
+
+corr_matrix = df[FEATURES].corr()
+
+high_corr = []
+
+for i in range(len(corr_matrix.columns)):
+    for j in range(i + 1, len(corr_matrix.columns)):
+
+        corr = corr_matrix.iloc[i, j]
+
+        if abs(corr) >= 0.8:
+            high_corr.append({
+                "feature_1": corr_matrix.columns[i],
+                "feature_2": corr_matrix.columns[j],
+                "correlation": corr
+            })
+
+high_corr_df = pd.DataFrame(high_corr)
+
+high_corr_df["abs_correlation"] = high_corr_df["correlation"].abs()
+
+high_corr_df = high_corr_df.sort_values(
+    "abs_correlation",
+    ascending=False
+)
+
+print(high_corr_df.to_string(index=False))
