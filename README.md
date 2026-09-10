@@ -7,6 +7,7 @@ This repository contains the supervised machine learning pipeline developed as p
 - Multinomial Logistic Regression
 - Random Forest
 - Histogram-based Gradient Boosting
+- Multi-Layer Perceptron Network
 
 ## Project Structure
 
