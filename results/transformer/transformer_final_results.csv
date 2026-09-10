@@ -1,0 +1,13 @@
+model,red_threshold,green_threshold,accuracy,balanced_accuracy,macro_f1,weighted_f1,confusion_matrix,classification_report,critical_errors,critical_error_rate,false_alarms,false_alarm_rate,red_to_yellow,red_to_yellow_rate,green_to_yellow,green_to_yellow_rate
+transformer_unweighted,0.45,0.7,0.8526177272300028,0.8697465069749627,0.8409024271968253,0.8591402441971474,"[[1415  124   56]
+ [  36 1962  208]
+ [ 115 1029 5694]]","              precision    recall  f1-score   support
+
+           1     0.9036    0.8871    0.8953      1595
+           2     0.6299    0.8894    0.7375      2206
+           3     0.9557    0.8327    0.8900      6838
+
+    accuracy                         0.8526     10639
+   macro avg     0.8297    0.8697    0.8409     10639
+weighted avg     0.8803    0.8526    0.8591     10639
+",56,3.510971786833856,115,1.6817782977478797,124,7.774294670846395,1029,15.048259725065808
