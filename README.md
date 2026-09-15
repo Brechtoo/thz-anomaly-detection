@@ -1,25 +1,44 @@
-# THz Anomaly Detection – Supervised Learning
+# THz-TDS Anomalieerkennung
 
-This repository contains the supervised machine learning pipeline developed as part of a Bachelor's thesis on cavity detection in THz-TDS reflection measurements.
+Dieses Repository enthält die im Rahmen einer Bachelorarbeit entwickelte Machine-Learning-Pipeline zur automatisierten Erkennung von Hohlräumen in THz-TDS-Reflexionsmessungen.
+Das Projekt betrachtet sowohl überwachte als auch unüberwachte Verfahren.
 
-## Models
 
-- Multinomial Logistic Regression
-- Random Forest
-- Histogram-based Gradient Boosting
-- Multi-Layer Perceptron Network
+## Überwachte Modelle
 
-## Project Structure
+* Multinomiale logistische Regression 
+* Random Forest
+* Histogram-based Gradient Boosting
+* Multi-Layer Perceptron
+* Transformer
+  
 
-- `src/` – source code
-- `results/` – evaluation results
-- `plots/` – notebooks and visualizations
-- `docs/` – documentation
+## Unüberwachte Verfahren
 
-## Data
+* Principal Component Analysis (PCA)
+* Isolation Forest
+* Autoencoder
 
-The measurement data is not included in this repository.
 
-## Status
+## Projektstruktur
 
-Bachelor's thesis project – work in progress.
+* `src/analysis/` – Feature-Analyse
+* `src/data/` – Laden, Labeln und Split der Daten
+* `src/features/` – Feature-Extraktion 
+* `src/models/` – Überwachte Modelle
+* `src/experiments/` – Training, Experimente und Optimierung
+* `src/evaluation/` – Evaluation und Schwellenwertstrategien
+* `src/unsupervised/` – Unüberwachte Modelle, inkl. Datenvorbereitung und Experimente
+* `src/external_test/` – Tests auf neuen Daten
+* `results/` – Feature-Tabellen, trainierte Modelle und Ergebnisse
+
+
+## Daten
+
+Die für die Machine-Learning-Experimente verarbeiteten und gelabelten Datensätze sowie die erzeugten Feature-Tabellen befinden sich in `results/`.
+
+
+## Reproduzierbarkeit
+
+Die Ergebnisse der Experimente befinden sich in `results/`.
+
