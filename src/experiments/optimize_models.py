@@ -12,10 +12,9 @@ from sklearn.preprocessing import StandardScaler
 
 from src.data.dataset import prepare_dataset
 from src.data.splitting import create_splits
-from src.paths import FEATURE_TABLE_ROOT
+from src.paths import FEATURE_TABLE_ROOT, EXTENDED_EXPERIMENT_DIR
 
-
-EXPERIMENT_DIR = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/experiments/extended_features")
+EXPERIMENT_DIR = EXTENDED_EXPERIMENT_DIR
 
 OUTPUT_DIR = EXPERIMENT_DIR / "optimization"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

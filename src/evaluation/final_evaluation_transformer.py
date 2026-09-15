@@ -7,19 +7,13 @@ import torch
 from torch.utils.data import TensorDataset, DataLoader
 
 from src.data.splitting import create_splits
-from src.evaluation.metrics import (
-    evaluate_predictions,
-    calculate_error_counts,
-)
+from src.evaluation.metrics import evaluate_predictions, calculate_error_counts
 from src.evaluation.thresholding import threshold_predict
 
-from src.models.transformer import (
-    TransformerModel,
-    prepare_signals,
-)
+from src.models.transformer import TransformerModel
+from src.transformer.load_signal import prepare_signals
 
-from src.paths import FEATURE_TABLE_ROOT
-
+from src.paths import FEATURE_TABLE_ROOT, TRANSFORMER_RESULTS
 
 # ============================================================
 # settings
@@ -32,9 +26,9 @@ GREEN_THRESHOLD = 0.70
 
 DEVICE = "mps" if torch.backends.mps.is_available() else "cpu"
 
-MODEL_PATH = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/transformer/transformer_unweighted.pt")
+MODEL_PATH = TRANSFORMER_RESULTS / "transformer_class1_weight2.pt"
 
-OUTPUT_PATH = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/transformer/transformer_final_results.csv")
+OUTPUT_PATH = TRANSFORMER_RESULTS / "transformer_final_results.csv"
 
 # ============================================================
 # main
@@ -136,7 +130,7 @@ if __name__ == "__main__":
     # --------------------------------------------------------
 
     results = {
-        "model": "transformer_unweighted",
+        "model": "transformer_class1_weight2",
         "red_threshold": RED_THRESHOLD,
         "green_threshold": GREEN_THRESHOLD,
         **metrics,

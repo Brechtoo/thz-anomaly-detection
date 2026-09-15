@@ -1,0 +1,23 @@
+Permutation Importance - RF
+Scoring: f1_macro
+n_repeats: 10
+Split: 64 % Train / 16 % Validation / 20 % Test
+
+            feature  importance_mean  importance_std
+              y_min         0.101654        0.004059
+              y_std         0.083397        0.002353
+         x_at_y_max         0.078217        0.004309
+    first_third_std         0.071049        0.002737
+     last_third_std         0.064044        0.004148
+              y_max         0.056805        0.004772
+           y_median         0.052367        0.003105
+     y_peak_to_peak         0.048933        0.001842
+ first_third_energy         0.048706        0.002197
+         x_at_y_min         0.047104        0.003936
+middle_third_energy         0.046442        0.002098
+   middle_third_std         0.042063        0.002998
+  last_third_energy         0.040288        0.002930
+           y_energy         0.031769        0.002110
+         y_abs_mean         0.028415        0.002487
+             y_mean         0.024370        0.001625
+         y_abs_area         0.022652        0.002691

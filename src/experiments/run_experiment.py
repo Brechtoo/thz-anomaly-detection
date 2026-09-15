@@ -5,28 +5,17 @@ import pandas as pd
 from src.data.dataset import prepare_dataset
 from src.data.splitting import create_splits
 
-from src.evaluation.metrics import (
-    evaluate_predictions,
-    calculate_error_counts,
-)
+from src.evaluation.metrics import evaluate_predictions, calculate_error_counts
 from src.evaluation.reporting import save_evaluation_report
 
 from src.models.rf import create_random_forest
 from src.models.hgb import create_hgb, train_hgb
-from src.models.lr import (
-    create_logistic_regression,
-    create_lr_grid_search,
-)
+from src.models.lr import create_logistic_regression, create_lr_grid_search
 from src.models.mlp import create_mlp
 
-from src.experiments.saving import (
-    create_experiment_dir,
-    save_model,
-    save_results,
-)
+from src.experiments.saving import create_experiment_dir, save_model, save_results
 
-from src.paths import FEATURE_TABLE_ROOT
-
+from src.paths import FEATURE_TABLE_ROOT, EXPERIMENTS_ROOT
 
 # ============================================================
 # settings
@@ -34,7 +23,7 @@ from src.paths import FEATURE_TABLE_ROOT
 
 EXPERIMENT_NAME = "extended_features"
 
-RESULTS_DIR = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/experiments")
+RESULTS_DIR = EXPERIMENTS_ROOT
 
 
 def run_experiment():

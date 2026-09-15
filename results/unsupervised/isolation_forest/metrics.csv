@@ -1,0 +1,2 @@
+roc_auc,average_precision,baseline_ap,top_20_label1,top_20_label12,top_50_label1,top_50_label12,top_100_label1,top_100_label12,top_500_label1,top_500_label12
+0.6269511303325721,0.23964646496311526,0.19193110770319688,0.05,0.05,0.14,0.14,0.14,0.14,0.088,0.096

@@ -3,15 +3,15 @@ from pathlib import Path
 import pandas as pd
 
 from src.features.extract_all_features import extract_all_features
-
+from src.paths import COMBINED_DATASET_ROOT, FEATURE_TABLE_ROOT
 
 # ============================================================
 # settings
 # ============================================================
 
-INPUT_PATH = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/measurements/combined_dataset.csv")
+INPUT_PATH = COMBINED_DATASET_ROOT
 
-OUTPUT_PATH = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/feature_tables/feature_table.csv")
+OUTPUT_PATH = FEATURE_TABLE_ROOT
 
 MAX_MEASUREMENTS = None
 

@@ -11,18 +11,17 @@ from sklearn.utils.class_weight import compute_sample_weight
 
 from src.data.dataset import prepare_dataset
 from src.data.splitting import create_splits
-from src.paths import FEATURE_TABLE_ROOT
-
+from src.paths import FEATURE_TABLE_ROOT, EXTENDED_EXPERIMENT_DIR, PERMUTATION_IMPORTANCE_RESULTS
 
 # ============================================================
 # settings
 # ============================================================
 
-EXPERIMENT_DIR = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/experiments/extended_features")
+EXPERIMENT_DIR = EXTENDED_EXPERIMENT_DIR
 
 MODEL_DIR = EXPERIMENT_DIR / "models"
 
-OUTPUT_DIR = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/analysis/permutation_importance")
+OUTPUT_DIR = PERMUTATION_IMPORTANCE_RESULTS
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True,)
 

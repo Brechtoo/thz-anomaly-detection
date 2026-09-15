@@ -1,0 +1,23 @@
+Permutation Importance - HGB
+Scoring: f1_macro
+n_repeats: 10
+Split: 64 % Train / 16 % Validation / 20 % Test
+
+            feature  importance_mean  importance_std
+              y_min         0.164817        0.004619
+              y_std         0.158269        0.003456
+         x_at_y_max         0.109799        0.003495
+           y_median         0.091127        0.004564
+    first_third_std         0.090248        0.002632
+         x_at_y_min         0.078964        0.002368
+     last_third_std         0.073745        0.003980
+   middle_third_std         0.054303        0.003353
+     y_peak_to_peak         0.039742        0.003793
+              y_max         0.034941        0.002784
+ first_third_energy         0.023024        0.002551
+  last_third_energy         0.016640        0.005179
+middle_third_energy         0.006930        0.003209
+           y_energy         0.003052        0.001256
+             y_mean         0.002153        0.000860
+         y_abs_mean         0.000546        0.000476
+         y_abs_area         0.000059        0.000186

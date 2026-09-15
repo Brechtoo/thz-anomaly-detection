@@ -1,7 +1,7 @@
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from src.paths import FEATURE_BASELINE_ROOT
+from src.paths import FEATURE_BASELINE_ROOT, BASELINE_ANALYSIS_RESULTS
 
 from pathlib import Path
 
@@ -11,7 +11,7 @@ from pathlib import Path
 
 INPUT_PATH = FEATURE_BASELINE_ROOT
 
-OUTPUT_DIR = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/analysis/feature_baseline_analysis/stats_and_boxplots")
+OUTPUT_DIR = BASELINE_ANALYSIS_RESULTS
 OUTPUT_PATH = OUTPUT_DIR / "stats_and_correlation_baseline_features.txt"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

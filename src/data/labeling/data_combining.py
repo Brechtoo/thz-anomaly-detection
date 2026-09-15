@@ -1,6 +1,7 @@
 from pathlib import Path
 import pandas as pd
 
+from src.paths import DATA1_LABELED_ROOT, DATA2_LABELED_ROOT, DATA3_LABELED_ROOT, MEASUREMENTS_ROOT
 
 # ============================================================
 # gelabelte messreihen laden, standardisieren und zu einer csv zusammenführen
@@ -9,22 +10,22 @@ import pandas as pd
 DATASETS = [
     {
         "name": "messreihe_1",
-        "path": Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/measurements/data1_labeled.csv"),
+        "path": DATA1_LABELED_ROOT,
         "drop_columns": ["label_found"],
     },
     {
         "name": "messreihe_2",
-        "path": Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/measurements/data2_labeled.csv"),
+        "path": DATA2_LABELED_ROOT,
         "drop_columns": ["label_found"],
     },
     {
         "name": "messreihe_3",
-        "path": Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/measurements/data3_labeled.csv"),
+        "path": DATA3_LABELED_ROOT,
         "drop_columns": ["label_found"],
     },
 ]
 
-OUTPUT_PATH = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/measurements/combined_dataset.csv")
+OUTPUT_PATH = MEASUREMENTS_ROOT
 
 COORD_COLUMNS = ["x", "y"]
 

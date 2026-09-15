@@ -6,16 +6,12 @@ import pandas as pd
 from src.data.dataset import prepare_dataset
 from src.data.splitting import create_splits
 
-from src.evaluation.metrics import (
-    evaluate_predictions,
-    calculate_error_counts,
-)
+from src.evaluation.metrics import evaluate_predictions, calculate_error_counts
 from src.evaluation.reporting import save_evaluation_report
 
-from src.paths import FEATURE_TABLE_ROOT
+from src.paths import FEATURE_TABLE_ROOT, EXTENDED_EXPERIMENT_DIR
 
-
-EXPERIMENT_DIR = Path("/Users/flo/Desktop/Isenhagen/thz-anomaly-supervised/results/experiments/extended_features")
+EXPERIMENT_DIR = EXTENDED_EXPERIMENT_DIR
 
 OPTIMIZATION_DIR = EXPERIMENT_DIR / "optimization"
 
