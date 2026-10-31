@@ -42,3 +42,8 @@ docs/fragen cornelius
 # ============================================================
 *.joblib
 
+.venv/
+
+# MLflow
+mlflow.db
+mlruns/

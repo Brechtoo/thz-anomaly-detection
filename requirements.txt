@@ -5,3 +5,5 @@ scikit-learn
 matplotlib
 joblib
 torch
+mlflow
+mlflow-skinny
