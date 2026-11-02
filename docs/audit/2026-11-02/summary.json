@@ -1,0 +1,317 @@
+{
+  "format_version": 1,
+  "release_tag": "baseline-audit-2026-11-02",
+  "scope": "Technical reproducibility and pointwise within-scan audit only",
+  "group_independent_generalization_demonstrated": false,
+  "limitations": [
+    "All three measured sources/scans occur in train, validation and test.",
+    "Group-independent evaluation on new scans/specimens has not been demonstrated.",
+    "Feature reconstruction is numerically equivalent under the documented tolerance, not byte-identical.",
+    "Historical feature extraction environment and independent acquisition-group metadata are incomplete.",
+    "No new training was performed during session closure."
+  ],
+  "baseline": {
+    "reference_run_id": "a5b8cf67d02d4214bb8e36ea946e839a",
+    "new_run_id": "674a859ff5b94331843ce811abda18a0",
+    "metrics": [
+      {
+        "metric": "accuracy",
+        "reference": 0.8883797438608859,
+        "new": 0.8883797438608859,
+        "delta": 0.0
+      },
+      {
+        "metric": "balanced_accuracy",
+        "reference": 0.8876300273012376,
+        "new": 0.8876300273012376,
+        "delta": 0.0
+      },
+      {
+        "metric": "macro_f1",
+        "reference": 0.8395618142421619,
+        "new": 0.8395618142421619,
+        "delta": 0.0
+      },
+      {
+        "metric": "weighted_f1",
+        "reference": 0.8975994687642329,
+        "new": 0.8975994687642329,
+        "delta": 0.0
+      }
+    ],
+    "confusion_matrix": [
+      [
+        1079,
+        4,
+        29,
+        58
+      ],
+      [
+        2,
+        1178,
+        40,
+        56
+      ],
+      [
+        18,
+        6,
+        491,
+        80
+      ],
+      [
+        75,
+        71,
+        511,
+        4813
+      ]
+    ],
+    "prediction_mismatches": 0,
+    "reference_n_iter": 319,
+    "new_n_iter": 319,
+    "reference_safety_recomputed_four_label_v2": {
+      "critical_errors": 136,
+      "critical_error_rate": 7.268840192410475,
+      "false_alarms": 582,
+      "false_alarm_rate": 10.639853747714808,
+      "unsafe_clearances": 58,
+      "unsafe_clearance_rate": 4.957264957264957,
+      "unnecessary_remeasurements": 75,
+      "unnecessary_remeasurement_rate": 1.3711151736745886,
+      "overall_unsafe_clearances": 194,
+      "overall_unsafe_clearance_rate": 6.379480434067741,
+      "red_to_yellow": 42,
+      "red_to_yellow_rate": 3.2915360501567394,
+      "green_to_yellow": 586,
+      "green_to_yellow_rate": 10.712979890310786
+    },
+    "new_safety_four_label_v2": {
+      "critical_errors": 136,
+      "critical_error_rate": 7.268840192410475,
+      "false_alarms": 582,
+      "false_alarm_rate": 10.639853747714808,
+      "unsafe_clearances": 58,
+      "unsafe_clearance_rate": 4.957264957264957,
+      "unnecessary_remeasurements": 75,
+      "unnecessary_remeasurement_rate": 1.3711151736745886,
+      "overall_unsafe_clearances": 194,
+      "overall_unsafe_clearance_rate": 6.379480434067741,
+      "red_to_yellow": 42,
+      "red_to_yellow_rate": 3.2915360501567394,
+      "green_to_yellow": 586,
+      "green_to_yellow_rate": 10.712979890310786
+    }
+  },
+  "environment": {
+    "python": "3.12.5",
+    "platform": "macOS arm64",
+    "installed_packages": 101,
+    "fresh_installation_verified": true,
+    "pip_check": "No broken requirements found",
+    "original_environment_unchanged": true
+  },
+  "features": {
+    "reference_sha256": "03d439403489d319feb7299847b159d9bd96e9398f72fd1d19bd64cb84df97ed",
+    "rebuilt_sha256": "a9ad6f850c1586761b97e08ecb02677fb2c84bc753f868b2b55832703e149987",
+    "model_sha256": "75e30f9d836cb7807fe8d3cf80d3bb4c119d0ea86802e607d65555f87d39411c",
+    "rows": 53192,
+    "feature_count": 52,
+    "different_features": 47,
+    "exact_features": [
+      "x_at_y_max",
+      "x_at_y_min",
+      "second_peak_distance",
+      "x_of_max_window_std",
+      "x_of_max_window_energy"
+    ],
+    "numeric_cell_count": 2765984,
+    "different_cells": 1381899,
+    "max_abs_delta": 2.7966962079517543e-11,
+    "max_relative_delta": 1.1104164519752798e-10,
+    "rtol": 1e-11,
+    "atol": 1e-13,
+    "tolerance_passes": true,
+    "max_tolerance_budget_fraction": 0.4991279094577298,
+    "validation_count": 8511,
+    "prediction_mismatches": 0,
+    "probabilities_exact_equal": true,
+    "max_probability_delta": 0.0,
+    "metrics": {
+      "accuracy": {
+        "reference": 0.8883797438608859,
+        "rebuilt": 0.8883797438608859
+      },
+      "balanced_accuracy": {
+        "reference": 0.8876300273012376,
+        "rebuilt": 0.8876300273012376
+      },
+      "macro_f1": {
+        "reference": 0.8395618142421619,
+        "rebuilt": 0.8395618142421619
+      },
+      "weighted_f1": {
+        "reference": 0.8975994687642329,
+        "rebuilt": 0.8975994687642329
+      }
+    },
+    "confusion_matrix_equal": true,
+    "safety_metrics_equal": true
+  },
+  "catalog": {
+    "rows_reference": 53192,
+    "rows_rebuilt": 53192,
+    "columns_equal": true,
+    "ids_equal": true,
+    "id_order_equal": true,
+    "labels_equal_by_id": true,
+    "all_catalog_fields_equal": true,
+    "different_cells_by_column": {
+      "file_path": 0,
+      "filename": 0,
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "label": 0,
+      "source_dataset": 0,
+      "instance_id": 0
+    },
+    "reference_sha256": "507534e5045533be772c9b263ad8d0d4791fd9e6c4a0b9ce1dc9c0b13cd55c48",
+    "rebuilt_sha256": "507534e5045533be772c9b263ad8d0d4791fd9e6c4a0b9ce1dc9c0b13cd55c48",
+    "repeated_rebuild_sha256_equal": true,
+    "byteidentical_to_reference": true,
+    "new_labels_assigned": 0,
+    "annotations_unchanged": true
+  },
+  "annotation_sha256": {
+    "hohltestk1_tr_markArea_XYList2.txt": "d61c7dab683e878100365e318e03615857325c1f621fdda236b2511d669fccdd",
+    "hohltestk2_tr_markArea_XYList.txt": "3f95c66e2acc5d6ab311b117252df9e10fec8429c65d3a5a7d50c62ab8f4fea2",
+    "hohltestk3_tr_markArea_XYList.txt": "adaf5e1b3329efda6ef637cc51abd9459c61133d2e9343327936949b057188cd"
+  },
+  "leakage": {
+    "split_sizes": {
+      "train": 34042,
+      "test": 10639,
+      "validation": 8511
+    },
+    "group_overlaps": {
+      "source_dataset": {
+        "groups": 3,
+        "cross_split_groups": 3,
+        "groups_in_all_three_splits": 3
+      },
+      "scan_name": {
+        "groups": 3,
+        "cross_split_groups": 3,
+        "groups_in_all_three_splits": 3
+      },
+      "source_date": {
+        "groups": 6,
+        "cross_split_groups": 6,
+        "groups_in_all_three_splits": 6
+      },
+      "source_condition": {
+        "groups": 4,
+        "cross_split_groups": 3,
+        "groups_in_all_three_splits": 3
+      },
+      "source_counter_reset_session_candidates": {
+        "groups": 3,
+        "cross_split_groups": 3,
+        "groups_in_all_three_splits": 3
+      },
+      "source_spatial_blocks_10": {
+        "groups": 681,
+        "cross_split_groups": 680,
+        "groups_in_all_three_splits": 672
+      }
+    },
+    "source_split_counts": {
+      "test": {
+        "messreihe_1": 4227,
+        "messreihe_2": 4325,
+        "messreihe_3": 2087
+      },
+      "train": {
+        "messreihe_1": 13721,
+        "messreihe_2": 13587,
+        "messreihe_3": 6734
+      },
+      "validation": {
+        "messreihe_1": 3356,
+        "messreihe_2": 3510,
+        "messreihe_3": 1645
+      }
+    },
+    "duplicate_id_extra_rows": 0,
+    "duplicate_path_extra_rows": 0,
+    "duplicate_source_xy_extra_rows": 0,
+    "duplicate_source_sequence_extra_rows": 0,
+    "byte_duplicate_rows": 0,
+    "fresh_exact_feature_duplicate_rows": 0,
+    "raw_files_verified_against_previous_full_rebuild": 53192,
+    "near_or_rescaled_signal_duplicates_exhaustively_checked": false,
+    "spatial_proximity": [
+      {
+        "split": "test",
+        "rows": 10639,
+        "within_one_xy_unit": 10443,
+        "within_one_xy_unit_percent": 98.15772159037503,
+        "minimum_distance": 1.0,
+        "median_distance": 1.0,
+        "max_distance": 2.0
+      },
+      {
+        "split": "validation",
+        "rows": 8511,
+        "within_one_xy_unit": 8307,
+        "within_one_xy_unit_percent": 97.60310186817061,
+        "minimum_distance": 1.0,
+        "median_distance": 1.0,
+        "max_distance": 2.0
+      }
+    ],
+    "model_feature_count": 52,
+    "forbidden_metadata_features": [],
+    "source_label_counts": {
+      "0": {
+        "messreihe_1": 3158,
+        "messreihe_2": 3136,
+        "messreihe_3": 1020
+      },
+      "1": {
+        "messreihe_1": 4909,
+        "messreihe_2": 2860,
+        "messreihe_3": 207
+      },
+      "2": {
+        "messreihe_1": 2008,
+        "messreihe_2": 1641,
+        "messreihe_3": 67
+      },
+      "3": {
+        "messreihe_1": 11229,
+        "messreihe_2": 13785,
+        "messreihe_3": 9172
+      }
+    }
+  },
+  "local_evidence_directories": [
+    "results/experiments/hgb_reproduction_20261102T204153Z_155d895a",
+    "results/reproducibility_checks/20261102T210010Z_4ec464c0",
+    "results/reproducibility_checks/model_consistency_20261102T211838Z_510d2c35",
+    "results/reproducibility_checks/catalog_leakage_20261102T213059Z_b67d2f19"
+  ],
+  "evidence_policy": "Full local evidence and historical artifacts are retained locally and ignored by Git. This summary and aggregate tables contain no raw signals, measurement paths or secrets.",
+  "session_closure": {
+    "tests_passed": 94,
+    "known_sklearn_warnings": 8,
+    "pytest_seconds": 5.39,
+    "historical_file_hashes_verified_unchanged": 137,
+    "annotation_hashes_verified_unchanged": true,
+    "split_manifests_verified_unchanged": true,
+    "original_environment_package_records_verified_unchanged": true,
+    "no_new_training_or_mlflow_runs": true,
+    "technical_review_fix": "Refuse MLFLOW_RUN_ID and active MLflow runs before starting a baseline run.",
+    "local_evidence_preserved": true,
+    "temporary_installation_environment_removed": true
+  }
+}

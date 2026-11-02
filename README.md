@@ -47,3 +47,18 @@ Fehlerzählungen und MLflow-Runs stammen aus der alten Rot/Gelb/Grün-Definition
 (`rgy_v1`) und bleiben unverändert. Definitionen, Überschneidungen und der
 Neubewertungsbedarf sind in [docs/error_metrics.md](docs/error_metrics.md) dokumentiert.
 
+Für die HGB-Baseline sind die verwendete Umgebung in `requirements-lock.txt`
+und die geordneten Split-IDs unter `configs/hgb_baseline/splits/` eingefroren.
+Wiederherstellung, Provenienz und Grenzen des Feature-Neuaufbaus beschreibt
+[docs/hgb_reproducibility.md](docs/hgb_reproducibility.md).
+
+Die [Katalog- und Leakage-Prüfung](docs/catalog_reconstruction_and_leakage.md)
+bestätigt die Rekonstruktion aus Originalannotationen und Rohmessungen.
+Die bisherigen Splits verteilen jedoch Punkte derselben Messreihen auf
+Train/Validation/Test. Die Kennzahlen gelten daher für die punktweise
+Within-Scan-Auswertung und belegen keine Generalisierung auf unabhängige neue Scans.
+
+Der [Sessionabschluss vom 02.11.2026](docs/session_closure_2026-11-02.md)
+beschreibt den technischen Baseline-/Audit-Tag, die abschließenden Tests und
+die Auswahl versionierter Reproduzierbarkeitsnachweise.
+

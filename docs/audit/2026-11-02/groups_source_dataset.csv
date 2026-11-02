@@ -1,0 +1,4 @@
+source_dataset,train,validation,test,split_count,cross_split
+messreihe_1,13721,3356,4227,3,True
+messreihe_2,13587,3510,4325,3,True
+messreihe_3,6734,1645,2087,3,True
