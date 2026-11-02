@@ -1,87 +1,53 @@
+"""Combine labeled datasets without import-time reads or writes."""
 from pathlib import Path
 import pandas as pd
-
-from src.paths import DATA1_LABELED_ROOT, DATA2_LABELED_ROOT, DATA3_LABELED_ROOT, MEASUREMENTS_ROOT
-
-# ============================================================
-# gelabelte messreihen laden, standardisieren und zu einer csv zusammenführen
-# ============================================================
+from src.paths import DATA1_LABELED_ROOT, DATA2_LABELED_ROOT, DATA3_LABELED_ROOT, COMBINED_DATASET_ROOT
 
 DATASETS = [
-    {
-        "name": "messreihe_1",
-        "path": DATA1_LABELED_ROOT,
-        "drop_columns": ["label_found"],
-    },
-    {
-        "name": "messreihe_2",
-        "path": DATA2_LABELED_ROOT,
-        "drop_columns": ["label_found"],
-    },
-    {
-        "name": "messreihe_3",
-        "path": DATA3_LABELED_ROOT,
-        "drop_columns": ["label_found"],
-    },
+    ("messreihe_1", DATA1_LABELED_ROOT),
+    ("messreihe_2", DATA2_LABELED_ROOT),
+    ("messreihe_3", DATA3_LABELED_ROOT),
 ]
-
-OUTPUT_PATH = MEASUREMENTS_ROOT
-
-COORD_COLUMNS = ["x", "y"]
+OUTPUT_PATH = COMBINED_DATASET_ROOT
 
 
-# ============================================================
-# datensätze laden und vorbereiten
-# ============================================================
+def combine_labeled_data(datasets):
+    """Keep given dataset/row order and the historical source_x_y ID format."""
+    frames = []
+    names = set()
+    for name, frame in datasets:
+        if name in names:
+            raise ValueError("Source dataset names must be unique")
+        names.add(name)
+        if not {"file_path", "filename", "x", "y", "z", "label"} <= set(frame):
+            raise ValueError(f"Missing labeled metadata in {name}")
+        if frame.empty or not frame.label.isin([0, 1, 2, 3]).all():
+            raise ValueError(f"Missing or invalid original labels in {name}")
+        for column in ("x", "y"):
+            if frame[column].isna().any() or not (frame[column] == frame[column].round()).all():
+                raise ValueError("Coordinates must be non-null integers")
+        df = frame.drop(columns=["label_found"], errors="ignore").copy()
+        df["source_dataset"] = name
+        df["instance_id"] = name + "_x" + df.x.astype(int).astype(str) + "_y" + df.y.astype(int).astype(str)
+        frames.append(df)
+    if not frames:
+        raise ValueError("No labeled datasets supplied")
+    combined = pd.concat(frames, ignore_index=True)
+    if not combined.instance_id.is_unique or not combined.file_path.is_unique:
+        raise ValueError("Duplicate measurement IDs or paths")
+    return combined
 
-all_dfs = []
 
-for dataset in DATASETS:
-    name = dataset["name"]
-    path = dataset["path"]
-    drop_columns = dataset["drop_columns"]
+def main(output_file=OUTPUT_PATH):
+    output_file = Path(output_file)
+    if output_file.exists():
+        raise FileExistsError(output_file)
+    combined = combine_labeled_data([(name, pd.read_csv(path)) for name, path in DATASETS])
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+    with output_file.open("x") as stream:
+        combined.to_csv(stream, index=False)
+    return combined
 
-    print(f"lade {name}...")
 
-    df = pd.read_csv(path)
-
-    # koordinatenspalten prüfen
-    missing_coord_cols = [col for col in COORD_COLUMNS if col not in df.columns]
-    if missing_coord_cols:
-        raise ValueError(
-            f"im datensatz '{name}' fehlen koordinatenspalten: {missing_coord_cols}"
-        )
-
-    existing_drop_cols = [col for col in drop_columns if col in df.columns]
-    df = df.drop(columns=existing_drop_cols)
-
-    # merken aus welchem datensatz
-    df["source_dataset"] = name
-
-    # eindeutige id pro messung
-    df["instance_id"] = (df["source_dataset"].astype(str) + "_x" + df["x"].astype(str) + "_y" + df["y"].astype(str))
-
-    all_dfs.append(df)
-
-# zusammenführen
-combined_df = pd.concat(all_dfs, ignore_index=True)
-
-# ============================================================
-# überprüfung gleicher koordinaten
-# ============================================================
-
-coord_counts = (combined_df.groupby(COORD_COLUMNS)["source_dataset"].nunique().reset_index(name="num_datasets"))
-
-overlapping_coords = coord_counts[coord_counts["num_datasets"] > 1]
-
-print("anzahl überlappender koordinaten: ", len(overlapping_coords))
-
-# result: 20971 (innerhalb des selben datensatzes: 0)
-
-# ============================================================
-# save
-# ============================================================
-
-combined_df.to_csv(OUTPUT_PATH, index=False)
-
-print(f"kombinierter daten satz gespeichert unter: {OUTPUT_PATH}")
+if __name__ == "__main__":
+    main()

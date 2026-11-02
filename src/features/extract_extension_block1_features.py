@@ -198,7 +198,7 @@ def extract_extension_block1_features(file_path):
 
     post_peak_std = np.std(y)
 
-    post_peak_abs_area = np.trapz(np.abs(y), x)
+    post_peak_abs_area = np.trapezoid(np.abs(y), x)
 
     # ========================================================
     # derivatives

@@ -29,7 +29,7 @@ def extract_baseline_features(file_path):
 
         # C. Energie und Fläche
         "y_energy": np.sum(y ** 2),
-        "y_abs_area": np.trapz(abs_y, x),
+        "y_abs_area": np.trapezoid(abs_y, x),
 
         # D. Position der Extremwerte
         "x_at_y_max": x[np.argmax(y)],
