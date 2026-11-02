@@ -6,7 +6,9 @@ import pandas as pd
 from src.data.dataset import prepare_dataset
 from src.data.splitting import create_splits
 
-from src.evaluation.metrics import evaluate_predictions, calculate_error_counts
+from src.evaluation.metrics import (
+    ERROR_METRICS_VERSION, evaluate_predictions, calculate_error_counts,
+)
 from src.evaluation.reporting import save_evaluation_report
 
 from src.paths import FEATURE_TABLE_ROOT, EXTENDED_EXPERIMENT_DIR
@@ -51,17 +53,8 @@ def evaluate_optimized_models():
             "macro_f1": results["macro_f1"],
             "weighted_f1": results["weighted_f1"],
 
-            "critical_errors": errors["critical_errors"],
-            "critical_error_rate": errors["critical_error_rate"],
-
-            "false_alarms": errors["false_alarms"],
-            "false_alarm_rate": errors["false_alarm_rate"],
-
-            "red_to_yellow": errors["red_to_yellow"],
-            "red_to_yellow_rate": errors["red_to_yellow_rate"],
-
-            "green_to_yellow": errors["green_to_yellow"],
-            "green_to_yellow_rate": errors["green_to_yellow_rate"],
+            **errors,
+            "error_metrics_version": ERROR_METRICS_VERSION,
         })
 
     results_df = pd.DataFrame(all_results)

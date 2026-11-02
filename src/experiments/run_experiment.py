@@ -14,7 +14,9 @@ from src.data.splitting import (
     TEST_SIZE_OF_TEMP,
 )
 
-from src.evaluation.metrics import evaluate_predictions, calculate_error_counts
+from src.evaluation.metrics import (
+    ERROR_METRICS_VERSION, evaluate_predictions, calculate_error_counts,
+)
 from src.evaluation.reporting import save_evaluation_report
 
 from src.models.hgb import create_hgb, train_hgb
@@ -125,6 +127,7 @@ def run_experiment():
                 "data_sha256": data_hash,
                 "data_file": str(FEATURE_TABLE_ROOT),
                 "evaluation_split": "validation",
+                "error_metrics_version": ERROR_METRICS_VERSION,
             })
 
             mlflow.log_params(split_info)
@@ -168,14 +171,7 @@ def run_experiment():
                 "val_balanced_accuracy": results["balanced_accuracy"],
                 "val_macro_f1": results["macro_f1"],
                 "val_weighted_f1": results["weighted_f1"],
-                "val_critical_errors": errors["critical_errors"],
-                "val_critical_error_rate": errors["critical_error_rate"],
-                "val_false_alarms": errors["false_alarms"],
-                "val_false_alarm_rate": errors["false_alarm_rate"],
-                "val_red_to_yellow": errors["red_to_yellow"],
-                "val_red_to_yellow_rate": errors["red_to_yellow_rate"],
-                "val_green_to_yellow": errors["green_to_yellow"],
-                "val_green_to_yellow_rate": errors["green_to_yellow_rate"],
+                **{f"val_{key}": value for key, value in errors.items()},
             })
 
             # Bestehende Ergebnisübersicht beibehalten
@@ -187,6 +183,7 @@ def run_experiment():
                     if key not in ("confusion_matrix", "classification_report")
                 },
                 **errors,
+                "error_metrics_version": ERROR_METRICS_VERSION,
             })
 
     # ============================================================

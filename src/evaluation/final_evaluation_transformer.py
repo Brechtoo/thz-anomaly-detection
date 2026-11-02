@@ -7,7 +7,9 @@ import torch
 from torch.utils.data import TensorDataset, DataLoader
 
 from src.data.splitting import create_splits
-from src.evaluation.metrics import evaluate_predictions, calculate_error_counts
+from src.evaluation.metrics import (
+    ERROR_METRICS_VERSION, evaluate_predictions, calculate_error_counts,
+)
 from src.evaluation.thresholding import threshold_predict
 
 from src.models.transformer import TransformerModel
@@ -123,6 +125,7 @@ if __name__ == "__main__":
 
     metrics = evaluate_predictions(y_test_rgy, y_pred)
 
+    # Error metrics require original labels, not the 0 → 2 RGY copy.
     errors = calculate_error_counts(y_test, y_pred)
 
     # --------------------------------------------------------
@@ -135,6 +138,7 @@ if __name__ == "__main__":
         "green_threshold": GREEN_THRESHOLD,
         **metrics,
         **errors,
+        "error_metrics_version": ERROR_METRICS_VERSION,
     }
 
     results_df = pd.DataFrame([results])

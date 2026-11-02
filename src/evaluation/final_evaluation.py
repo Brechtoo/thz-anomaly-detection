@@ -7,6 +7,7 @@ from src.data.dataset import prepare_dataset
 from src.data.splitting import create_splits
 
 from src.evaluation.metrics import (
+    ERROR_METRICS_VERSION,
     evaluate_predictions,
     calculate_error_counts,
 )
@@ -62,6 +63,7 @@ def final_evaluation():
 
         metrics = evaluate_predictions(y_test_rgy, y_pred)
 
+        # Error metrics require original labels, not the 0 → 2 RGY copy.
         errors = calculate_error_counts(y_test, y_pred)
 
         results.append({
@@ -75,14 +77,8 @@ def final_evaluation():
             "macro_f1": metrics["macro_f1"],
             "weighted_f1": metrics["weighted_f1"],
 
-            "critical_errors": errors["critical_errors"],
-            "critical_error_rate": errors["critical_error_rate"],
-
-            "false_alarms": errors["false_alarms"],
-            "false_alarm_rate": errors["false_alarm_rate"],
-
-            "red_to_yellow_rate": errors["red_to_yellow_rate"],
-            "green_to_yellow_rate": errors["green_to_yellow_rate"],
+            **errors,
+            "error_metrics_version": ERROR_METRICS_VERSION,
         })
 
         save_evaluation_report(y_test_rgy, y_pred, FINAL_EVALUATION_DIR, config["name"])

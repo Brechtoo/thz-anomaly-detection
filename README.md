@@ -42,3 +42,8 @@ Die für die Machine-Learning-Experimente verarbeiteten und gelabelten Datensät
 
 Die Ergebnisse der Experimente befinden sich in `results/`.
 
+Die Fehlerbewertung verwendet künftig `four_label_v2`. Bereits vorhandene
+Fehlerzählungen und MLflow-Runs stammen aus der alten Rot/Gelb/Grün-Definition
+(`rgy_v1`) und bleiben unverändert. Definitionen, Überschneidungen und der
+Neubewertungsbedarf sind in [docs/error_metrics.md](docs/error_metrics.md) dokumentiert.
+

@@ -3,7 +3,9 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from src.evaluation.metrics import evaluate_predictions, calculate_error_counts
+from src.evaluation.metrics import (
+    ERROR_METRICS_VERSION, evaluate_predictions, calculate_error_counts,
+)
 
 from src.models.transformer import TransformerModel
 from src.paths import TRANSFORMER_RESULTS
@@ -77,5 +79,6 @@ def run_configuration(name, weight_config, train_loader, val_loader, y_train, va
         "configuration": name,
         **metrics,
         **error_counts,
+        "error_metrics_version": ERROR_METRICS_VERSION,
         "best_val_macro_f1": best_val_f1,
     }
