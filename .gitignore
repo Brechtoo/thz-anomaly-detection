@@ -47,3 +47,19 @@ docs/fragen cornelius
 # MLflow
 mlflow.db
 mlruns/
+mlflow.db-shm
+mlflow.db-wal
+
+# Local inputs, environments and generated audit outputs (keep curated docs/audit/)
+raw_data/
+external_data/
+.venv*/
+.pytest_cache/
+results/reproducibility_checks/
+results/experiments/hgb_reproduction_*/
+results/experiments/hgb_baseline_reproducibility_*/
+
+# Local credentials and environment configuration
+.env
+.env.*
+!.env.example
