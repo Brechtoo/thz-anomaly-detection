@@ -1,0 +1,6 @@
+target-version = "py312"
+include = ["src/**/*.py", "scripts/**/*.py", "tests/**/*.py"]
+
+[lint]
+# Start with correctness checks; avoid a style rewrite of archived research code.
+select = ["F", "I", "E9"]
