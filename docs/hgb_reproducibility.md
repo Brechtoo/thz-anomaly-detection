@@ -1,5 +1,7 @@
 # Reproduzierbare HGB-Baseline: Betrieb und Geltungsbereich
 
+Zentraler Überblick über die Prüfungen: [SUMMARY.md](reproducibility_checks.md).
+
 **Technisch reproduzierbarer Within-Scan-Baseline- und Audit-Stand.
 Keine gruppenunabhängige Generalisierung nachgewiesen.**
 

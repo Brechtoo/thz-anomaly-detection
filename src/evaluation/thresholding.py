@@ -1,6 +1,5 @@
 import numpy as np
 
-
 HOHLRAUM_LABEL = 1
 YELLOW_LABEL = 2
 NO_HOHLRAUM_LABEL = 3

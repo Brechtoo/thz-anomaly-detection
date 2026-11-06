@@ -46,7 +46,6 @@ from src.data.split_manifest import restore_splits, sha256_file
 from src.features.loading import load_measurement
 from src.paths import COMBINED_DATASET_ROOT, PROJECT_ROOT, RESULTS_ROOT
 
-
 # ============================================================
 # 2. FEATURE-EXTRAKTION EINER EINZELNEN MESSUNG
 # ============================================================

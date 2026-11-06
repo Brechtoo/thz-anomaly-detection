@@ -2,6 +2,7 @@
 import argparse
 from pathlib import Path
 
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--catalog", type=Path, required=True)
@@ -15,15 +16,19 @@ def main():
         parser.error("Output directory must not exist")
     args.output_dir.mkdir(parents=True, exist_ok=False)
     """Full feature rebuild audit; no model loading/training or MLflow writes."""
-    import json,sys,time,resource
+    import json
+    import resource
+    import sys
+    import time
+
     import numpy as np
     import pandas as pd
     ROOT=root
     sys.path.insert(0,str(ROOT))
-    from src.features.rebuild_feature_table import rebuild_feature_table
-    from src.data.split_manifest import sha256_file
     from src.data.dataset import EXCLUDE_COLUMNS
+    from src.data.split_manifest import sha256_file
     from src.experiments.provenance import check_locked_environment
+    from src.features.rebuild_feature_table import rebuild_feature_table
     OUT=args.output_dir
     original_trapezoid=np.trapezoid
     calls=0; formula_mismatches=0

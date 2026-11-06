@@ -1,12 +1,16 @@
-from pathlib import Path
 
 import pandas as pd
 
 from src.paths import FEATURE_EXTENSION_BLOCK1_ROOT, ISOLATION_FOREST_RESULTS
-from src.unsupervised.processing.prepare_data import load_feature_data, prepare_feature_data
+from src.unsupervised.models.isolation_forest import (
+    calculate_anomaly_scores,
+    train_isolation_forest,
+)
 from src.unsupervised.processing.evaluation import evaluate_anomaly_scores
-from src.unsupervised.models.isolation_forest import train_isolation_forest, calculate_anomaly_scores
-
+from src.unsupervised.processing.prepare_data import (
+    load_feature_data,
+    prepare_feature_data,
+)
 
 # ============================================================
 # settings

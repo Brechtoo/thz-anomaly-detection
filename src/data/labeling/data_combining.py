@@ -1,7 +1,14 @@
 """Combine labeled datasets without import-time reads or writes."""
 from pathlib import Path
+
 import pandas as pd
-from src.paths import DATA1_LABELED_ROOT, DATA2_LABELED_ROOT, DATA3_LABELED_ROOT, COMBINED_DATASET_ROOT
+
+from src.paths import (
+    COMBINED_DATASET_ROOT,
+    DATA1_LABELED_ROOT,
+    DATA2_LABELED_ROOT,
+    DATA3_LABELED_ROOT,
+)
 
 DATASETS = [
     ("messreihe_1", DATA1_LABELED_ROOT),

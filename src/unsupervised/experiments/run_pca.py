@@ -1,11 +1,13 @@
 
 import pandas as pd
 
-from src.paths import PCA_RESULTS, FEATURE_EXTENSION_BLOCK1_ROOT
-from src.unsupervised.processing.prepare_data import load_feature_data, prepare_feature_data
+from src.paths import FEATURE_EXTENSION_BLOCK1_ROOT, PCA_RESULTS
+from src.unsupervised.models.pca import calculate_reconstruction_scores, train_pca
 from src.unsupervised.processing.evaluation import evaluate_anomaly_scores
-from src.unsupervised.models.pca import train_pca, calculate_reconstruction_scores
-
+from src.unsupervised.processing.prepare_data import (
+    load_feature_data,
+    prepare_feature_data,
+)
 
 # ============================================================
 # settings

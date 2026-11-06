@@ -1,6 +1,3 @@
-import mlflow
-import mlflow.sklearn
-
 import hashlib
 import json
 import os
@@ -9,28 +6,28 @@ import shutil
 from datetime import datetime, timezone
 from uuid import uuid4
 
+import mlflow
+import mlflow.sklearn
 import pandas as pd
 from threadpoolctl import threadpool_info
 
 from src.data.dataset import prepare_dataset
+from src.data.split_manifest import restore_splits
 from src.data.splitting import (
     RANDOM_STATE,
     TEMP_SIZE,
     TEST_SIZE_OF_TEMP,
 )
-from src.data.split_manifest import restore_splits
-from src.experiments.provenance import capture_git_state, check_locked_environment
-
 from src.evaluation.metrics import (
-    ERROR_METRICS_VERSION, evaluate_predictions, calculate_error_counts,
+    ERROR_METRICS_VERSION,
+    calculate_error_counts,
+    evaluate_predictions,
 )
 from src.evaluation.reporting import save_evaluation_report
-
-from src.models.hgb import create_hgb, train_hgb
-
+from src.experiments.provenance import capture_git_state, check_locked_environment
 from src.experiments.saving import create_experiment_dir, save_model, save_results
-
-from src.paths import FEATURE_TABLE_ROOT, EXPERIMENTS_ROOT, PROJECT_ROOT
+from src.models.hgb import create_hgb, train_hgb
+from src.paths import EXPERIMENTS_ROOT, FEATURE_TABLE_ROOT, PROJECT_ROOT
 
 # ============================================================
 # settings

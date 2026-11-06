@@ -1,17 +1,15 @@
-from pathlib import Path
 
 import numpy as np
 import torch
 
 from src.evaluation.metrics import (
-    ERROR_METRICS_VERSION, evaluate_predictions, calculate_error_counts,
+    ERROR_METRICS_VERSION,
+    calculate_error_counts,
+    evaluate_predictions,
 )
-
 from src.models.transformer import TransformerModel
 from src.paths import TRANSFORMER_RESULTS
-
-from src.transformer.training import DEVICE, create_loss_function, train_model, predict
-
+from src.transformer.training import DEVICE, create_loss_function, predict, train_model
 
 LEARNING_RATE = 1e-3
 

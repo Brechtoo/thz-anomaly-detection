@@ -1,19 +1,20 @@
-from pathlib import Path
 import re
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import torch
-import matplotlib.pyplot as plt
-
-from src.paths import TRANSFORMER_RESULTS, FEATURE_EXTENSION_BLOCK1_ROOT, EXTERNAL_SCAN_ROOT, EXTERNAL_TEST_RESULTS
-
 from torch.utils.data import DataLoader, TensorDataset
 
 from src.data.splitting import create_splits
-from src.transformer.load_signal import prepare_signals
 from src.models.transformer import TransformerModel
-
+from src.paths import (
+    EXTERNAL_SCAN_ROOT,
+    EXTERNAL_TEST_RESULTS,
+    FEATURE_EXTENSION_BLOCK1_ROOT,
+    TRANSFORMER_RESULTS,
+)
+from src.transformer.load_signal import prepare_signals
 
 # ============================================================
 # settings

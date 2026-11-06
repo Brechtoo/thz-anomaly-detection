@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import pandas as pd
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import classification_report, confusion_matrix
 
 
 def create_evaluation_dir(experiment_dir, model_name):

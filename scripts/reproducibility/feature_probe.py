@@ -2,6 +2,7 @@
 import argparse
 from pathlib import Path
 
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--catalog", type=Path, required=True)
@@ -14,11 +15,17 @@ def main():
     if args.output_dir.exists():
         parser.error("Output directory must not exist")
     args.output_dir.mkdir(parents=True, exist_ok=False)
-    import json,time,resource,shutil,sys
-    import numpy as np,pandas as pd
+    import json
+    import resource
+    import shutil
+    import sys
+    import time
+
+    import numpy as np
+    import pandas as pd
     root=project_root;sys.path.insert(0,str(root))
-    from src.features.extract_all_features import extract_all_features
     from src.data.dataset import EXCLUDE_COLUMNS
+    from src.features.extract_all_features import extract_all_features
     out=args.output_dir
     combined=pd.read_csv(args.catalog)
     reference=pd.read_csv(args.reference)

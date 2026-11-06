@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.experiments.model_registry import MODEL_ENABLED, build_models, create_model
 from src.experiments import model_comparison as comparison
+from src.experiments.model_registry import MODEL_ENABLED, build_models, create_model
 
 
 def test_registry_and_train_only_preprocessing():
@@ -126,9 +126,10 @@ def test_comparison_preserves_progress_and_continues(comparison_setup, monkeypat
 
 @pytest.mark.parametrize('name', list(MODEL_ENABLED))
 def test_pipeline_mlflow_roundtrip(comparison_setup, name):
-    from src.experiments.model_serialization import trusted_types_for_model
-    from threadpoolctl import threadpool_limits
     import mlflow
+    from threadpoolctl import threadpool_limits
+
+    from src.experiments.model_serialization import trusted_types_for_model
 
     # Kleine synthetische Daten statt des echten tsfresh-Trainings.
     if name in ('xgboost', 'lightgbm'):
@@ -182,6 +183,7 @@ def test_serialization_does_not_trust_unreviewed_types(tmp_path):
     import mlflow.sklearn
     from mlflow.exceptions import MlflowException
     from sklearn.preprocessing import FunctionTransformer
+
     from src.experiments.model_serialization import trusted_types_for_model
 
     # Auch ein ansonsten unterstütztes Modell darf keine zusätzlichen,

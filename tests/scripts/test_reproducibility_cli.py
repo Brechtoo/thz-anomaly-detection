@@ -1,7 +1,7 @@
 """CLI checks without raw data, models, training or external services."""
-from pathlib import Path
 import subprocess
 import sys
+from pathlib import Path
 
 import pytest
 

@@ -2,8 +2,9 @@
 import argparse
 import json
 from pathlib import Path
-from src.data.labeling.label_data import build_labeled_dataset
+
 from src.data.labeling.data_combining import combine_labeled_data
+from src.data.labeling.label_data import build_labeled_dataset
 from src.data.split_manifest import sha256_file
 from src.experiments.provenance import capture_git_state
 from src.paths import PROJECT_ROOT

@@ -4,9 +4,9 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.features.extract_baseline_features import extract_baseline_features
-from src.features.extract_all_features import extract_all_features
 from src.features import rebuild_feature_table as rebuild
+from src.features.extract_all_features import extract_all_features
+from src.features.extract_baseline_features import extract_baseline_features
 
 
 @pytest.fixture

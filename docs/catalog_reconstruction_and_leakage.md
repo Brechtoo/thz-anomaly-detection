@@ -1,5 +1,7 @@
 # Datenpipeline und Leakage-Prüfung, 02.11.2026
 
+Zentraler Überblick und Archivzuordnung: [SUMMARY.md](reproducibility_checks.md).
+
 ## Ergebnis und wissenschaftliche Einordnung
 
 **Die lokale Datenpipeline ist reproduzierbar:** Aus den vorhandenen Rohdateien
@@ -230,7 +232,7 @@ angepasst und kein Modell neu trainiert.
 Neue Ausgabe ausschließlich unter:
 
 ```text
-results/reproducibility_checks/catalog_leakage_20261102T213059Z_b67d2f19/
+../thz-archive/reproducibility_checks/2026-11-05/catalog_leakage_20261102T213059Z_b67d2f19/
 ```
 
 Enthalten sind zwei neue Katalog-Rekonstruktionen mit Manifesten,

@@ -4,9 +4,13 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from src.data.labeling.label_data import build_labeled_dataset, extract_coordinates, label_dataset
 from src.data.labeling.data_combining import combine_labeled_data
-from src.data.labeling.rebuild_catalog import rebuild_catalog, DATASET_SPECS
+from src.data.labeling.label_data import (
+    build_labeled_dataset,
+    extract_coordinates,
+    label_dataset,
+)
+from src.data.labeling.rebuild_catalog import DATASET_SPECS, rebuild_catalog
 from src.data.split_manifest import sha256_file
 
 

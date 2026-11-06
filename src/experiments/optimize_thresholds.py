@@ -5,14 +5,12 @@ import pandas as pd
 
 from src.data.dataset import prepare_dataset
 from src.data.splitting import create_splits
-
 from src.evaluation.metrics import (
     ERROR_METRICS_VERSION,
-    evaluate_predictions,
     calculate_error_counts,
+    evaluate_predictions,
 )
 from src.evaluation.thresholding import predict_with_thresholds
-
 from src.paths import FEATURE_TABLE_ROOT
 
 EXPERIMENT_DIR = Path("/results/experiments/extended_features")

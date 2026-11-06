@@ -1,22 +1,29 @@
-from pathlib import Path
 import re
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-
-from src.paths import FEATURE_EXTENSION_BLOCK1_ROOT, EXTERNAL_SCAN_ROOT, EXTERNAL_TEST_RESULTS
-
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 from src.features.extract_all_features import extract_all_features
+from src.paths import (
+    EXTERNAL_SCAN_ROOT,
+    EXTERNAL_TEST_RESULTS,
+    FEATURE_EXTENSION_BLOCK1_ROOT,
+)
+from src.unsupervised.models.autoencoder import (
+    calculate_reconstruction_scores as autoencoder_scores,
+)
+from src.unsupervised.models.autoencoder import train_autoencoder
+from src.unsupervised.models.isolation_forest import (
+    calculate_anomaly_scores,
+    train_isolation_forest,
+)
+from src.unsupervised.models.pca import calculate_reconstruction_scores as pca_scores
+from src.unsupervised.models.pca import train_pca
 from src.unsupervised.processing.prepare_data import load_feature_data
-from src.unsupervised.models.pca import train_pca, calculate_reconstruction_scores as pca_scores
-from src.unsupervised.models.autoencoder import train_autoencoder, calculate_reconstruction_scores as autoencoder_scores
-from src.unsupervised.models.isolation_forest import train_isolation_forest, calculate_anomaly_scores
-
 
 # ============================================================
 # settings

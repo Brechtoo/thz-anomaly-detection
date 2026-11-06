@@ -1,12 +1,11 @@
+import numpy as np
 from sklearn.metrics import (
     accuracy_score,
     balanced_accuracy_score,
-    f1_score,
-    confusion_matrix,
     classification_report,
+    confusion_matrix,
+    f1_score,
 )
-
-import numpy as np
 
 ERROR_METRICS_VERSION = "four_label_v2"
 

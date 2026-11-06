@@ -2,7 +2,11 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.evaluation.leakage import group_overlap_table, parse_acquisition_metadata, spatial_train_proximity
+from src.evaluation.leakage import (
+    group_overlap_table,
+    parse_acquisition_metadata,
+    spatial_train_proximity,
+)
 
 
 def test_group_overlap_distinguishes_shared_and_independent_sources():

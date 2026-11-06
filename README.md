@@ -66,3 +66,29 @@ die Auswahl versionierter Reproduzierbarkeitsnachweise.
 ## Reproduzierbarkeitsprüfungen
 
 [Zentraler Überblick, Nachweise und Archivzuordnung](docs/reproducibility_checks.md).
+
+## Automatische Prüfungen
+
+Bei Pushes auf `main` und bei Pull Requests führt GitHub Actions Ruff und die
+gesamte pytest-Suite mit Python 3.12 auf Ubuntu aus. Die Tests verwenden synthetische
+Daten und temporäre lokale MLflow-Datenbanken; lokale THz-Messdaten und externe
+Tracking-Dienste sind nicht erforderlich. Enthalten sind Feature-Berechnung,
+Split-Manifeste mit Prüfsummen, Katalogintegrität, Leakage-Prüfungen und kleine
+Modell-Pipelines mit Serialisierungs-Roundtrips. Es werden keine Artefakte hochgeladen.
+
+Lokal (in der Projekt-venv):
+
+```sh
+python -m pip install -r requirements-dev.txt -r requirements-comparison.txt
+python -m ruff check .
+python -m pytest -q -ra
+```
+
+Ruff prüft zunächst Syntax und ausgewählte Fehlerklassen (E9, F63, F7, F82),
+ohne eine Stilüberarbeitung des Forschungscodes zu erzwingen.
+Die Konfiguration folgt dem [Ruff-Konfigurationsformat](https://docs.astral.sh/ruff/configuration/).
+CI prüft die Software mit auflösbaren Entwicklungsabhängigkeiten; sie reproduziert
+keine wissenschaftlichen Baseline-Ergebnisse. `requirements-lock.txt` bleibt der
+historische Umgebungssnapshot und wird von Dependabot ausgenommen.
+Dependabot prüft Python-Abhängigkeiten und GitHub Actions wöchentlich und erstellt
+Update-PRs; Änderungen werden nicht automatisch zusammengeführt.

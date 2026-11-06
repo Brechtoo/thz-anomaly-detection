@@ -1,9 +1,11 @@
 import pandas as pd
 
-from src.paths import FEATURE_EXTENSION_BLOCK1_ROOT, AUTOENCODER_RESULTS
+from src.paths import AUTOENCODER_RESULTS, FEATURE_EXTENSION_BLOCK1_ROOT
+from src.unsupervised.models.autoencoder import (
+    calculate_reconstruction_scores,
+    train_autoencoder,
+)
 from src.unsupervised.processing import evaluation, prepare_data
-from src.unsupervised.models.autoencoder import train_autoencoder, calculate_reconstruction_scores
-
 
 # ============================================================
 # settings

@@ -1,5 +1,7 @@
 # Abschlussprüfung der HGB-Reproduzierbarkeit, 02.11.2026
 
+Zentraler Überblick und Archivzuordnung: [SUMMARY.md](reproducibility_checks.md).
+
 **Spätere Katalog-/Leakage-Prüfung:** Die Rekonstruktion ab Originalannotationen
 wurde inzwischen byteidentisch bestätigt. Die vorhandenen Splits teilen jedoch
 alle drei Messreihen zwischen Train/Validation/Test; Generalisierung auf
@@ -134,7 +136,7 @@ Toleranzausreißer wurden die unverarbeiteten dezimalen CSV-Zeichenfolgen gesich
 Alle neuen Prüfergebnisse liegen unter:
 
 ```text
-results/reproducibility_checks/20261102T210010Z_4ec464c0/
+../thz-archive/reproducibility_checks/2026-11-05/20261102T210010Z_4ec464c0/
 ```
 
 Darin liegen `installation.log`, `install-report.json`, `fresh_environment.json`,

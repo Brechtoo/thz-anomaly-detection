@@ -2,6 +2,7 @@
 import argparse
 from pathlib import Path
 
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--raw-root", type=Path, required=True)
@@ -15,16 +16,22 @@ def main():
         parser.error("Output directory must not exist")
     args.output_dir.mkdir(parents=True, exist_ok=False)
     """Reconstruct catalog and audit existing splits. No training or MLflow writes."""
-    import json,sys,shutil,time
-    from datetime import datetime,timezone
-    from uuid import uuid4
+    import json
+    import shutil
+    import sys
+    import time
+
     import numpy as np
     import pandas as pd
     ROOT=root;sys.path.insert(0,str(ROOT))
-    from src.data.labeling.rebuild_catalog import rebuild_catalog,DATASET_SPECS
-    from src.data.split_manifest import restore_splits,sha256_file
     from src.data.dataset import prepare_dataset
-    from src.evaluation.leakage import parse_acquisition_metadata,group_overlap_table,spatial_train_proximity
+    from src.data.labeling.rebuild_catalog import DATASET_SPECS, rebuild_catalog
+    from src.data.split_manifest import restore_splits, sha256_file
+    from src.evaluation.leakage import (
+        group_overlap_table,
+        parse_acquisition_metadata,
+        spatial_train_proximity,
+    )
     RAW=args.raw_root
     OLD=args.prior_check_dir
     OUT=args.output_dir

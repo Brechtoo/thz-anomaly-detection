@@ -55,6 +55,7 @@ raw_data/
 external_data/
 .venv*/
 .pytest_cache/
+.ruff_cache/
 results/reproducibility_checks/
 results/experiments/hgb_reproduction_*/
 results/experiments/hgb_baseline_reproducibility_*/

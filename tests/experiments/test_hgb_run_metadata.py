@@ -1,7 +1,7 @@
 """Exercise the entry point with fake training and fake MLflow only."""
 
-from contextlib import nullcontext
 import json
+from contextlib import nullcontext
 
 import pandas as pd
 import pytest

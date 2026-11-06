@@ -1,12 +1,18 @@
-from pathlib import Path
 import re
 
 import joblib
-import pandas as pd
 import matplotlib.pyplot as plt
+import pandas as pd
 
 from src.features.extract_all_features import extract_all_features
-from src.paths import LR_MODEL_PATH, RF_MODEL_PATH, HGB_MODEL_PATH, MLP_MODEL_PATH, EXTERNAL_SCAN_ROOT, EXTERNAL_TEST_RESULTS
+from src.paths import (
+    EXTERNAL_SCAN_ROOT,
+    EXTERNAL_TEST_RESULTS,
+    HGB_MODEL_PATH,
+    LR_MODEL_PATH,
+    MLP_MODEL_PATH,
+    RF_MODEL_PATH,
+)
 
 DATA_DIR = EXTERNAL_SCAN_ROOT
 OUTPUT_DIR = EXTERNAL_TEST_RESULTS

@@ -6,17 +6,12 @@ from sklearn.ensemble import (
     HistGradientBoostingClassifier,
     RandomForestClassifier,
 )
+from sklearn.feature_selection import VarianceThreshold
 from sklearn.linear_model import LogisticRegression
 from sklearn.neural_network import MLPClassifier
-
 from sklearn.pipeline import Pipeline
-
 from sklearn.preprocessing import StandardScaler
-
-from sklearn.feature_selection import VarianceThreshold
-
 from sklearn.svm import SVC
-
 
 # ============================================================
 # 1. MODELLE AKTIVIEREN / DEAKTIVIEREN

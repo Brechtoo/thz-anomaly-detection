@@ -1,9 +1,8 @@
+
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from src.paths import FEATURE_BASELINE_ROOT, BASELINE_ANALYSIS_RESULTS
-
-from pathlib import Path
+from src.paths import BASELINE_ANALYSIS_RESULTS, FEATURE_BASELINE_ROOT
 
 # ============================================================
 # daten laden, features bestimmen

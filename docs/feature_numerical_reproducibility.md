@@ -1,5 +1,7 @@
 # Numerische Reproduzierbarkeit der Feature-Pipeline
 
+Zentraler Überblick und Archivzuordnung: [SUMMARY.md](reproducibility_checks.md).
+
 **Nachfolgende wissenschaftliche Prüfung:** Der Katalog wurde inzwischen ab
 Rohmessungen/Annotationen byteidentisch rekonstruiert. Zugleich wurde eine
 Überlappung aller drei Messreihen zwischen den bestehenden Splits nachgewiesen.
@@ -20,7 +22,7 @@ Feature-Extraktion in dieser abschließenden Analyse.
 
 Referenz: `results/feature_tables/feature_table.csv`, SHA256
 `03d439403489d319feb7299847b159d9bd96e9398f72fd1d19bd64cb84df97ed`.
-Neuaufbau: `results/reproducibility_checks/20261102T210010Z_4ec464c0/feature_rebuild/feature_table.csv`, SHA256
+Neuaufbau: `../thz-archive/reproducibility_checks/2026-11-05/20261102T210010Z_4ec464c0/feature_rebuild/feature_table.csv`, SHA256
 `a9ad6f850c1586761b97e08ecb02677fb2c84bc753f868b2b55832703e149987`.
 
 Schema, Datentypen, Reihenfolge, IDs, Original-Labels und übrige Metadaten sind
@@ -130,7 +132,7 @@ Toleranz numerisch statt byteidentisch reproduzierbar. Universelle Aussagen
 Neue Audit-Artefakte, ohne Überschreiben früherer Prüfergebnisse:
 
 ```text
-results/reproducibility_checks/model_consistency_20261102T211838Z_510d2c35/
+../thz-archive/reproducibility_checks/2026-11-05/model_consistency_20261102T211838Z_510d2c35/
 ```
 
 Darin: ausgeführtes Prüfskript, `comparison.json`,

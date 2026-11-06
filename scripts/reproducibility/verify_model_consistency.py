@@ -2,6 +2,7 @@
 import argparse
 from pathlib import Path
 
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--reference", type=Path, required=True)
@@ -18,22 +19,24 @@ def main():
         parser.error("Output directory must not exist")
     args.output_dir.mkdir(parents=True, exist_ok=False)
     """Read-only numerical/model audit; no fit, feature extraction or MLflow writes."""
-    import json,sys,shutil,time,hashlib,subprocess
-    from datetime import datetime,timezone
-    from uuid import uuid4
+    import json
+    import shutil
+    import subprocess
+    import sys
+    import time
     ROOT=root
     sys.path.insert(0,str(ROOT))
+    import joblib
     import numpy as np
     import pandas as pd
-    import joblib
+
     from src.data.dataset import prepare_dataset
-    from src.data.split_manifest import restore_splits,sha256_file
-    from src.evaluation.metrics import evaluate_predictions,calculate_error_counts
+    from src.data.split_manifest import restore_splits, sha256_file
+    from src.evaluation.metrics import calculate_error_counts, evaluate_predictions
     from src.experiments.provenance import check_locked_environment
 
     RTOL=1e-11
     ATOL=1e-13
-    BASE=args.rebuilt.parent.parent
     REFERENCE=args.reference
     REBUILT=args.rebuilt
     SPLITS=ROOT/'configs/hgb_baseline/splits'

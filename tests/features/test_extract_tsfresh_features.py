@@ -2,7 +2,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.features.extract_tsfresh_features import extract_measurement, select_training_features
+from src.features.extract_tsfresh_features import (
+    extract_measurement,
+    select_training_features,
+)
 
 
 def test_extract_measurement_matches_signal_statistics(tmp_path):

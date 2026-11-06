@@ -1,6 +1,5 @@
 import pandas as pd
-
-from sklearn.metrics import roc_auc_score, average_precision_score
+from sklearn.metrics import average_precision_score, roc_auc_score
 
 
 def evaluate_anomaly_scores(y_true, scores, top_k_values):

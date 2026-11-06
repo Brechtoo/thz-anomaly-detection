@@ -1,7 +1,6 @@
 
 import joblib
 import pandas as pd
-
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import RandomizedSearchCV, StratifiedKFold
@@ -11,7 +10,7 @@ from sklearn.preprocessing import StandardScaler
 
 from src.data.dataset import prepare_dataset
 from src.data.splitting import create_splits
-from src.paths import FEATURE_TABLE_ROOT, EXTENDED_EXPERIMENT_DIR
+from src.paths import EXTENDED_EXPERIMENT_DIR, FEATURE_TABLE_ROOT
 
 EXPERIMENT_DIR = EXTENDED_EXPERIMENT_DIR
 

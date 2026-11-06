@@ -1,9 +1,7 @@
-from pathlib import Path
 
 import joblib
 import numpy as np
 import pandas as pd
-
 from sklearn.base import clone
 from sklearn.inspection import permutation_importance
 from sklearn.pipeline import Pipeline
@@ -11,7 +9,11 @@ from sklearn.utils.class_weight import compute_sample_weight
 
 from src.data.dataset import prepare_dataset
 from src.data.splitting import create_splits
-from src.paths import FEATURE_TABLE_ROOT, EXTENDED_EXPERIMENT_DIR, PERMUTATION_IMPORTANCE_RESULTS
+from src.paths import (
+    EXTENDED_EXPERIMENT_DIR,
+    FEATURE_TABLE_ROOT,
+    PERMUTATION_IMPORTANCE_RESULTS,
+)
 
 # ============================================================
 # settings

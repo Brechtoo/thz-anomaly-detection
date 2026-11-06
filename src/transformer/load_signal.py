@@ -1,12 +1,10 @@
-import numpy as np
-
-from torch.utils.data import DataLoader, TensorDataset
-import torch
-
-from src.features.loading import load_measurement
-
 from pathlib import Path
 
+import numpy as np
+import torch
+from torch.utils.data import DataLoader, TensorDataset
+
+from src.features.loading import load_measurement
 from src.paths import FEATURE_BASELINE_ROOT, TRANSFORMER_RESULTS
 
 # ============================================================

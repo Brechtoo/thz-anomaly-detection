@@ -1,16 +1,17 @@
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import torch
 
 from src.data.splitting import create_splits
-
-from src.transformer.load_signal import prepare_signals, standardize_signals, create_data_loaders
-
-from src.transformer.transformer_experiments import run_configuration
-
-from pathlib import Path
-
 from src.paths import FEATURE_BASELINE_ROOT, TRANSFORMER_RESULTS
+from src.transformer.load_signal import (
+    create_data_loaders,
+    prepare_signals,
+    standardize_signals,
+)
+from src.transformer.transformer_experiments import run_configuration
 
 BATCH_SIZE = 128
 

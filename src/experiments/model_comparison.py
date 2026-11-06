@@ -14,14 +14,13 @@ Vergleich verschiedener ML-Modelle mit tsfresh-Features.
 # ============================================================
 
 import importlib.metadata  # Installierte Pakete und Versionen
-import json                # JSON-Dateien lesen und schreiben
-import os                  # Umgebungsvariablen
-import platform            # Informationen zur Systemumgebung
-import shutil              # Dateien und Verzeichnisse kopieren
-import time                # Laufzeiten messen
-import traceback           # Vollständige Fehlermeldungen speichern
-import warnings            # Python-Warnungen erfassen
-
+import json  # JSON-Dateien lesen und schreiben
+import os  # Umgebungsvariablen
+import platform  # Informationen zur Systemumgebung
+import shutil  # Dateien und Verzeichnisse kopieren
+import time  # Laufzeiten messen
+import traceback  # Vollständige Fehlermeldungen speichern
+import warnings  # Python-Warnungen erfassen
 from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
@@ -30,7 +29,6 @@ import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-
 from sklearn.exceptions import ConvergenceWarning
 from threadpoolctl import threadpool_info, threadpool_limits
 
@@ -39,8 +37,8 @@ from src.data.dataset import prepare_dataset
 from src.data.split_manifest import restore_splits, sha256_file
 from src.evaluation.metrics import (
     ERROR_METRICS_VERSION,
-    evaluate_predictions,
     calculate_error_counts,
+    evaluate_predictions,
 )
 from src.evaluation.reporting import save_evaluation_report
 from src.experiments.model_registry import build_models
@@ -51,8 +49,7 @@ from src.experiments.saving import (
     save_model,
     save_results,
 )
-from src.paths import PROJECT_ROOT, EXPERIMENTS_ROOT
-
+from src.paths import EXPERIMENTS_ROOT, PROJECT_ROOT
 
 # Konfigurationsdatei enthält unter anderem:
 # Feature-Pfad, erwartete Hashes, Split-Pfad und Zufallsstartwert.

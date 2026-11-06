@@ -1,21 +1,19 @@
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import torch
-
-from torch.utils.data import TensorDataset, DataLoader
+from torch.utils.data import DataLoader, TensorDataset
 
 from src.data.splitting import create_splits
 from src.evaluation.metrics import (
-    ERROR_METRICS_VERSION, evaluate_predictions, calculate_error_counts,
+    ERROR_METRICS_VERSION,
+    calculate_error_counts,
+    evaluate_predictions,
 )
 from src.evaluation.thresholding import threshold_predict
-
 from src.models.transformer import TransformerModel
-from src.transformer.load_signal import prepare_signals
-
 from src.paths import FEATURE_TABLE_ROOT, TRANSFORMER_RESULTS
+from src.transformer.load_signal import prepare_signals
 
 # ============================================================
 # settings

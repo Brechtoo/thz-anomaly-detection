@@ -1,17 +1,16 @@
-from pathlib import Path
 
 import joblib
 import pandas as pd
 
 from src.data.dataset import prepare_dataset
 from src.data.splitting import create_splits
-
 from src.evaluation.metrics import (
-    ERROR_METRICS_VERSION, evaluate_predictions, calculate_error_counts,
+    ERROR_METRICS_VERSION,
+    calculate_error_counts,
+    evaluate_predictions,
 )
 from src.evaluation.reporting import save_evaluation_report
-
-from src.paths import FEATURE_TABLE_ROOT, EXTENDED_EXPERIMENT_DIR
+from src.paths import EXTENDED_EXPERIMENT_DIR, FEATURE_TABLE_ROOT
 
 EXPERIMENT_DIR = EXTENDED_EXPERIMENT_DIR
 
