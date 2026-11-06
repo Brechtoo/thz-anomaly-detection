@@ -40,7 +40,12 @@ def test_metrics_on_unbalanced_four_class_example(container):
 
 @pytest.mark.parametrize("labels", [[0, 1, 2, 3], [0], [1], [2], [3]])
 def test_perfect_predictions_including_missing_classes(labels):
-    result = evaluate_predictions(labels, labels)
+    if len(labels) == 1:
+        # Both balanced accuracy and our matrix call encounter this edge case.
+        with pytest.warns(UserWarning, match="A single label was found in 'y_true' and 'y_pred'"):
+            result = evaluate_predictions(labels, labels)
+    else:
+        result = evaluate_predictions(labels, labels)
     for key in ("accuracy", "balanced_accuracy", "macro_f1", "weighted_f1"):
         assert result[key] == pytest.approx(1.0)
     np.testing.assert_array_equal(result["confusion_matrix"], np.eye(len(labels), dtype=int))
@@ -58,7 +63,13 @@ def test_metrics_with_two_absent_classes():
 def test_class_present_only_in_predictions():
     # Recall for the absent true class is undefined; balanced accuracy uses
     # only true classes, while macro F1 includes the predicted-only class.
-    with pytest.warns(UserWarning):
+    with pytest.warns(
+        UserWarning,
+        match=(
+            "y_pred contains classes not in y_true"
+            "|Recall is ill-defined and being set to 0.0 in labels with no true samples"
+        ),
+    ):
         result = evaluate_predictions([1, 1], [1, 3])
     assert result["accuracy"] == pytest.approx(1 / 2)
     assert result["balanced_accuracy"] == pytest.approx(1 / 2)

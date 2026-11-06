@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import pandas as pd
 
 from src.paths import FEATURE_EXTENSION_BLOCK1_ROOT, AUTOENCODER_RESULTS

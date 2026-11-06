@@ -6,7 +6,7 @@ from src.data.splitting import create_splits
 
 from src.transformer.load_signal import prepare_signals, standardize_signals, create_data_loaders
 
-from src.experiments.transformer_experiments import run_configuration
+from src.transformer.transformer_experiments import run_configuration
 
 from pathlib import Path
 

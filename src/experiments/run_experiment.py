@@ -58,7 +58,7 @@ def calculate_file_hash(file_path):
     return sha256.hexdigest()
 
 
-def run_experiment():
+def run_hgb_baseline():
 
     # Validate all inputs before creating output files or MLflow runs.
     if os.environ.get("MLFLOW_RUN_ID") or mlflow.active_run() is not None:
@@ -242,5 +242,17 @@ def run_experiment():
     return results_df
 
 
+def run_experiment(*, baseline=False, enabled=None, config_path=None):
+    """Run the separate tsfresh comparison, or explicitly replay frozen HGB."""
+    if baseline:
+        return run_hgb_baseline()
+    from src.experiments.model_comparison import CONFIG_PATH, run_model_comparison
+    return run_model_comparison(config_path or CONFIG_PATH, enabled=enabled)
+
+
 if __name__ == "__main__":
-    run_experiment()
+    import argparse
+    parser = argparse.ArgumentParser(description="tsfresh validation model comparison")
+    parser.add_argument("--baseline", action="store_true", help="Replay frozen HGB instead")
+    args = parser.parse_args()
+    run_experiment(baseline=args.baseline)

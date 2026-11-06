@@ -43,11 +43,11 @@ Schwellenwerte und Vorhersagelogik wurden nicht geändert.
 | Datei | Originale Fehlerlabels | Verwendung |
 | --- | --- | --- |
 | `src/experiments/run_experiment.py` | `y_val` | Validierungsübersicht und künftige MLflow-Logs |
-| `src/experiments/transformer_experiments.py` | `y_true` aus `predict` | Ergebnisdictionary |
-| `src/evaluation/evaluate_optimized.py` | `y_val` | optimierte Validierungsübersicht |
+| `src/transformer/transformer_experiments.py` | `y_true` aus `predict` | Ergebnisdictionary |
+| `src/evaluation/optimized_models_eval/evaluate_optimized.py` | `y_val` | optimierte Validierungsübersicht |
 | `src/experiments/optimize_thresholds.py` | `y_val` | Validierungsvergleich der Schwellenwerte |
-| `src/evaluation/final_evaluation.py` | `y_test` | finale HGB-Auswertung |
-| `src/evaluation/final_evaluation_transformer.py` | `y_test` | finale Transformer-Auswertung |
+| `src/evaluation/final_eval/final_evaluation.py` | `y_test` | finale HGB-Auswertung |
+| `src/transformer/final_evaluation_transformer.py` | `y_test` | finale Transformer-Auswertung |
 
 Die letzten drei Stellen verwenden für allgemeine Metriken separat eine Kopie
 mit `0 → 2`. Diese Kopie darf nicht an `calculate_error_counts` übergeben werden:

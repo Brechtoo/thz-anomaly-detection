@@ -63,3 +63,7 @@ results/experiments/hgb_baseline_reproducibility_*/
 .env
 .env.*
 !.env.example
+
+# Generated comparison outputs and model serializations
+results/experiments/tsfresh_comparison_*/
+*.skops

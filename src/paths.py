@@ -85,4 +85,4 @@ AUTOENCODER_RESULTS = UNSUPERVISED_RESULTS / "autoencoder"
 # ============================================================
 
 EXTERNAL_SCAN_ROOT = Path(os.environ.get("THZ_EXTERNAL_SCAN_DIR", PROJECT_ROOT / "external_data" / "HolzElement" / "scan"))
-EXTERNAL_TEST_RESULTS = RESULTS_ROOT / "external_test"
+EXTERNAL_TEST_RESULTS = RESULTS_ROOT / "generalization"

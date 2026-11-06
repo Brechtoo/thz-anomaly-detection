@@ -12,7 +12,7 @@ EXCLUDE_COLUMNS = [
 
 
 def prepare_dataset(df):
-    X = df.drop(columns=EXCLUDE_COLUMNS)
+    X = df.drop(columns=EXCLUDE_COLUMNS) # alle außer die feature
     y = df[TARGET_COL]
 
     return X, y

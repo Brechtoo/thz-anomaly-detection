@@ -29,7 +29,7 @@ Das Projekt betrachtet sowohl überwachte als auch unüberwachte Verfahren.
 * `src/experiments/` – Training, Experimente und Optimierung
 * `src/evaluation/` – Evaluation und Schwellenwertstrategien
 * `src/unsupervised/` – Unüberwachte Modelle, inkl. Datenvorbereitung und Experimente
-* `src/external_test/` – Tests auf neuen Daten
+* `src/generalization/` – Tests auf neuen Daten
 * `results/` – Feature-Tabellen, trainierte Modelle und Ergebnisse
 
 
@@ -62,3 +62,7 @@ Der [Sessionabschluss vom 02.11.2026](docs/session_closure_2026-11-02.md)
 beschreibt den technischen Baseline-/Audit-Tag, die abschließenden Tests und
 die Auswahl versionierter Reproduzierbarkeitsnachweise.
 
+
+## Reproduzierbarkeitsprüfungen
+
+[Zentraler Überblick, Nachweise und Archivzuordnung](docs/reproducibility_checks.md).

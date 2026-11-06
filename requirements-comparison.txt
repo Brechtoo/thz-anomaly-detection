@@ -1,0 +1,7 @@
+# Additional model families for the isolated tsfresh comparison.
+# Installed versions are archived in each comparison's environment.json.
+xgboost>=2,<4
+lightgbm>=4,<5
+# Explicit skops serialization and the model `name` API were verified with these versions.
+mlflow==3.17.2
+skops==0.16.0

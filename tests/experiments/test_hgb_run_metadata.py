@@ -73,8 +73,8 @@ def fake_run(tmp_path, monkeypatch):
 
 def test_runs_log_provenance_and_use_separate_output_directories(fake_run):
     root, calls = fake_run
-    experiment.run_experiment()
-    experiment.run_experiment()  # two simulated runs; no MLflow writes or fits
+    experiment.run_experiment(baseline=True)
+    experiment.run_experiment(baseline=True)  # two simulated runs; no MLflow writes or fits
     outputs = list((root / "outputs").iterdir())
     assert len(outputs) == 2
     assert calls["training"] == calls["runs"] == 2
@@ -97,7 +97,7 @@ def test_changed_feature_table_fails_before_run_or_training(fake_run):
     with (root / "data.csv").open("a") as f:
         f.write("\n")
     with pytest.raises(ValueError, match="Feature-table hash"):
-        experiment.run_experiment()
+        experiment.run_experiment(baseline=True)
     assert calls["runs"] == calls["training"] == 0
     assert not (root / "outputs").exists()
 
@@ -110,6 +110,6 @@ def test_refuses_to_resume_an_existing_mlflow_run(fake_run, monkeypatch, existin
     else:
         monkeypatch.setattr(experiment.mlflow, "active_run", lambda: object())
     with pytest.raises(ValueError, match="requires a new MLflow run"):
-        experiment.run_experiment()
+        experiment.run_experiment(baseline=True)
     assert calls["runs"] == calls["training"] == 0
     assert not (root / "outputs").exists()

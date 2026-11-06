@@ -12,11 +12,11 @@ import pytest
 
 @pytest.mark.parametrize("filename,original_labels", [
     ("experiments/run_experiment.py", "y_val"),
-    ("experiments/transformer_experiments.py", "y_true"),
+    ("transformer/transformer_experiments.py", "y_true"),
     ("experiments/optimize_thresholds.py", "y_val"),
-    ("evaluation/evaluate_optimized.py", "y_val"),
-    ("evaluation/final_evaluation.py", "y_test"),
-    ("evaluation/final_evaluation_transformer.py", "y_test"),
+    ("evaluation/optimized_models_eval/evaluate_optimized.py", "y_val"),
+    ("evaluation/final_eval/final_evaluation.py", "y_test"),
+    ("transformer/final_evaluation_transformer.py", "y_test"),
 ])
 def test_error_call_uses_original_labels(filename, original_labels):
     source = Path(__file__).resolve().parents[2] / "src" / filename
