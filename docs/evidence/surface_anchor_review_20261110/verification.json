@@ -1,0 +1,29 @@
+{
+  "existing_artifacts_unchanged": 29269,
+  "raw_signals_unchanged": 4256,
+  "no_new_feature_pipeline": true,
+  "no_HeRAI_training_or_inference": true,
+  "labels_unchanged": true,
+  "tests": "162 passed; 7 known warnings",
+  "report_sha256": "326c3b149ef2fd147c6e62347592e1fe50e648a04652e472b10b3f86d14d6b61",
+  "outputs_sha256": {
+    "anchor_window_diagnostics.csv": "0c9ce8761c77878e8441b51fd192070710a46fb9c77b21ed9bc72cf23f0c8f99",
+    "transect_messreihe_2_pk_02.csv": "0af906e7515fd1e1770990dd32f1c329aee39c5a9e1dbf72ceee86342da941aa",
+    "diagnostic_medians.csv": "03c85d5cc5af26152442252c9ffc8315db44343c69da9e2233098c779b71320c",
+    "late_anchor_windows.png": "2a8c809022293ebe3b3f91e6feb12df5bed081be5be3d8ea0c5432d012f51ea7",
+    "transect_messreihe_1_pk_11.png": "f7944d82dafbe925e991ced912af0b1a4d1077794b080df07735ae3f5c3f0b41",
+    "transect_messreihe_1_pk_07.png": "72b886f4cfe3423bf81e60ea6bda1941d558eda33caa357a5c02740018d5a5a3",
+    "late_anchor_case.py": "e50aeeaf30aa5dd6e0b455ea01aae53099beba3f1d136db1ac6bf45b229f58bf",
+    "representative_ids.csv": "273fcb74cb9397b2aff3d778fe2b02837dc2f02d01f5c8cacdd24f9135bc6145",
+    "transect_messreihe_2_pk_02.png": "5e96a93577681c2e75db3d6a04cab29b9cec380b5224fd191f797dffba18f5a0",
+    "window_sensitivity.png": "a31beb8e14bb9df987bb18397ca118b4c781fb8315960302c046386a5f4f7b46",
+    "transect_messreihe_1_pk_07.csv": "914ac5e104346559df23fd690fe68415e970c06476c3373de4f758dff983f617",
+    "manifest.json": "0462eb41e025ed670ba77b1a8f875827a98c42c03134e224cf2e9ba6c8c77543",
+    "transect_messreihe_1_pk_11.csv": "ea9ba89a689d8be9dd8c01eb34546c7ecf0f24eae4e75a88c306aafc6b5105da",
+    "review_source_executed.py": "6d1ca5a71d04a684154f9dea403cbfa1ad7cf55b0f1fc898579c9e46f2f7b657",
+    "representative_raw_pairs.png": "08385e3d2ef1530f2ca21c2acfbbd0f0e481478ac6c3a945c0ded61d7bad10dc",
+    "late_window_example.csv": "2906b8600b2d78742d315c68676fd4ee310f151e17247b71dc3ac64acc84c2c6",
+    "annotation_consistency.csv": "703187b13200f09e45213aef79f79f85334c525aba08f411fa3d087bcdf1a3cb",
+    "metal_reference_pulses.png": "ab774692cb412850a093d37050810c553f20cdcf65e478a27538fe72390765f1"
+  }
+}
