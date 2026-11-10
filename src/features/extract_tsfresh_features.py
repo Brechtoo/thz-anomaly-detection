@@ -41,6 +41,8 @@ from tsfresh.utilities.dataframe_functions import (
     impute_dataframe_range,
 )
 
+from src.data.reference_measurements import require_no_references
+
 # Eigene Projektfunktionen
 from src.data.split_manifest import restore_splits, sha256_file
 from src.features.loading import load_measurement
@@ -192,6 +194,7 @@ def build_table(input_path, output_path, split_dir, *,
 
     # combined_dataset.csv laden
     dataset = pd.read_csv(input_path)
+    require_no_references(dataset)
 
     # Diese Spalten müssen vorhanden sein.
     required = {"file_path", "instance_id", "label"}

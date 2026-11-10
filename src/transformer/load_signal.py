@@ -4,6 +4,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
+from src.data.reference_measurements import require_no_references
 from src.features.loading import load_measurement
 from src.paths import FEATURE_BASELINE_ROOT, TRANSFORMER_RESULTS
 
@@ -70,6 +71,7 @@ def load_signal(file_path):
 
 
 def prepare_signals(df):
+    require_no_references(df)
 
     signals = []
 

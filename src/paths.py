@@ -26,7 +26,8 @@ LABELS_3_ROOT = RAW_DATA_ROOT / "Hohlraumtestk3_tr" / "hohltestk3_tr_markArea_XY
 # measurements
 # ============================================================
 
-MEASUREMENTS_ROOT = RESULTS_ROOT / "measurements"
+# Active catalog location; historical manifests retain their original paths.
+MEASUREMENTS_ROOT = PROJECT_ROOT / "data" / "measurements"
 DATA1_LABELED_ROOT = MEASUREMENTS_ROOT / "data1_labeled.csv"
 DATA2_LABELED_ROOT = MEASUREMENTS_ROOT / "data2_labeled.csv"
 DATA3_LABELED_ROOT = MEASUREMENTS_ROOT / "data3_labeled.csv"

@@ -26,8 +26,11 @@ __pycache__/
 # ==========================================
 # Generated datasets / feature tables
 # ==========================================
+data/measurements/
 results/measurements/
 results/feature_tables/
+# Rebuildable reference-filtered catalog contains local waveform paths.
+data/metadata_reference_excluded/specimen_dataset.csv
 
 
 # ==========================================
@@ -41,12 +44,16 @@ docs/fragen cornelius
 # joblibs
 # ============================================================
 *.joblib
+*.pkl
+*.pickle
+*.pt
+*.pth
 
-.venv/
 
 # MLflow
 mlflow.db
 mlruns/
+mlartifacts/
 mlflow.db-shm
 mlflow.db-wal
 
@@ -56,6 +63,8 @@ external_data/
 .venv*/
 .pytest_cache/
 .ruff_cache/
+# Local preservation copies made during repository maintenance.
+/archive/
 results/reproducibility_checks/
 results/experiments/hgb_reproduction_*/
 results/experiments/hgb_baseline_reproducibility_*/
@@ -68,3 +77,11 @@ results/experiments/hgb_baseline_reproducibility_*/
 # Generated comparison outputs and model serializations
 results/experiments/tsfresh_comparison_*/
 *.skops
+
+# Separate specimen holdout runs, raw tsfresh caches and local tracking stores
+results/experiments/specimen_holdout_*/
+results/experiments/specimen_manual52_*/
+results/analysis/herai_error_analysis_*/
+results/analysis/surface_anchor_review_*/
+results/experiments/anchor_group_cv_*/
+results/experiments/class2_group_cv_*/

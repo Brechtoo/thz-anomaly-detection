@@ -1,0 +1,40 @@
+{
+  "format_version": 1,
+  "input_sha256": "507534e5045533be772c9b263ad8d0d4791fd9e6c4a0b9ce1dc9c0b13cd55c48",
+  "coordinate_metadata_sha256": "c3ac3bb581fc92060bda9e477bab4396b067894e9d78e968d6b42ad3d6d26aff",
+  "parameters": {
+    "eps": 1.5,
+    "min_samples": 4,
+    "min_cluster_points": 100,
+    "small_fraction": 0.5
+  },
+  "ordering": "source, cluster minimum y then minimum x; mapping sorted by instance_id",
+  "source_sha256": "91497f0ea707056cb709baa2533fcf51fbc43ceb22f0d0043cd46a69ecbd4ca0",
+  "dependency_lock_sha256": "0f754fe74129e10aa5361a22824008af7012ac88844db25d6a408b4ffc20af85",
+  "versions": {
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2"
+  },
+  "git_state": {
+    "git_commit": "10a410e0166d0c4517c718a099f7ffebc18e4378",
+    "git_dirty": true,
+    "status": " M src/data/dataset.py\n?? src/data/specimen_mapping.py\n?? tests/data/test_specimen_mapping.py\n",
+    "tracked_diff": "diff --git a/src/data/dataset.py b/src/data/dataset.py\nindex c2aead4..7cfed5d 100644\n--- a/src/data/dataset.py\n+++ b/src/data/dataset.py\n@@ -12,7 +12,7 @@ EXCLUDE_COLUMNS = [\n \n \n def prepare_dataset(df):\n-    X = df.drop(columns=EXCLUDE_COLUMNS) # alle au\u00dfer die feature\n+    X = df.drop(columns=EXCLUDE_COLUMNS).drop(columns=[\"specimen_id\"], errors=\"ignore\")\n     y = df[TARGET_COL]\n \n     return X, y\n",
+    "untracked_paths": [
+      "src/data/specimen_mapping.py",
+      "tests/data/test_specimen_mapping.py"
+    ]
+  },
+  "output_sha256": {
+    "messreihe_1.png": "9a1b18abb6fe93cc8a85cac0cc9a2eb528c1f9ba9e9bb9e7718708defd498efc",
+    "messreihe_2.png": "28c1c2c957e20d7bfdf265aadf0389b42c9cd144844dc8b28b48069645aefeb6",
+    "messreihe_3.png": "dc06af3f2cd5de35b644a964d85fe203a2e1755df332f15416e99514bdc97171",
+    "specimen_mapping.csv": "a0d736e96602b6034344386ba142d6d446f2f1496f1f2678efa1f0832e71c7dd",
+    "specimen_summary.csv": "efb7b7b56f994a489056c341e3caa5bb4e3f88cc3f4c3e48960c394b4a6c1e8c"
+  },
+  "unassigned": 0,
+  "interpretation": "Spatial candidates only; review small regions and physical identity before group evaluation."
+}

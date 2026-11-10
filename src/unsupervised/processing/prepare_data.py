@@ -4,10 +4,13 @@ from sklearn.impute import SimpleImputer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
+from src.data.reference_measurements import require_no_references
+
 
 def load_feature_data(data_path, target_col, exclude_columns, return_df=False):
 
     df = pd.read_csv(data_path)
+    require_no_references(df)
 
     feature_cols = [col for col in df.select_dtypes(include=np.number).columns if col not in exclude_columns]
 

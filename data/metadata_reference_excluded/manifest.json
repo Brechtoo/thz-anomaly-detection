@@ -1,0 +1,69 @@
+{
+  "format_version": 1,
+  "input_sha256": "507534e5045533be772c9b263ad8d0d4791fd9e6c4a0b9ce1dc9c0b13cd55c48",
+  "coordinate_metadata_sha256": "c3ac3bb581fc92060bda9e477bab4396b067894e9d78e968d6b42ad3d6d26aff",
+  "parameters": {
+    "eps": 1.5,
+    "min_samples": 4,
+    "confirmed_reference_bounds": {
+      "messreihe_1": [
+        -28,
+        -8,
+        102,
+        120
+      ],
+      "messreihe_2": [
+        -29,
+        -9,
+        103,
+        120
+      ],
+      "messreihe_3": [
+        -28,
+        -8,
+        102,
+        112
+      ]
+    },
+    "min_cluster_points": 100,
+    "small_fraction": 0.5
+  },
+  "ordering": "source, cluster minimum y then minimum x; mapping sorted by instance_id",
+  "source_sha256": "0c53031f1d30b66a00c2f5fecd7ed8a8a6dd14b2118cbaf436d955d3a183743c",
+  "dependency_lock_sha256": "0f754fe74129e10aa5361a22824008af7012ac88844db25d6a408b4ffc20af85",
+  "versions": {
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2"
+  },
+  "git_state": {
+    "git_commit": "10a410e0166d0c4517c718a099f7ffebc18e4378",
+    "git_dirty": true,
+    "status": " M src/data/dataset.py\n M src/features/extract_tsfresh_features.py\n M src/transformer/load_signal.py\n M src/unsupervised/processing/prepare_data.py\n?? data/metadata/manifest.json\n?? data/metadata/messreihe_1.png\n?? data/metadata/messreihe_2.png\n?? data/metadata/messreihe_3.png\n?? data/metadata/specimen_mapping.csv\n?? data/metadata/specimen_summary.csv\n?? docs/specimen_mapping.md\n?? src/data/reference_measurements.py\n?? src/data/specimen_mapping.py\n?? tests/data/test_specimen_mapping.py\n",
+    "tracked_diff": "diff --git a/src/data/dataset.py b/src/data/dataset.py\nindex c2aead4..b102dc7 100644\n--- a/src/data/dataset.py\n+++ b/src/data/dataset.py\n@@ -1,4 +1,6 @@\n \n+from src.data.reference_measurements import require_no_references\n+\n TARGET_COL = \"label\"\n \n EXCLUDE_COLUMNS = [\n@@ -12,7 +14,9 @@ EXCLUDE_COLUMNS = [\n \n \n def prepare_dataset(df):\n-    X = df.drop(columns=EXCLUDE_COLUMNS) # alle au\u00dfer die feature\n+    require_no_references(df)\n+    X = df.drop(columns=EXCLUDE_COLUMNS).drop(\n+        columns=[\"specimen_id\", \"measurement_role\", \"training_eligible\", \"assignment_status\"], errors=\"ignore\")\n     y = df[TARGET_COL]\n \n     return X, y\ndiff --git a/src/features/extract_tsfresh_features.py b/src/features/extract_tsfresh_features.py\nindex f64b6e0..aa3e0e1 100644\n--- a/src/features/extract_tsfresh_features.py\n+++ b/src/features/extract_tsfresh_features.py\n@@ -44,6 +44,7 @@ from tsfresh.utilities.dataframe_functions import (\n # Eigene Projektfunktionen\n from src.data.split_manifest import restore_splits, sha256_file\n from src.features.loading import load_measurement\n+from src.data.reference_measurements import require_no_references\n from src.paths import COMBINED_DATASET_ROOT, PROJECT_ROOT, RESULTS_ROOT\n \n # ============================================================\n@@ -192,6 +193,7 @@ def build_table(input_path, output_path, split_dir, *,\n \n     # combined_dataset.csv laden\n     dataset = pd.read_csv(input_path)\n+    require_no_references(dataset)\n \n     # Diese Spalten m\u00fcssen vorhanden sein.\n     required = {\"file_path\", \"instance_id\", \"label\"}\ndiff --git a/src/transformer/load_signal.py b/src/transformer/load_signal.py\nindex ba75635..970e137 100644\n--- a/src/transformer/load_signal.py\n+++ b/src/transformer/load_signal.py\n@@ -5,6 +5,7 @@ import torch\n from torch.utils.data import DataLoader, TensorDataset\n \n from src.features.loading import load_measurement\n+from src.data.reference_measurements import require_no_references\n from src.paths import FEATURE_BASELINE_ROOT, TRANSFORMER_RESULTS\n \n # ============================================================\n@@ -70,6 +71,7 @@ def load_signal(file_path):\n \n \n def prepare_signals(df):\n+    require_no_references(df)\n \n     signals = []\n \n@@ -130,4 +132,4 @@ def create_data_loaders(X_train, X_val, y_train, y_val, batch_size=BATCH_SIZE):\n         shuffle=False,\n     )\n \n-    return train_loader, val_loader\n\\ No newline at end of file\n+    return train_loader, val_loader\ndiff --git a/src/unsupervised/processing/prepare_data.py b/src/unsupervised/processing/prepare_data.py\nindex 0c2e090..6a77fa2 100644\n--- a/src/unsupervised/processing/prepare_data.py\n+++ b/src/unsupervised/processing/prepare_data.py\n@@ -1,5 +1,6 @@\n import numpy as np\n import pandas as pd\n+from src.data.reference_measurements import require_no_references\n from sklearn.impute import SimpleImputer\n from sklearn.model_selection import train_test_split\n from sklearn.preprocessing import StandardScaler\n@@ -8,6 +9,7 @@ from sklearn.preprocessing import StandardScaler\n def load_feature_data(data_path, target_col, exclude_columns, return_df=False):\n \n     df = pd.read_csv(data_path)\n+    require_no_references(df)\n \n     feature_cols = [col for col in df.select_dtypes(include=np.number).columns if col not in exclude_columns]\n \n@@ -38,4 +40,4 @@ def prepare_feature_data(X, y, random_state=42, test_size=0.2, scale=True):\n \n         X_test = scaler.transform(X_test)\n \n-    return X_train, X_test, y_train, y_test\n\\ No newline at end of file\n+    return X_train, X_test, y_train, y_test\n",
+    "untracked_paths": [
+      "data/metadata/manifest.json",
+      "data/metadata/messreihe_1.png",
+      "data/metadata/messreihe_2.png",
+      "data/metadata/messreihe_3.png",
+      "data/metadata/specimen_mapping.csv",
+      "data/metadata/specimen_summary.csv",
+      "docs/specimen_mapping.md",
+      "src/data/reference_measurements.py",
+      "src/data/specimen_mapping.py",
+      "tests/data/test_specimen_mapping.py"
+    ]
+  },
+  "output_sha256": {
+    "messreihe_1.png": "9a1b18abb6fe93cc8a85cac0cc9a2eb528c1f9ba9e9bb9e7718708defd498efc",
+    "messreihe_2.png": "28c1c2c957e20d7bfdf265aadf0389b42c9cd144844dc8b28b48069645aefeb6",
+    "messreihe_3.png": "dc06af3f2cd5de35b644a964d85fe203a2e1755df332f15416e99514bdc97171",
+    "specimen_dataset.csv": "a1f3c037a5605050b2d892080c73ca90e361ab9e9ef53cdd10358567d7a585d9",
+    "specimen_mapping.csv": "0f475091bd8a930c1d13d2d380b67a1829339eadd9833c91bf61123ddbc6d4c1",
+    "specimen_summary.csv": "ff0d12fae3575285b32443a08ea3b6d6eeda09927c9e06eb2fb2bdcddcada69f"
+  },
+  "unassigned": 0,
+  "interpretation": "Upper isolated regions confirmed as references by dataset owner; excluded from training. Other regions remain spatial specimen candidates."
+}

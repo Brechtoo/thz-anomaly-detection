@@ -1,4 +1,6 @@
 
+from src.data.reference_measurements import require_no_references
+
 TARGET_COL = "label"
 
 EXCLUDE_COLUMNS = [
@@ -12,7 +14,9 @@ EXCLUDE_COLUMNS = [
 
 
 def prepare_dataset(df):
-    X = df.drop(columns=EXCLUDE_COLUMNS) # alle außer die feature
+    require_no_references(df)
+    X = df.drop(columns=EXCLUDE_COLUMNS).drop(
+        columns=["specimen_id", "measurement_role", "training_eligible", "assignment_status"], errors="ignore")
     y = df[TARGET_COL]
 
     return X, y
