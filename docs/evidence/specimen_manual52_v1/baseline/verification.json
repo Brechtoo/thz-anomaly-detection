@@ -1,0 +1,22 @@
+{
+  "protected_files_unchanged": 29284,
+  "rows": 52220,
+  "groups": 35,
+  "features": 52,
+  "exact_same_split_ids_and_labels": true,
+  "train_only_medians_verified": true,
+  "model_parameters_identical_to_708_run": true,
+  "reloaded_predictions_identical": [
+    "logistic_regression",
+    "random_forest",
+    "hgb",
+    "xgboost",
+    "lightgbm",
+    "extra_trees",
+    "mlp"
+  ],
+  "raw_feature_imputer_model_predictions_identical": true,
+  "mlflow_finished_runs": 7,
+  "validation_primary_test_exploratory_verified": true,
+  "tests": "153 passed"
+}

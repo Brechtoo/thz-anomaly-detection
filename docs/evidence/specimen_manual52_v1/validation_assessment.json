@@ -1,0 +1,15 @@
+{
+  "basis": "validation only; no test metrics used",
+  "models": 7,
+  "manual52_higher_accuracy": 3,
+  "manual52_higher_balanced_accuracy": 4,
+  "manual52_higher_macro_f1": 5,
+  "manual52_higher_weighted_f1": 5,
+  "manual52_lower_critical_rate": 0,
+  "manual52_lower_false_alarm_rate": 1,
+  "classifier_and_pipeline_parameters_identical": true,
+  "limitation": "Descriptive paired results on the same five validation specimens, not seven independent experiments.",
+  "preferred_for_critical_error_priority": "tsfresh708",
+  "conclusion": "All seven paired validation critical error rates are lower for tsfresh708; manual52 macro-F1 is higher for five models. No universal superiority claim.",
+  "selection_uses_test": false
+}

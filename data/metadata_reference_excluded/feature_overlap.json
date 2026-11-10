@@ -1,0 +1,58 @@
+{
+  "input_sha256": {
+    "results/feature_tables/feature_table.csv": "03d439403489d319feb7299847b159d9bd96e9398f72fd1d19bd64cb84df97ed",
+    "results/feature_tables/tsfresh_features.csv": "bf045ef46db126d9351ec76e5786680e489be156ac0cdeeeec61793515d40fc8"
+  },
+  "rows": 53192,
+  "baseline_features": 52,
+  "tsfresh_features": 701,
+  "rtol": 1e-10,
+  "atol": 1e-12,
+  "formula_identical_pairs": {
+    "y_max": "y__maximum",
+    "y_min": "y__minimum",
+    "y_mean": "y__mean",
+    "y_median": "y__median",
+    "y_std": "y__standard_deviation",
+    "y_energy": "y__abs_energy"
+  },
+  "numerical_matches": [
+    {
+      "baseline": "y_max",
+      "tsfresh": "y__maximum",
+      "equal": true,
+      "max_absolute_difference": 4.440892098500626e-16
+    },
+    {
+      "baseline": "y_min",
+      "tsfresh": "y__minimum",
+      "equal": true,
+      "max_absolute_difference": 1.7763568394002505e-15
+    },
+    {
+      "baseline": "y_mean",
+      "tsfresh": "y__mean",
+      "equal": true,
+      "max_absolute_difference": 1.3322676295501878e-15
+    },
+    {
+      "baseline": "y_median",
+      "tsfresh": "y__median",
+      "equal": true,
+      "max_absolute_difference": 8.881784197001252e-16
+    },
+    {
+      "baseline": "y_std",
+      "tsfresh": "y__standard_deviation",
+      "equal": true,
+      "max_absolute_difference": 1.1102230246251565e-16
+    },
+    {
+      "baseline": "y_energy",
+      "tsfresh": "y__abs_energy",
+      "equal": true,
+      "max_absolute_difference": 1.4551915228366852e-11
+    }
+  ],
+  "note": "Numerical agreement alone does not prove formula identity. Energy uses sum of squares vs dot product; rounding differences allowed."
+}
