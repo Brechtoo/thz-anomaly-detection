@@ -2,8 +2,24 @@
 
 import importlib.metadata
 import platform
+import shutil
 import subprocess
 from pathlib import Path
+
+
+def snapshot_source_tree(source_root, destination):
+    """Preserve sources without recursively copying local tracking stores/caches.
+
+    Existing destinations are refused. Historical snapshots and artifact locations
+    are never moved or rewritten by this helper.
+    """
+    return shutil.copytree(
+        source_root, destination,
+        ignore=shutil.ignore_patterns(
+            '__pycache__', 'mlruns', 'mlartifacts', '.DS_Store',
+            '*.pyc', '*.db', '*.db-shm', '*.db-wal',
+        ),
+    )
 
 
 def capture_git_state(project_root):

@@ -1,0 +1,21 @@
+{
+  "protected_files_unchanged": 213,
+  "rows": 52220,
+  "groups": 35,
+  "shuffled_real_split_identical": true,
+  "raw_batch_schema_verified": true,
+  "models_reloaded_identical_predictions": [
+    "logistic_regression",
+    "random_forest",
+    "hgb",
+    "xgboost",
+    "lightgbm",
+    "extra_trees",
+    "mlp"
+  ],
+  "hyperparameters_unchanged": true,
+  "mlflow_finished_runs": 7,
+  "selected_features": 708,
+  "tests": "141 passed; seven-model synthetic integration smoke check passed",
+  "mlflow_metrics_and_parameters_match_local_artifacts": true
+}

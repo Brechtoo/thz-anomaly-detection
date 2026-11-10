@@ -53,3 +53,22 @@ def test_python_version_is_checked(monkeypatch, tmp_path):
     monkeypatch.setattr(provenance.platform, "python_version", lambda: "3.13.0")
     with pytest.raises(ValueError, match="Python"):
         provenance.check_locked_environment(lock)
+
+
+def test_source_snapshot_excludes_nested_tracking_stores_and_caches(tmp_path):
+    source = tmp_path / 'src'
+    (source / 'experiments').mkdir(parents=True)
+    original = source / 'experiments/run.py'
+    original.write_bytes(b'"""Keep exact source bytes."""\n')
+    for folder in ['mlruns', 'mlartifacts', '__pycache__']:
+        target = source / 'experiments' / folder
+        target.mkdir()
+        (target / 'old_run.py').write_text('archived source must not recurse')
+    (source / 'experiments/mlflow.db').write_bytes(b'unchanged tracking store')
+    destination = tmp_path / 'snapshot'
+    provenance.snapshot_source_tree(source, destination)
+    assert (destination / 'experiments/run.py').read_bytes() == original.read_bytes()
+    assert sorted(p.relative_to(destination).as_posix() for p in destination.rglob('*') if p.is_file()) == ['experiments/run.py']
+    assert (source / 'experiments/mlflow.db').read_bytes() == b'unchanged tracking store'
+    with pytest.raises(FileExistsError):
+        provenance.snapshot_source_tree(source, destination)

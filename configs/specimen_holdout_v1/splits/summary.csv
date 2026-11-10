@@ -1,0 +1,4 @@
+split,points,specimens,class_0,class_1,class_2,class_3,messreihe_1,messreihe_2,messreihe_3
+train,34235,23,4553,5297,2303,22082,13377,13538,7320
+validation,7521,5,1140,1161,657,4563,3009,3039,1473
+test,10464,7,1432,1518,756,6758,4530,4467,1467

@@ -1,0 +1,40 @@
+{
+  "format_version": 1,
+  "files": {
+    "train.csv": "1d5c08ec3f4a163e9152714b33f7d892f0087aa41a52aa8006d0fe3c0baa7352",
+    "validation.csv": "8cd1afffc6c786089419682b7aee7e13fbd5bd284a0d378c1ce17cd083fb39b5",
+    "test.csv": "6cfa26956fe3d1e92d6cd82d275aea42072f8c5fd30405c1af4048065923bcf3"
+  },
+  "group_key": "specimen_id",
+  "input_sha256": {
+    "data/measurements/combined_dataset.csv": "507534e5045533be772c9b263ad8d0d4791fd9e6c4a0b9ce1dc9c0b13cd55c48",
+    "data/metadata_reference_excluded/specimen_mapping.csv": "0f475091bd8a930c1d13d2d380b67a1829339eadd9833c91bf61123ddbc6d4c1"
+  },
+  "configuration": {
+    "seed": 42,
+    "candidates": 4096,
+    "selected_candidate": 3168,
+    "score": 0.0004383523324324151,
+    "target_ratios": [
+      0.65,
+      0.15,
+      0.2
+    ],
+    "objective": "mean squared allocation fraction error: rows, four labels, sources"
+  },
+  "excluded_specimens": [
+    "messreihe_1_pk_15",
+    "messreihe_2_pk_15",
+    "messreihe_3_pk_08"
+  ],
+  "source_sha256": "acbb27504c7a9bc6a14ce907724eb552df3b92eae3144566b06f638942e24f2b",
+  "metadata_sha256": {
+    "summary.csv": "3abdb0317a4fd898fa2521b7e3bc266730501283ca11aa1474d7e74182856fa0",
+    "validation.csv": "8cd1afffc6c786089419682b7aee7e13fbd5bd284a0d378c1ce17cd083fb39b5",
+    "specimens.csv": "f141bb3512104fa47a90ec524da473d4eacd8748c78b39f77a9925e4767ec0b0",
+    "test.csv": "6cfa26956fe3d1e92d6cd82d275aea42072f8c5fd30405c1af4048065923bcf3",
+    "membership.csv": "553b0c90d5d12668228e35a1a05424824537c36fc52b258515b305f8ae001349",
+    "train.csv": "1d5c08ec3f4a163e9152714b33f7d892f0087aa41a52aa8006d0fe3c0baa7352"
+  },
+  "limitation": "Physical identity across measurement series is unknown; spatial groups alone cannot exclude reuse."
+}
