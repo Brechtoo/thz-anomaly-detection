@@ -1,0 +1,16 @@
+{
+  "original_train_only": true,
+  "groups": 23,
+  "points": 34235,
+  "folds": 3,
+  "fits_verified": 84,
+  "fold_disjoint_and_shuffled_reproducible": true,
+  "templates_fold_train_only": true,
+  "all_imputers_and_scalers_verified_against_fold_training": true,
+  "classifier_hyperparameters_unchanged": true,
+  "all_reloaded_oof_predictions_identical": true,
+  "mlflow_finished_runs": 84,
+  "protected_files_unchanged": 59236,
+  "raw_training_signals_unchanged": 34235,
+  "tests": "167 passed"
+}

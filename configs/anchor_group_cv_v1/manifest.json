@@ -1,0 +1,21 @@
+{
+  "format_version": 1,
+  "description": "Read-only mirror of original body folds, not a new split",
+  "source": "results/experiments/anchor_group_cv_v1/cohort_folds.csv",
+  "source_sha256": "8f0c54d43a6b79e9a0778d16c383f9fb5285044bd3962df4eef89dfd22f96987",
+  "files": {
+    "specimen_folds.csv": "67013b142c05a7e229ca4a6c7d72e02f9350d2b707dc685eda5bc195ccee9aad"
+  },
+  "train_split": "configs/specimen_holdout_v1/splits/train.csv",
+  "train_split_sha256": "1d5c08ec3f4a163e9152714b33f7d892f0087aa41a52aa8006d0fe3c0baa7352",
+  "bodies_per_fold": {
+    "0": 8,
+    "1": 8,
+    "2": 7
+  },
+  "points_per_fold": {
+    "0": 11975,
+    "1": 11841,
+    "2": 10419
+  }
+}
