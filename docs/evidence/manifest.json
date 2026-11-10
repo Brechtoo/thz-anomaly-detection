@@ -1,0 +1,487 @@
+{
+  "format_version": 1,
+  "files": [
+    {
+      "source": "results/experiments/anchor_group_cv_v1/body_direction_counts.csv",
+      "destination": "anchor_group_cv_v1/body_direction_counts.csv",
+      "source_sha256": "68f4e621600de429ad70a0bfb90b383d1800bd191a8657a6fd3fb7cee7760106",
+      "exported_sha256": "68f4e621600de429ad70a0bfb90b383d1800bd191a8657a6fd3fb7cee7760106",
+      "bytes": 1691,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/anchor_group_cv_v1/cv/fold_metrics.csv",
+      "destination": "anchor_group_cv_v1/cv/fold_metrics.csv",
+      "source_sha256": "b3292353356938349dcc3c31fc46978c09e0c899c83d12bc8f0e9dda7eba3e8b",
+      "exported_sha256": "b3292353356938349dcc3c31fc46978c09e0c899c83d12bc8f0e9dda7eba3e8b",
+      "bytes": 31504,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/anchor_group_cv_v1/cv/pooled_oof_metrics.csv",
+      "destination": "anchor_group_cv_v1/cv/pooled_oof_metrics.csv",
+      "source_sha256": "c7a6e751c7fc308314c2289671c26bd2a99c7a0c659c4328b5be32df11234260",
+      "exported_sha256": "c7a6e751c7fc308314c2289671c26bd2a99c7a0c659c4328b5be32df11234260",
+      "bytes": 9261,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/anchor_group_cv_v1/cv/specimen_oof_metrics.csv",
+      "destination": "anchor_group_cv_v1/cv/specimen_oof_metrics.csv",
+      "source_sha256": "2a515a145b832e990f84874ce77b52853920eda82911eb7606438773b9c475ff",
+      "exported_sha256": "2a515a145b832e990f84874ce77b52853920eda82911eb7606438773b9c475ff",
+      "bytes": 187750,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/anchor_group_cv_v1/extraction_failure_outcomes.csv",
+      "destination": "anchor_group_cv_v1/extraction_failure_outcomes.csv",
+      "source_sha256": "39fe2c0beef573f82f4c8f5de78743b7976c2461c89dedc4240527a286053076",
+      "exported_sha256": "39fe2c0beef573f82f4c8f5de78743b7976c2461c89dedc4240527a286053076",
+      "bytes": 3903,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/anchor_group_cv_v1/metadata/versions.json",
+      "destination": "anchor_group_cv_v1/metadata/versions.json",
+      "source_sha256": "ba454daf9e0e9f72f282f59ed13619d9362c6241838417d2f04ac00e0dd6f91b",
+      "exported_sha256": "ba454daf9e0e9f72f282f59ed13619d9362c6241838417d2f04ac00e0dd6f91b",
+      "bytes": 2910,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/anchor_group_cv_v1/oof_comparison.png",
+      "destination": "anchor_group_cv_v1/oof_comparison.png",
+      "source_sha256": "c3932ec4974fab4343ccc0a70fb6ee017bb82477166097675b9652cbc5c70592",
+      "exported_sha256": "c3932ec4974fab4343ccc0a70fb6ee017bb82477166097675b9652cbc5c70592",
+      "bytes": 353181,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/anchor_group_cv_v1/paired_oof_deltas.csv",
+      "destination": "anchor_group_cv_v1/paired_oof_deltas.csv",
+      "source_sha256": "407e0df15298d20b7ecfe37e9592013fe09fae2c92694e8ad24ce154042fae3d",
+      "exported_sha256": "407e0df15298d20b7ecfe37e9592013fe09fae2c92694e8ad24ce154042fae3d",
+      "bytes": 2574,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/anchor_group_cv_v1/verification.json",
+      "destination": "anchor_group_cv_v1/verification.json",
+      "source_sha256": "e9715a371a1bcffc03332d04cabb1d8fb55a1ee72978896196f6e9bef4f60fb9",
+      "exported_sha256": "e9715a371a1bcffc03332d04cabb1d8fb55a1ee72978896196f6e9bef4f60fb9",
+      "bytes": 495,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/class2_assignment_summary.csv",
+      "destination": "class2_group_cv_v1/class2_assignment_summary.csv",
+      "source_sha256": "9ed38a3a821ab0ae954b859a1470570a4a87e4a33d7589c51cb4188d306459b5",
+      "exported_sha256": "9ed38a3a821ab0ae954b859a1470570a4a87e4a33d7589c51cb4188d306459b5",
+      "bytes": 49572,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/class2_body_context.csv",
+      "destination": "class2_group_cv_v1/class2_body_context.csv",
+      "source_sha256": "5ed862eda8b0a22962c2fe186bdb9a8cb4f2c9287ab40923dd51110cd7e11cc7",
+      "exported_sha256": "5ed862eda8b0a22962c2fe186bdb9a8cb4f2c9287ab40923dd51110cd7e11cc7",
+      "bytes": 2037,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/class2_example_waves.png",
+      "destination": "class2_group_cv_v1/class2_example_waves.png",
+      "source_sha256": "950cba077746067db496d04b849c2aa96edfa1280b913f83eebd532fb79712af",
+      "exported_sha256": "950cba077746067db496d04b849c2aa96edfa1280b913f83eebd532fb79712af",
+      "bytes": 223342,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/class2_feature_space.png",
+      "destination": "class2_group_cv_v1/class2_feature_space.png",
+      "source_sha256": "805de9c1d05abca4d44a4a88e3ecb41ce267e820a75d2bd944d069947965288c",
+      "exported_sha256": "805de9c1d05abca4d44a4a88e3ecb41ce267e820a75d2bd944d069947965288c",
+      "bytes": 719507,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/class2_probabilities.png",
+      "destination": "class2_group_cv_v1/class2_probabilities.png",
+      "source_sha256": "e6d886e618f02fbc42119008c45cfc2198965e4b7fa8c17ffec9e3331ffb8d93",
+      "exported_sha256": "e6d886e618f02fbc42119008c45cfc2198965e4b7fa8c17ffec9e3331ffb8d93",
+      "bytes": 143219,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/class2_spatial_maps.png",
+      "destination": "class2_group_cv_v1/class2_spatial_maps.png",
+      "source_sha256": "205fdfc0ccced7601d5d2b00db436879721f1e5d4d6c1ce4722bb0ad448e52e5",
+      "exported_sha256": "205fdfc0ccced7601d5d2b00db436879721f1e5d4d6c1ce4722bb0ad448e52e5",
+      "bytes": 568484,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/critical_error_stability.png",
+      "destination": "class2_group_cv_v1/critical_error_stability.png",
+      "source_sha256": "e4689bf5122a204ccca573fff635b9371a5504db74a23973080ee89ac0c0dfef",
+      "exported_sha256": "e4689bf5122a204ccca573fff635b9371a5504db74a23973080ee89ac0c0dfef",
+      "bytes": 202577,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/known_class_comparison.png",
+      "destination": "class2_group_cv_v1/known_class_comparison.png",
+      "source_sha256": "dd3c7b08539c636987a930c50c5ae9b42296b00c164928c1a2eb179d70c5e629",
+      "exported_sha256": "dd3c7b08539c636987a930c50c5ae9b42296b00c164928c1a2eb179d70c5e629",
+      "bytes": 177643,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/known_metrics.csv",
+      "destination": "class2_group_cv_v1/known_metrics.csv",
+      "source_sha256": "29921da99d49c1bb0094ed54a75d1d1772e4002225da20ae0cbab0d5f64eb503",
+      "exported_sha256": "29921da99d49c1bb0094ed54a75d1d1772e4002225da20ae0cbab0d5f64eb503",
+      "bytes": 156448,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/metadata/versions.json",
+      "destination": "class2_group_cv_v1/metadata/versions.json",
+      "source_sha256": "ba454daf9e0e9f72f282f59ed13619d9362c6241838417d2f04ac00e0dd6f91b",
+      "exported_sha256": "ba454daf9e0e9f72f282f59ed13619d9362c6241838417d2f04ac00e0dd6f91b",
+      "bytes": 2910,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/mixture_body_summary.csv",
+      "destination": "class2_group_cv_v1/mixture_body_summary.csv",
+      "source_sha256": "37e2cc9472a4224e06ecd1e4b28e675e7f4424817cd4e4d5aa6c96b75d8e7689",
+      "exported_sha256": "37e2cc9472a4224e06ecd1e4b28e675e7f4424817cd4e4d5aa6c96b75d8e7689",
+      "bytes": 1256,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/mixture_component_summary.csv",
+      "destination": "class2_group_cv_v1/mixture_component_summary.csv",
+      "source_sha256": "e12b330577d7a82cae2d32d1f2cccaf83b21460912befb6afb87f33343563549",
+      "exported_sha256": "e12b330577d7a82cae2d32d1f2cccaf83b21460912befb6afb87f33343563549",
+      "bytes": 584,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/mixture_fold_summary.csv",
+      "destination": "class2_group_cv_v1/mixture_fold_summary.csv",
+      "source_sha256": "91e0e16d2a3b3d46c66102e51b7275f178fd055a5b087810a482035bfb5cb73d",
+      "exported_sha256": "91e0e16d2a3b3d46c66102e51b7275f178fd055a5b087810a482035bfb5cb73d",
+      "bytes": 608,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/paired_body_bootstrap.csv",
+      "destination": "class2_group_cv_v1/paired_body_bootstrap.csv",
+      "source_sha256": "f2e1f09e8229f66ed16a4320891c09264c83cbcc898f3debcb7e0b0733b3423f",
+      "exported_sha256": "f2e1f09e8229f66ed16a4320891c09264c83cbcc898f3debcb7e0b0733b3423f",
+      "bytes": 2673,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/class2_group_cv_v1/verification.json",
+      "destination": "class2_group_cv_v1/verification.json",
+      "source_sha256": "de6193417910ea949c8b10be6b279a17ca6ae6856dffaeee5f3d7f9ef99b86c0",
+      "exported_sha256": "de6193417910ea949c8b10be6b279a17ca6ae6856dffaeee5f3d7f9ef99b86c0",
+      "bytes": 305,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/herai_error_analysis_20261110/class_errors.csv",
+      "destination": "herai_error_analysis_20261110/class_errors.csv",
+      "source_sha256": "0637f0d565ca6c13ba2c7e1c7236de7ef6ee1ff58844af59f8e69acb893c9086",
+      "exported_sha256": "0637f0d565ca6c13ba2c7e1c7236de7ef6ee1ff58844af59f8e69acb893c9086",
+      "bytes": 1342,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/herai_error_analysis_20261110/class_priors.csv",
+      "destination": "herai_error_analysis_20261110/class_priors.csv",
+      "source_sha256": "ec1c56fc6d1c853571046701398e7e689fa3fd68f2693694bfe6da36c65b76a9",
+      "exported_sha256": "ec1c56fc6d1c853571046701398e7e689fa3fd68f2693694bfe6da36c65b76a9",
+      "bytes": 933,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/herai_error_analysis_20261110/feature_shift.png",
+      "destination": "herai_error_analysis_20261110/feature_shift.png",
+      "source_sha256": "940658da16688cf384a01cd3031d2eb13b44f5ae048e38ff7333fdccd4496985",
+      "exported_sha256": "940658da16688cf384a01cd3031d2eb13b44f5ae048e38ff7333fdccd4496985",
+      "bytes": 124946,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/herai_error_analysis_20261110/model_overlap.csv",
+      "destination": "herai_error_analysis_20261110/model_overlap.csv",
+      "source_sha256": "550ced9656f5a60bcbf3503083c449854e22af5e53cb0666c73eae2325d9d9e2",
+      "exported_sha256": "550ced9656f5a60bcbf3503083c449854e22af5e53cb0666c73eae2325d9d9e2",
+      "bytes": 5857,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/herai_error_analysis_20261110/model_overlap.png",
+      "destination": "herai_error_analysis_20261110/model_overlap.png",
+      "source_sha256": "f383c1607e16516ea1f1f440ee62b7ed553770a43813c7b2b643a3c407f67a44",
+      "exported_sha256": "f383c1607e16516ea1f1f440ee62b7ed553770a43813c7b2b643a3c407f67a44",
+      "bytes": 144738,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/herai_error_analysis_20261110/source_errors.csv",
+      "destination": "herai_error_analysis_20261110/source_errors.csv",
+      "source_sha256": "b5be8a99b8a42162c13fc4c1b7b0067c23927450e996a3b865f48338bbe1d6a0",
+      "exported_sha256": "b5be8a99b8a42162c13fc4c1b7b0067c23927450e996a3b865f48338bbe1d6a0",
+      "bytes": 1438,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/herai_error_analysis_20261110/specimen_errors.csv",
+      "destination": "herai_error_analysis_20261110/specimen_errors.csv",
+      "source_sha256": "4a1bd91b9c55fe45c75b9596393e3226cf96b2b884e120b0badc7cbae6ee9bc5",
+      "exported_sha256": "4a1bd91b9c55fe45c75b9596393e3226cf96b2b884e120b0badc7cbae6ee9bc5",
+      "bytes": 2782,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/herai_error_analysis_20261110/validation_anchor_case.png",
+      "destination": "herai_error_analysis_20261110/validation_anchor_case.png",
+      "source_sha256": "13a0ccfde7c304313653ec38618b687504ee95293b93d0fbe85f91f85d8b0a42",
+      "exported_sha256": "13a0ccfde7c304313653ec38618b687504ee95293b93d0fbe85f91f85d8b0a42",
+      "bytes": 159257,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/herai_error_analysis_20261110/validation_signal_pairs.png",
+      "destination": "herai_error_analysis_20261110/validation_signal_pairs.png",
+      "source_sha256": "3c2cc17a75ffb0702215c21793311de68b8f7f1f266ef7cbce5bf7da20ea2343",
+      "exported_sha256": "3c2cc17a75ffb0702215c21793311de68b8f7f1f266ef7cbce5bf7da20ea2343",
+      "bytes": 328913,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/herai_error_analysis_20261110/validation_spatial.png",
+      "destination": "herai_error_analysis_20261110/validation_spatial.png",
+      "source_sha256": "53ef3cb06ade035ba293388416289840185ac2e5aa99f0b02140e1e4e32d14a9",
+      "exported_sha256": "53ef3cb06ade035ba293388416289840185ac2e5aa99f0b02140e1e4e32d14a9",
+      "bytes": 321518,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/herai_error_analysis_20261110/validation_specimen_errors.png",
+      "destination": "herai_error_analysis_20261110/validation_specimen_errors.png",
+      "source_sha256": "14e4c43885ac38768fd56abc7df027500e8233380cb8eddb736d5bfbb9df98a8",
+      "exported_sha256": "14e4c43885ac38768fd56abc7df027500e8233380cb8eddb736d5bfbb9df98a8",
+      "bytes": 124940,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/herai_error_analysis_20261110/verification.json",
+      "destination": "herai_error_analysis_20261110/verification.json",
+      "source_sha256": "750e29a29bc0cab8961d9604bb7180165bc7a16b006547a4165b26de75fd88ce",
+      "exported_sha256": "750e29a29bc0cab8961d9604bb7180165bc7a16b006547a4165b26de75fd88ce",
+      "bytes": 4043,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/specimen_holdout_v1/baseline/performance_by_source_dataset.csv",
+      "destination": "specimen_holdout_v1/baseline/performance_by_source_dataset.csv",
+      "source_sha256": "957362c65ed63467abc9c96ff748c3262834ea4a0c11c338c47ce66c355eac02",
+      "exported_sha256": "957362c65ed63467abc9c96ff748c3262834ea4a0c11c338c47ce66c355eac02",
+      "bytes": 14922,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/specimen_holdout_v1/baseline/performance_by_specimen_id.csv",
+      "destination": "specimen_holdout_v1/baseline/performance_by_specimen_id.csv",
+      "source_sha256": "46b6fdbb7797f79ff84ed3b4f2857c211408216f3107f8906a820f073542ced9",
+      "exported_sha256": "46b6fdbb7797f79ff84ed3b4f2857c211408216f3107f8906a820f073542ced9",
+      "bytes": 28848,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/specimen_holdout_v1/baseline/results.csv",
+      "destination": "specimen_holdout_v1/baseline/results.csv",
+      "source_sha256": "e7104860f4d316f77b47dedf986682bbb334c2755a4742ae2e6a2ca291d96a8e",
+      "exported_sha256": "e7104860f4d316f77b47dedf986682bbb334c2755a4742ae2e6a2ca291d96a8e",
+      "bytes": 5833,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/specimen_holdout_v1/baseline/verification.json",
+      "destination": "specimen_holdout_v1/baseline/verification.json",
+      "source_sha256": "528192733c1367a358269ead84c7bb857f606b71639d62d6217b927ce6b4f434",
+      "exported_sha256": "528192733c1367a358269ead84c7bb857f606b71639d62d6217b927ce6b4f434",
+      "bytes": 555,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/specimen_manual52_v1/baseline/performance_by_source_dataset.csv",
+      "destination": "specimen_manual52_v1/baseline/performance_by_source_dataset.csv",
+      "source_sha256": "fe236836d6942c1b25a3a74c95a0f60197af7b251cc1e863401bd5bd1bc3f028",
+      "exported_sha256": "fe236836d6942c1b25a3a74c95a0f60197af7b251cc1e863401bd5bd1bc3f028",
+      "bytes": 15640,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/specimen_manual52_v1/baseline/performance_by_specimen_id.csv",
+      "destination": "specimen_manual52_v1/baseline/performance_by_specimen_id.csv",
+      "source_sha256": "29568640a57cc4d2ce9175aca4d032898e9e4690f555597a52f29b92ffc810d8",
+      "exported_sha256": "29568640a57cc4d2ce9175aca4d032898e9e4690f555597a52f29b92ffc810d8",
+      "bytes": 30479,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/specimen_manual52_v1/baseline/results.csv",
+      "destination": "specimen_manual52_v1/baseline/results.csv",
+      "source_sha256": "5c8be965b50388f85fbdf0bb22f250120c6c2d4f218597c5ba6a8e5d9c56d4ef",
+      "exported_sha256": "5c8be965b50388f85fbdf0bb22f250120c6c2d4f218597c5ba6a8e5d9c56d4ef",
+      "bytes": 5817,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/specimen_manual52_v1/baseline/verification.json",
+      "destination": "specimen_manual52_v1/baseline/verification.json",
+      "source_sha256": "9421ed26478cc96e586f28664697c8beb5717e344512f7d6aeff022bcc335dfa",
+      "exported_sha256": "9421ed26478cc96e586f28664697c8beb5717e344512f7d6aeff022bcc335dfa",
+      "bytes": 554,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/specimen_manual52_v1/exploratory_test_comparison.csv",
+      "destination": "specimen_manual52_v1/exploratory_test_comparison.csv",
+      "source_sha256": "458dab310a44b9a5c4dd8027a25e54d26ea09ffd70b8914a25039461e0aeeda3",
+      "exported_sha256": "458dab310a44b9a5c4dd8027a25e54d26ea09ffd70b8914a25039461e0aeeda3",
+      "bytes": 3791,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/specimen_manual52_v1/validation_assessment.json",
+      "destination": "specimen_manual52_v1/validation_assessment.json",
+      "source_sha256": "503a1177121aae4656a1a59516aaf51e3343dcd95aed8b8e9854ae08c2384fe1",
+      "exported_sha256": "503a1177121aae4656a1a59516aaf51e3343dcd95aed8b8e9854ae08c2384fe1",
+      "bytes": 727,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/specimen_manual52_v1/validation_comparison.csv",
+      "destination": "specimen_manual52_v1/validation_comparison.csv",
+      "source_sha256": "3fabc1ca8c6f8e7d6d00ab07e2643b4263f474e902ccf2be14ba25c0ceefffa8",
+      "exported_sha256": "3fabc1ca8c6f8e7d6d00ab07e2643b4263f474e902ccf2be14ba25c0ceefffa8",
+      "bytes": 3665,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/surface_anchor_review_20261110/annotation_consistency.csv",
+      "destination": "surface_anchor_review_20261110/annotation_consistency.csv",
+      "source_sha256": "703187b13200f09e45213aef79f79f85334c525aba08f411fa3d087bcdf1a3cb",
+      "exported_sha256": "703187b13200f09e45213aef79f79f85334c525aba08f411fa3d087bcdf1a3cb",
+      "bytes": 99,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/surface_anchor_review_20261110/diagnostic_medians.csv",
+      "destination": "surface_anchor_review_20261110/diagnostic_medians.csv",
+      "source_sha256": "03c85d5cc5af26152442252c9ffc8315db44343c69da9e2233098c779b71320c",
+      "exported_sha256": "03c85d5cc5af26152442252c9ffc8315db44343c69da9e2233098c779b71320c",
+      "bytes": 6477,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/surface_anchor_review_20261110/late_anchor_windows.png",
+      "destination": "surface_anchor_review_20261110/late_anchor_windows.png",
+      "source_sha256": "2a8c809022293ebe3b3f91e6feb12df5bed081be5be3d8ea0c5432d012f51ea7",
+      "exported_sha256": "2a8c809022293ebe3b3f91e6feb12df5bed081be5be3d8ea0c5432d012f51ea7",
+      "bytes": 166316,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/surface_anchor_review_20261110/metal_reference_pulses.png",
+      "destination": "surface_anchor_review_20261110/metal_reference_pulses.png",
+      "source_sha256": "ab774692cb412850a093d37050810c553f20cdcf65e478a27538fe72390765f1",
+      "exported_sha256": "ab774692cb412850a093d37050810c553f20cdcf65e478a27538fe72390765f1",
+      "bytes": 184745,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/surface_anchor_review_20261110/representative_raw_pairs.png",
+      "destination": "surface_anchor_review_20261110/representative_raw_pairs.png",
+      "source_sha256": "08385e3d2ef1530f2ca21c2acfbbd0f0e481478ac6c3a945c0ded61d7bad10dc",
+      "exported_sha256": "08385e3d2ef1530f2ca21c2acfbbd0f0e481478ac6c3a945c0ded61d7bad10dc",
+      "bytes": 558359,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/surface_anchor_review_20261110/transect_messreihe_1_pk_07.png",
+      "destination": "surface_anchor_review_20261110/transect_messreihe_1_pk_07.png",
+      "source_sha256": "72b886f4cfe3423bf81e60ea6bda1941d558eda33caa357a5c02740018d5a5a3",
+      "exported_sha256": "72b886f4cfe3423bf81e60ea6bda1941d558eda33caa357a5c02740018d5a5a3",
+      "bytes": 202208,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/surface_anchor_review_20261110/transect_messreihe_1_pk_11.png",
+      "destination": "surface_anchor_review_20261110/transect_messreihe_1_pk_11.png",
+      "source_sha256": "f7944d82dafbe925e991ced912af0b1a4d1077794b080df07735ae3f5c3f0b41",
+      "exported_sha256": "f7944d82dafbe925e991ced912af0b1a4d1077794b080df07735ae3f5c3f0b41",
+      "bytes": 177880,
+      "columns": null
+    },
+    {
+      "source": "results/analysis/surface_anchor_review_20261110/verification.json",
+      "destination": "surface_anchor_review_20261110/verification.json",
+      "source_sha256": "c8881cbcb19e603dd7d51faf5a33d327177dcf3f3d53c36bccccc53be33fca4e",
+      "exported_sha256": "c8881cbcb19e603dd7d51faf5a33d327177dcf3f3d53c36bccccc53be33fca4e",
+      "bytes": 2164,
+      "columns": null
+    },
+    {
+      "source": "results/experiments/tsfresh_comparison_20261106T151623Z_5b9eb97a/validation_results.csv",
+      "destination": "tsfresh_comparison_20261106T151623Z_5b9eb97a/validation_results.csv",
+      "source_sha256": "de6bf6378bd9b117663e440160e3899f19a8712ad3c560f4d99597641db58319",
+      "exported_sha256": "88e2d7b1c5646d5ead7f7f90ddc2586f5020bb544ac9df8cd459345152822a91",
+      "bytes": 682,
+      "columns": [
+        "model",
+        "run_id",
+        "status",
+        "n_features",
+        "accuracy",
+        "balanced_accuracy",
+        "macro_f1",
+        "weighted_f1",
+        "critical_errors",
+        "critical_error_rate",
+        "false_alarms",
+        "false_alarm_rate"
+      ]
+    },
+    {
+      "source": "results/experiments/tsfresh_comparison_20261106T160800Z_5b61f342/validation_results.csv",
+      "destination": "tsfresh_comparison_20261106T160800Z_5b61f342/validation_results.csv",
+      "source_sha256": "d61f85e00d1bda8dd129786fe3f9e9bf23ced8b46444874860bc46f8175cdf1b",
+      "exported_sha256": "73425909a2b326864556265d16f5e39ba170b02f4e4ce48527504bf5845c0670",
+      "bytes": 1380,
+      "columns": [
+        "model",
+        "run_id",
+        "status",
+        "n_features",
+        "accuracy",
+        "balanced_accuracy",
+        "macro_f1",
+        "weighted_f1",
+        "critical_errors",
+        "critical_error_rate",
+        "false_alarms",
+        "false_alarm_rate"
+      ]
+    }
+  ]
+}

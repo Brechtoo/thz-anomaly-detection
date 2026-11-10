@@ -1,0 +1,258 @@
+[
+  {
+    "source": "results/experiments/anchor_group_cv_v1/body_direction_counts.csv",
+    "destination": "anchor_group_cv_v1/body_direction_counts.csv"
+  },
+  {
+    "source": "results/experiments/anchor_group_cv_v1/cv/fold_metrics.csv",
+    "destination": "anchor_group_cv_v1/cv/fold_metrics.csv"
+  },
+  {
+    "source": "results/experiments/anchor_group_cv_v1/cv/pooled_oof_metrics.csv",
+    "destination": "anchor_group_cv_v1/cv/pooled_oof_metrics.csv"
+  },
+  {
+    "source": "results/experiments/anchor_group_cv_v1/cv/specimen_oof_metrics.csv",
+    "destination": "anchor_group_cv_v1/cv/specimen_oof_metrics.csv"
+  },
+  {
+    "source": "results/experiments/anchor_group_cv_v1/extraction_failure_outcomes.csv",
+    "destination": "anchor_group_cv_v1/extraction_failure_outcomes.csv"
+  },
+  {
+    "source": "results/experiments/anchor_group_cv_v1/metadata/versions.json",
+    "destination": "anchor_group_cv_v1/metadata/versions.json"
+  },
+  {
+    "source": "results/experiments/anchor_group_cv_v1/oof_comparison.png",
+    "destination": "anchor_group_cv_v1/oof_comparison.png"
+  },
+  {
+    "source": "results/experiments/anchor_group_cv_v1/paired_oof_deltas.csv",
+    "destination": "anchor_group_cv_v1/paired_oof_deltas.csv"
+  },
+  {
+    "source": "results/experiments/anchor_group_cv_v1/verification.json",
+    "destination": "anchor_group_cv_v1/verification.json"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/class2_assignment_summary.csv",
+    "destination": "class2_group_cv_v1/class2_assignment_summary.csv"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/class2_body_context.csv",
+    "destination": "class2_group_cv_v1/class2_body_context.csv"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/class2_example_waves.png",
+    "destination": "class2_group_cv_v1/class2_example_waves.png"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/class2_feature_space.png",
+    "destination": "class2_group_cv_v1/class2_feature_space.png"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/class2_probabilities.png",
+    "destination": "class2_group_cv_v1/class2_probabilities.png"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/class2_spatial_maps.png",
+    "destination": "class2_group_cv_v1/class2_spatial_maps.png"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/critical_error_stability.png",
+    "destination": "class2_group_cv_v1/critical_error_stability.png"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/known_class_comparison.png",
+    "destination": "class2_group_cv_v1/known_class_comparison.png"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/known_metrics.csv",
+    "destination": "class2_group_cv_v1/known_metrics.csv"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/metadata/versions.json",
+    "destination": "class2_group_cv_v1/metadata/versions.json"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/mixture_body_summary.csv",
+    "destination": "class2_group_cv_v1/mixture_body_summary.csv"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/mixture_component_summary.csv",
+    "destination": "class2_group_cv_v1/mixture_component_summary.csv"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/mixture_fold_summary.csv",
+    "destination": "class2_group_cv_v1/mixture_fold_summary.csv"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/paired_body_bootstrap.csv",
+    "destination": "class2_group_cv_v1/paired_body_bootstrap.csv"
+  },
+  {
+    "source": "results/experiments/class2_group_cv_v1/verification.json",
+    "destination": "class2_group_cv_v1/verification.json"
+  },
+  {
+    "source": "results/analysis/herai_error_analysis_20261110/class_errors.csv",
+    "destination": "herai_error_analysis_20261110/class_errors.csv"
+  },
+  {
+    "source": "results/analysis/herai_error_analysis_20261110/class_priors.csv",
+    "destination": "herai_error_analysis_20261110/class_priors.csv"
+  },
+  {
+    "source": "results/analysis/herai_error_analysis_20261110/feature_shift.png",
+    "destination": "herai_error_analysis_20261110/feature_shift.png"
+  },
+  {
+    "source": "results/analysis/herai_error_analysis_20261110/model_overlap.csv",
+    "destination": "herai_error_analysis_20261110/model_overlap.csv"
+  },
+  {
+    "source": "results/analysis/herai_error_analysis_20261110/model_overlap.png",
+    "destination": "herai_error_analysis_20261110/model_overlap.png"
+  },
+  {
+    "source": "results/analysis/herai_error_analysis_20261110/source_errors.csv",
+    "destination": "herai_error_analysis_20261110/source_errors.csv"
+  },
+  {
+    "source": "results/analysis/herai_error_analysis_20261110/specimen_errors.csv",
+    "destination": "herai_error_analysis_20261110/specimen_errors.csv"
+  },
+  {
+    "source": "results/analysis/herai_error_analysis_20261110/validation_anchor_case.png",
+    "destination": "herai_error_analysis_20261110/validation_anchor_case.png"
+  },
+  {
+    "source": "results/analysis/herai_error_analysis_20261110/validation_signal_pairs.png",
+    "destination": "herai_error_analysis_20261110/validation_signal_pairs.png"
+  },
+  {
+    "source": "results/analysis/herai_error_analysis_20261110/validation_spatial.png",
+    "destination": "herai_error_analysis_20261110/validation_spatial.png"
+  },
+  {
+    "source": "results/analysis/herai_error_analysis_20261110/validation_specimen_errors.png",
+    "destination": "herai_error_analysis_20261110/validation_specimen_errors.png"
+  },
+  {
+    "source": "results/analysis/herai_error_analysis_20261110/verification.json",
+    "destination": "herai_error_analysis_20261110/verification.json"
+  },
+  {
+    "source": "results/experiments/specimen_holdout_v1/baseline/performance_by_source_dataset.csv",
+    "destination": "specimen_holdout_v1/baseline/performance_by_source_dataset.csv"
+  },
+  {
+    "source": "results/experiments/specimen_holdout_v1/baseline/performance_by_specimen_id.csv",
+    "destination": "specimen_holdout_v1/baseline/performance_by_specimen_id.csv"
+  },
+  {
+    "source": "results/experiments/specimen_holdout_v1/baseline/results.csv",
+    "destination": "specimen_holdout_v1/baseline/results.csv"
+  },
+  {
+    "source": "results/experiments/specimen_holdout_v1/baseline/verification.json",
+    "destination": "specimen_holdout_v1/baseline/verification.json"
+  },
+  {
+    "source": "results/experiments/specimen_manual52_v1/baseline/performance_by_source_dataset.csv",
+    "destination": "specimen_manual52_v1/baseline/performance_by_source_dataset.csv"
+  },
+  {
+    "source": "results/experiments/specimen_manual52_v1/baseline/performance_by_specimen_id.csv",
+    "destination": "specimen_manual52_v1/baseline/performance_by_specimen_id.csv"
+  },
+  {
+    "source": "results/experiments/specimen_manual52_v1/baseline/results.csv",
+    "destination": "specimen_manual52_v1/baseline/results.csv"
+  },
+  {
+    "source": "results/experiments/specimen_manual52_v1/baseline/verification.json",
+    "destination": "specimen_manual52_v1/baseline/verification.json"
+  },
+  {
+    "source": "results/experiments/specimen_manual52_v1/exploratory_test_comparison.csv",
+    "destination": "specimen_manual52_v1/exploratory_test_comparison.csv"
+  },
+  {
+    "source": "results/experiments/specimen_manual52_v1/validation_assessment.json",
+    "destination": "specimen_manual52_v1/validation_assessment.json"
+  },
+  {
+    "source": "results/experiments/specimen_manual52_v1/validation_comparison.csv",
+    "destination": "specimen_manual52_v1/validation_comparison.csv"
+  },
+  {
+    "source": "results/analysis/surface_anchor_review_20261110/annotation_consistency.csv",
+    "destination": "surface_anchor_review_20261110/annotation_consistency.csv"
+  },
+  {
+    "source": "results/analysis/surface_anchor_review_20261110/diagnostic_medians.csv",
+    "destination": "surface_anchor_review_20261110/diagnostic_medians.csv"
+  },
+  {
+    "source": "results/analysis/surface_anchor_review_20261110/late_anchor_windows.png",
+    "destination": "surface_anchor_review_20261110/late_anchor_windows.png"
+  },
+  {
+    "source": "results/analysis/surface_anchor_review_20261110/metal_reference_pulses.png",
+    "destination": "surface_anchor_review_20261110/metal_reference_pulses.png"
+  },
+  {
+    "source": "results/analysis/surface_anchor_review_20261110/representative_raw_pairs.png",
+    "destination": "surface_anchor_review_20261110/representative_raw_pairs.png"
+  },
+  {
+    "source": "results/analysis/surface_anchor_review_20261110/transect_messreihe_1_pk_07.png",
+    "destination": "surface_anchor_review_20261110/transect_messreihe_1_pk_07.png"
+  },
+  {
+    "source": "results/analysis/surface_anchor_review_20261110/transect_messreihe_1_pk_11.png",
+    "destination": "surface_anchor_review_20261110/transect_messreihe_1_pk_11.png"
+  },
+  {
+    "source": "results/analysis/surface_anchor_review_20261110/verification.json",
+    "destination": "surface_anchor_review_20261110/verification.json"
+  },
+  {
+    "source": "results/experiments/tsfresh_comparison_20261106T151623Z_5b9eb97a/validation_results.csv",
+    "destination": "tsfresh_comparison_20261106T151623Z_5b9eb97a/validation_results.csv",
+    "columns": [
+      "model",
+      "run_id",
+      "status",
+      "n_features",
+      "accuracy",
+      "balanced_accuracy",
+      "macro_f1",
+      "weighted_f1",
+      "critical_errors",
+      "critical_error_rate",
+      "false_alarms",
+      "false_alarm_rate"
+    ]
+  },
+  {
+    "source": "results/experiments/tsfresh_comparison_20261106T160800Z_5b61f342/validation_results.csv",
+    "destination": "tsfresh_comparison_20261106T160800Z_5b61f342/validation_results.csv",
+    "columns": [
+      "model",
+      "run_id",
+      "status",
+      "n_features",
+      "accuracy",
+      "balanced_accuracy",
+      "macro_f1",
+      "weighted_f1",
+      "critical_errors",
+      "critical_error_rate",
+      "false_alarms",
+      "false_alarm_rate"
+    ]
+  }
+]

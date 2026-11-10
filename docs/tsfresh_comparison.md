@@ -1,5 +1,14 @@
 # tsfresh-Modellvergleich
 
+**Historischer punktweiser Vergleich mit 701 Features.** Der erste Lauf
+`20261106T151623Z_5b9eb97a` hatte teilweise Speicherfehler; der Folgelauf
+`20261106T160800Z_5b61f342` ist vollständig abgeschlossen.
+[Versionierter Ergebnisauszug](evidence/tsfresh_comparison_20261106T160800Z_5b61f342/validation_results.csv).
+Die folgenden Aufrufe dokumentieren diesen früheren Workflow. Die aktuelle
+Referenzsperre lehnt dessen ursprüngliche Tabellen mit Metallreferenzen bewusst ab.
+Für neue Experimente den [Prüfkörper-Holdout](specimen_holdout.md) verwenden;
+historische Konfigurationen nicht stillschweigend auf andere Tabellen umstellen.
+
 Zusätzliche Modellpakete installieren und anschließend starten:
 
 ```sh
@@ -17,7 +26,9 @@ führen dadurch vor dem ersten Training zum Abbruch.
 Feature-Tabelle, Extraktionsmetadaten und des bestehenden Split-Manifests sowie
 Feature-Reihenfolge und Seed. Neue Tabellen benötigen eine bewusst aktualisierte
 Vergleichskonfiguration. Die eingefrorenen HGB-Manifeste bleiben unverändert.
-Der bisherige HGB-Ablauf ist mit `--baseline` weiterhin ausführbar.
+Der historische HGB-Codepfad wird mit `--baseline` ausgewählt; die heutige
+Referenzsperre gilt auch dort. Exakte historische Nachprüfung benötigt den
+ausgeführten archivierten Quellstand und die ursprünglichen Eingaben.
 
 Jede Pipeline entfernt auf Trainingsdaten konstante Features. LR, MLP und SVM
 verwenden zusätzlich StandardScaler, ebenfalls nur auf Trainingsdaten angepasst.

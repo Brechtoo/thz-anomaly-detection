@@ -17,7 +17,7 @@ Beispiel für eine kleine Vorprüfung (liest auch Dateigrößen des gesamten Kat
 
 ```sh
 .venv/bin/python scripts/reproducibility/feature_probe.py \
-  --catalog results/measurements/combined_dataset.csv \
+  --catalog data/measurements/combined_dataset.csv \
   --reference results/feature_tables/feature_table.csv \
   --output-dir results/reproducibility_checks/new_probe
 ```
@@ -31,6 +31,8 @@ allein bestätigt nicht, dass sämtliche numerischen Vergleichskriterien erfüll
 
 Split-Manifeste, Lockdatei und Referenztabellen werden weiterhin aus dem Projekt
 verwendet. Der Modellvergleich schützt auch die vorhandene `mlflow.db` per Hash.
+Alte Logs nennen weiterhin `results/measurements/`; der aktive Katalogpfad ist
+inzwischen `data/measurements/`. Historische Logs und Prüfsummen werden nicht geändert.
 Die Katalogprüfung verwendet historische Eingabe- und Quellcodehashes: bei einem
 abweichenden Daten-/Code-Stand bricht sie absichtlich ab. Das ist keine portable
 Rekonstruktion der ursprünglichen absoluten Messpfade. Die Probe verwendet wie

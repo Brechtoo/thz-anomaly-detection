@@ -1,0 +1,145 @@
+{
+  "date": "2026-11-10",
+  "head_unchanged": true,
+  "branch_and_staged_diff_unchanged": true,
+  "protected_scientific_files": 75946,
+  "changed_scientific_files": [],
+  "selected_evidence_files": 57,
+  "selected_evidence_bytes": 5476282,
+  "evidence_source_and_export_hashes_verified": true,
+  "new_model_database_or_cache_files": [],
+  "new_files_over_10MB": [],
+  "python_files_compiled": 99,
+  "safe_imported_modules": 23,
+  "maintained_document_links": 56,
+  "ruff": "passed",
+  "pip_check": "passed",
+  "tests": {
+    "isolated_candidate_checkout": {
+      "passed": 182,
+      "warnings": 7
+    },
+    "working_tree_before_final_metadata_test": {
+      "passed": 181,
+      "warnings": 7
+    },
+    "final_metadata_test": {
+      "passed": 1
+    }
+  },
+  "secret_pattern_scan": "no matches in inspected candidate text files; not exhaustive",
+  "cache_cleanup": [
+    {
+      "path": ".pytest_cache",
+      "files": 5,
+      "bytes": 21713
+    },
+    {
+      "path": ".ruff_cache",
+      "files": 66,
+      "bytes": 21878
+    },
+    {
+      "path": "src/__pycache__",
+      "files": 2,
+      "bytes": 5794
+    },
+    {
+      "path": "src/unsupervised/processing/__pycache__",
+      "files": 2,
+      "bytes": 3830
+    },
+    {
+      "path": "src/unsupervised/experiments/__pycache__",
+      "files": 3,
+      "bytes": 10095
+    },
+    {
+      "path": "src/unsupervised/models/__pycache__",
+      "files": 3,
+      "bytes": 2984
+    },
+    {
+      "path": "src/generalization/__pycache__",
+      "files": 3,
+      "bytes": 19375
+    },
+    {
+      "path": "src/analysis/__pycache__",
+      "files": 9,
+      "bytes": 126361
+    },
+    {
+      "path": "src/experiments/__pycache__",
+      "files": 13,
+      "bytes": 114611
+    },
+    {
+      "path": "src/transformer/__pycache__",
+      "files": 2,
+      "bytes": 8228
+    },
+    {
+      "path": "src/features/__pycache__",
+      "files": 16,
+      "bytes": 90592
+    },
+    {
+      "path": "src/models/__pycache__",
+      "files": 9,
+      "bytes": 10882
+    },
+    {
+      "path": "src/evaluation/__pycache__",
+      "files": 6,
+      "bytes": 18783
+    },
+    {
+      "path": "src/data/__pycache__",
+      "files": 8,
+      "bytes": 37737
+    },
+    {
+      "path": "src/data/labeling/__pycache__",
+      "files": 5,
+      "bytes": 20472
+    },
+    {
+      "path": "tests/experiments/__pycache__",
+      "files": 3,
+      "bytes": 57826
+    },
+    {
+      "path": "tests/features/__pycache__",
+      "files": 6,
+      "bytes": 74346
+    },
+    {
+      "path": "tests/scripts/__pycache__",
+      "files": 3,
+      "bytes": 21374
+    },
+    {
+      "path": "tests/evaluation/__pycache__",
+      "files": 8,
+      "bytes": 106914
+    },
+    {
+      "path": "tests/data/__pycache__",
+      "files": 6,
+      "bytes": 79145
+    },
+    {
+      "path": "scripts/maintenance/__pycache__",
+      "files": 1,
+      "bytes": 5991
+    },
+    {
+      "path": ".DS_Store",
+      "files": 1,
+      "bytes": 6148
+    }
+  ],
+  "historical_tracking_copy_paths_verified": 48864,
+  "nested_source_tracking_store_files_verified": 3525
+}

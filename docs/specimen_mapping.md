@@ -2,7 +2,7 @@
 
 **Aktueller Stand:** Die drei oberen Flächen sind als Metallreferenzen bestätigt.
 Für neue Experimente ausschließlich `data/metadata_reference_excluded/` verwenden;
-Gruppen-Holdout und Folgeexperimente stehen im Experimentkatalog (`docs/experiments.md`, folgt separat).
+Gruppen-Holdout und Folgeexperimente stehen im [Experimentkatalog](experiments.md).
 Der folgende erste Abschnitt dokumentiert den unveränderten historischen Kandidatenstand.
 
 Aus dem unveränderten kombinierten Katalog (53.192 Punkte) wurden pro Messreihe
@@ -74,7 +74,7 @@ und Quelleninformationen gehören ebenfalls ausschließlich zu Metadaten.
 Die zentrale `prepare_dataset`-Funktion entfernt die optional angefügte
 `specimen_id`; die bestehende Feature-Erzeugung übernimmt sie nicht.
 Die ursprüngliche Forderung nach separat geprüften Gruppensplits ist inzwischen
-im Prüfkörper-Holdout (`docs/specimen_holdout.md`, folgt separat) umgesetzt. Die physische Wiederverwendung
+im [Prüfkörper-Holdout](specimen_holdout.md) umgesetzt. Die physische Wiederverwendung
 zwischen Reihen bleibt weiterhin ungeklärt. Historische Splits bleiben unverändert.
 
 ## Aktualisierung: bestätigte Referenzmessungen

@@ -1,94 +1,94 @@
-# THz-TDS Anomalieerkennung
+# HeRAI – THz-Hohlraumerkennung
 
-Dieses Repository enthält die im Rahmen einer Bachelorarbeit entwickelte Machine-Learning-Pipeline zur automatisierten Erkennung von Hohlräumen in THz-TDS-Reflexionsmessungen.
-Das Projekt betrachtet sowohl überwachte als auch unüberwachte Verfahren.
+HeRAI untersucht Hohlräume in THz-TDS-Reflexionsmessungen mit überwachten und
+unüberwachten ML-Verfahren. Schwerpunkt sind reproduzierbare Experimente und
+eine realistische Bewertung unbekannter Prüfkörper.
 
+Labels: **0** schlechte Messqualität, **1** Hohlraum, **2** unsicher, **3** kein
+Hohlraum. Kritisch sind **1/2→3**, False Alarms sind **3→1/2**. Kritische Fehler
+haben bei der Beurteilung Vorrang vor mittleren Gütemaßen.
 
-## Überwachte Modelle
+## Aktueller Forschungsstand
 
-* Multinomiale logistische Regression 
-* Random Forest
-* Histogram-based Gradient Boosting
-* Multi-Layer Perceptron
-* Transformer
-  
+- Die drei metallischen Referenzflächen sind aus neuen Experimenten ausgeschlossen:
+  **52.220 Punkte, 35 räumliche Prüfkörpergruppen** bleiben übrig.
+- `specimen_holdout_v1` friert 23 Trainings-, fünf Validierungs- und sieben Testkörper
+  ein. Die Vergleiche mit 52 manuellen und 708 selektierten tsfresh-Features sind
+  abgeschlossen. Historische tsfresh-Vergleiche verwenden dagegen 701 Features.
+- Anker- und Klasse-2-Ablationen verwenden ausschließlich die 23 Trainingskörper
+  mit drei unveränderten Group-CV-Folds. Alte Validation-/Testkörper werden dort
+  nicht erneut ausgewertet. Frühe Ankerung ist experimentell, physikalisch noch
+  nicht bestätigt; Entfernen von Klasse 2 erhöht kritische Klasse-1-Fehler.
+- Räumliche Gruppen beweisen keine physische Unabhängigkeit zwischen Messreihen.
+  Die Ergebnisse sind Forschungsbefunde, keine Freigabe für einen Einsatz.
 
-## Unüberwachte Verfahren
+Der [Experimentkatalog](docs/experiments.md) verbindet sämtliche bisherigen
+Experimentfamilien mit Berichten, Eingaben, Ergebnissen und lokalen Archiven.
+[Kompakte Ergebnisnachweise](docs/evidence/README.md) sind im Repository vorgesehen;
+vollständige Modelle, Rohdaten, Vorhersagen und MLflow-Stores bleiben lokal.
 
-* Principal Component Analysis (PCA)
-* Isolation Forest
-* Autoencoder
+## Aufbau
 
+| Ordner | Zweck |
+| --- | --- |
+| `src/data/`, `src/features/` | Kataloge, Metadaten, Splits und Feature-Extraktion |
+| `src/experiments/`, `src/evaluation/` | Sieben klassische Modelle, Experimente und Metriken |
+| `src/analysis/` | Fehler-, Signal-, Feature- und Klasse-2-Analysen |
+| `src/models/`, `src/transformer/`, `src/unsupervised/` | Modellimplementierungen und ältere Verfahren |
+| `src/generalization/` | Historische Auswertung externer Messungen |
+| `configs/` | Eingefrorene Splits, Körper-Folds und Feature-/Umgebungsschemata |
+| `data/metadata_reference_excluded/` | Aktuelle Prüfkörperzuordnung; `data/metadata/` ist historisch |
+| `data/measurements/`, `results/feature_tables/` | Lokale Kataloge bzw. generierte Feature-Tabellen; ignoriert |
+| `results/`, `mlruns/` | Historische Referenzen und vollständige lokale Experimente |
+| `docs/`, `scripts/reproducibility/` | Berichte, Auditnachweise und Prüfskripte |
+| `archive/` | Ignorierte lokale Sicherungen während der Projektpflege |
 
-## Projektstruktur
+Die sieben klassischen Modelle sind Logistic Regression, Random Forest, HGB,
+XGBoost, LightGBM, Extra Trees und MLP. RBF-SVM ist in der Registry deaktiviert.
+Transformer, PCA, Isolation Forest und Autoencoder bleiben als historische
+Projektlinien erhalten. Keine bestehenden Ergebnispfade werden umbenannt.
 
-* `src/analysis/` – Feature-Analyse
-* `src/data/` – Laden, Labeln und Split der Daten
-* `src/features/` – Feature-Extraktion 
-* `src/models/` – Überwachte Modelle
-* `src/experiments/` – Training, Experimente und Optimierung
-* `src/evaluation/` – Evaluation und Schwellenwertstrategien
-* `src/unsupervised/` – Unüberwachte Modelle, inkl. Datenvorbereitung und Experimente
-* `src/generalization/` – Tests auf neuen Daten
-* `results/` – Feature-Tabellen, trainierte Modelle und Ergebnisse
+## Umgebung und Prüfungen
 
-
-## Daten
-
-Die für die Machine-Learning-Experimente verarbeiteten und gelabelten Datensätze sowie die erzeugten Feature-Tabellen befinden sich in `results/`.
-
-
-## Reproduzierbarkeit
-
-Die Ergebnisse der Experimente befinden sich in `results/`.
-
-Die Fehlerbewertung verwendet künftig `four_label_v2`. Bereits vorhandene
-Fehlerzählungen und MLflow-Runs stammen aus der alten Rot/Gelb/Grün-Definition
-(`rgy_v1`) und bleiben unverändert. Definitionen, Überschneidungen und der
-Neubewertungsbedarf sind in [docs/error_metrics.md](docs/error_metrics.md) dokumentiert.
-
-Für die HGB-Baseline sind die verwendete Umgebung in `requirements-lock.txt`
-und die geordneten Split-IDs unter `configs/hgb_baseline/splits/` eingefroren.
-Wiederherstellung, Provenienz und Grenzen des Feature-Neuaufbaus beschreibt
-[docs/hgb_reproducibility.md](docs/hgb_reproducibility.md).
-
-Die [Katalog- und Leakage-Prüfung](docs/catalog_reconstruction_and_leakage.md)
-bestätigt die Rekonstruktion aus Originalannotationen und Rohmessungen.
-Die bisherigen Splits verteilen jedoch Punkte derselben Messreihen auf
-Train/Validation/Test. Die Kennzahlen gelten daher für die punktweise
-Within-Scan-Auswertung und belegen keine Generalisierung auf unabhängige neue Scans.
-
-Der [Sessionabschluss vom 02.11.2026](docs/session_closure_2026-11-02.md)
-beschreibt den technischen Baseline-/Audit-Tag, die abschließenden Tests und
-die Auswahl versionierter Reproduzierbarkeitsnachweise.
-
-
-## Reproduzierbarkeitsprüfungen
-
-[Zentraler Überblick, Nachweise und Archivzuordnung](docs/reproducibility_checks.md).
-
-## Automatische Prüfungen
-
-Bei Pushes auf `main` und bei Pull Requests führt GitHub Actions Ruff und die
-gesamte pytest-Suite mit Python 3.12 auf Ubuntu aus. Die Tests verwenden synthetische
-Daten und temporäre lokale MLflow-Datenbanken; lokale THz-Messdaten und externe
-Tracking-Dienste sind nicht erforderlich. Enthalten sind Feature-Berechnung,
-Split-Manifeste mit Prüfsummen, Katalogintegrität, Leakage-Prüfungen und kleine
-Modell-Pipelines mit Serialisierungs-Roundtrips. Es werden keine Artefakte hochgeladen.
-
-Lokal (in der Projekt-venv):
+Python **3.12**, bestehende `.venv` verwenden. Eine neue Entwicklungsumgebung kann
+mit `requirements-dev.txt` und `requirements-comparison.txt` eingerichtet werden:
 
 ```sh
-python -m pip install -r requirements-dev.txt -r requirements-comparison.txt
-python -m ruff check .
-python -m pytest -q -ra
+.venv/bin/python -m pip install -r requirements-dev.txt -r requirements-comparison.txt
+.venv/bin/python -m ruff check .
+MPLBACKEND=Agg .venv/bin/python -m pytest -q -ra
 ```
 
-Ruff prüft zunächst Syntax und ausgewählte Fehlerklassen (E9, F63, F7, F82),
-ohne eine Stilüberarbeitung des Forschungscodes zu erzwingen.
-Die Konfiguration folgt dem [Ruff-Konfigurationsformat](https://docs.astral.sh/ruff/configuration/).
-CI prüft die Software mit auflösbaren Entwicklungsabhängigkeiten; sie reproduziert
-keine wissenschaftlichen Baseline-Ergebnisse. `requirements-lock.txt` bleibt der
-historische Umgebungssnapshot und wird von Dependabot ausgenommen.
-Dependabot prüft Python-Abhängigkeiten und GitHub Actions wöchentlich und erstellt
-Update-PRs; Änderungen werden nicht automatisch zusammengeführt.
+Die Installation ist für eine neue Umgebung gedacht; eine bestehende wissenschaftliche
+Umgebung nicht unbemerkt aktualisieren. `requirements-lock.txt` bleibt der unveränderte
+historische Snapshot. Konkrete Experimente archivieren zusätzliche Paketversionen.
+
+GitHub Actions prüft Ruff und pytest mit Python 3.12 auf Ubuntu, ohne lokale THz-Daten
+oder externe Tracking-Dienste. Ruff prüft `F`, `I`, `E9`. Die Tests verwenden überwiegend
+synthetische Daten; sie reproduzieren keine vollständigen wissenschaftlichen Trainings.
+
+## Daten und Reproduzierbarkeit
+
+Ein frischer Checkout enthält **keine Rohmessungen, vollständigen Feature-Caches oder
+neuen Modelle**. Rohdaten über `THZ_RAW_DATA_DIR` bereitstellen; externe Scans über
+`THZ_EXTERNAL_SCAN_DIR`. Aktive Kataloge liegen unter `data/measurements/`. Eingefrorene
+Kataloge/Run-Metadaten enthalten zum Teil absolute historische Pfade. Sie werden nicht
+automatisch umgeschrieben, weil ihre Prüfsummen zu den Reproduzierbarkeitsnachweisen gehören.
+
+Neue Läufe benötigen neue Ausgabeziele. Reproduktion und Voraussetzungen stehen in
+den jeweiligen Berichten. Keine Trainingsaufrufe ausführen, nur um einen Checkout zu prüfen.
+Die Referenzsperre lehnt alte Tabellen mit Metallreferenzen absichtlich ab.
+
+- [Prüfkörper und Referenzausschluss](docs/specimen_mapping.md)
+- [Gruppen-Holdout und tsfresh-Baseline](docs/specimen_holdout.md)
+- [52 versus 708 Features](docs/specimen_manual52_comparison.md)
+- [Alternative Anker](docs/experimental_anchor_group_cv.md)
+- [Einfluss von Klasse 2](docs/class2_training_group_cv.md)
+- [Fehlerdefinitionen und historische Grenzen](docs/error_metrics.md)
+- [Historische HGB-Reproduktion und Archiv](docs/reproducibility_checks.md)
+- [Commitvorbereitung und offene Risiken](docs/git_preparation.md)
+
+Bereits versionierte historische Ergebnisse bleiben erhalten. Neu generierte große
+Artefakte gehören nicht in Git; kompakte Tabellen und Grafiken werden explizit mit
+Quell- und Exportprüfsummen ausgewählt. Ein Push allein sichert daher keine lokalen
+wissenschaftlichen Daten oder Tracking-Stores.

@@ -43,7 +43,7 @@ from src.evaluation.metrics import (
 from src.evaluation.reporting import save_evaluation_report
 from src.experiments.model_registry import build_models
 from src.experiments.model_serialization import trusted_types_for_model
-from src.experiments.provenance import capture_git_state
+from src.experiments.provenance import capture_git_state, snapshot_source_tree
 from src.experiments.saving import (
     create_experiment_dir,
     save_model,
@@ -250,15 +250,8 @@ def run_model_comparison(config_path=CONFIG_PATH, enabled=None):
         metadata / "feature_extraction.json"
     )
 
-    # Alle Python-Quelldateien archivieren.
-    # rglob durchsucht auch Unterverzeichnisse.
-    for source in (PROJECT_ROOT / "src").rglob("*.py"):
-
-        # Die ursprüngliche Verzeichnisstruktur beibehalten.
-        target = metadata / "source" / source.relative_to(PROJECT_ROOT)
-
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target)
+    # Quellbaum sichern; lokale Tracking-Stores nicht rekursiv mitkopieren.
+    snapshot_source_tree(PROJECT_ROOT / "src", metadata / "source/src")
 
     # ========================================================
     # 4. MLFLOW EINRICHTEN

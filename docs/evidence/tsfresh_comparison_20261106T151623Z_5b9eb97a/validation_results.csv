@@ -1,0 +1,8 @@
+model,run_id,status,n_features,accuracy,balanced_accuracy,macro_f1,weighted_f1,critical_errors,critical_error_rate,false_alarms,false_alarm_rate
+logistic_regression,a4dc63f893694ff78da4cf19a39dad83,FINISHED,701.0,0.9063564798496064,0.8024458378423952,0.8244896492479968,0.901914823042433,346.0,18.492784607161948,141.0,2.577696526508227
+random_forest,119767d87a4640bc845b96d48db5e099,FAILED,,,,,,,,,
+hgb,9ff468f7e8d340908de39aa0be0df951,FAILED,,,,,,,,,
+xgboost,00fd3c25f3584f51992483d1a9737d79,FAILED,,,,,,,,,
+lightgbm,28c450313f724f3fae9c4a646832c07e,FAILED,,,,,,,,,
+extra_trees,65b09a93442c4469af82f116fb0d002c,FAILED,,,,,,,,,
+mlp,f00555b04e7e4603ad2e571682670db6,FAILED,,,,,,,,,
