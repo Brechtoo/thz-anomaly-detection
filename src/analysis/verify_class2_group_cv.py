@@ -1,12 +1,12 @@
 """Reload-only audit of new ablation models, OOF predictions and protected files."""
 import argparse
 import json
-import sqlite3
 from pathlib import Path
 
 import joblib
 import numpy as np
 import pandas as pd
+from mlflow import MlflowClient
 from threadpoolctl import threadpool_limits
 
 from src.data.split_manifest import sha256_file
@@ -17,6 +17,7 @@ from src.experiments.class2_group_cv import (
     training_indices,
 )
 from src.experiments.model_registry import build_models
+from src.experiments.tracking import PROJECT_TRACKING_URI
 
 
 def verify(output):
@@ -73,9 +74,11 @@ def verify(output):
         assert set(fitted['transform_train_ids']) == set(training.instance_id[training.label != 2])
         assert set(fitted['mixture_train_ids']) == set(training.instance_id[training.label == 2])
         mixture_count += 1
-    with sqlite3.connect(f'file:{output.resolve() / "mlflow.db"}?mode=ro', uri=True) as connection:
-        statuses = connection.execute('SELECT status, COUNT(*) FROM runs GROUP BY status').fetchall()
-    assert statuses == [('FINISHED', 42)], statuses
+    local_store = output.resolve() / 'mlflow.db'
+    tracking_uri = 'sqlite:///' + str(local_store) if local_store.is_file() else PROJECT_TRACKING_URI
+    client = MlflowClient(tracking_uri=tracking_uri)
+    statuses = {client.get_run(run_id).info.status for run_id in runs.run_id}
+    assert statuses == {'FINISHED'}, statuses
     result = dict(protected_files_unchanged=len(protected), models_verified=count,
                   imputer_variance_scaler_verified=count, probabilities_predictions_reproduced=count,
                   original_four_class_oof_exact_matches=7, mixture_fold_isolation_verified=mixture_count,

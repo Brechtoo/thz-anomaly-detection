@@ -22,6 +22,7 @@ from src.data.split_manifest import sha256_file
 from src.experiments.anchor_group_cv import SPLITS, fold_pipeline
 from src.experiments.model_registry import build_models
 from src.experiments.provenance import capture_git_state, snapshot_source_tree
+from src.experiments.tracking import set_project_experiment
 from src.paths import PROJECT_ROOT
 
 KNOWN = np.array([0, 1, 3])
@@ -175,10 +176,7 @@ def summarize_predictions(output):
 def run(source, output):
     source, output = Path(source), Path(output)
     data, X = prepare_output(output, source)
-    mlflow.set_tracking_uri("sqlite:///" + str((output / "mlflow.db").resolve()))
-    client = mlflow.MlflowClient()
-    experiment = client.create_experiment("class2-training-bodies-group-cv", artifact_location=(output / "mlartifacts").resolve().as_uri())
-    mlflow.set_experiment(experiment_id=experiment)
+    set_project_experiment("class2-training-bodies-group-cv")
     mlflow.sklearn.autolog(disable=True)
     records = []
     oof = {(arm, name): np.full((len(data), 4), np.nan) for arm in ARMS for name in build_models()}

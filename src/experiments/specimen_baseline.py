@@ -10,7 +10,6 @@ import json
 import os
 import platform
 import shutil
-import time
 import warnings
 from pathlib import Path
 
@@ -18,65 +17,22 @@ import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-from sklearn.metrics import classification_report, confusion_matrix, f1_score
 from threadpoolctl import threadpool_info, threadpool_limits
 
 from src.data.reference_measurements import require_no_references
 from src.data.specimen_splits import load_membership
 from src.data.split_manifest import restore_splits, sha256_file
-from src.evaluation.metrics import (
-    ERROR_METRICS_VERSION,
-    calculate_error_counts,
-    evaluate_predictions,
-)
+from src.evaluation.metrics import ERROR_METRICS_VERSION
+from src.evaluation.reporting import evaluate_holdout
+from src.evaluation.reporting import metrics_for_group as metrics_for_group
 from src.experiments.model_registry import build_models
 from src.experiments.model_serialization import trusted_types_for_model
 from src.experiments.provenance import capture_git_state, snapshot_source_tree
 from src.experiments.saving import save_model
+from src.experiments.tracking import set_project_experiment
+from src.experiments.training import fit_and_predict
 from src.features.specimen_manual import validate_manual_schema
 from src.paths import PROJECT_ROOT
-
-
-def metrics_for_group(truth, prediction):
-    """Reuse four-label error definitions; add fixed-label recall/support.
-
-    A zero error rate with zero denominator is the legacy convention, not
-    evidence of safety. Explicit supports make such group results identifiable.
-    """
-    result = evaluate_predictions(truth, prediction)
-    result = {k: float(v) for k, v in result.items()
-              if k not in ('confusion_matrix', 'classification_report')}
-    result['macro_f1'] = f1_score(truth, prediction, labels=[0, 1, 2, 3], average='macro', zero_division=0)
-    result.update(calculate_error_counts(truth, prediction))
-    report = classification_report(truth, prediction, labels=[0, 1, 2, 3], output_dict=True, zero_division=0)
-    for label in range(4):
-        result[f'recall_{label}'] = report[str(label)]['recall']
-        result[f'support_{label}'] = report[str(label)]['support']
-    result['critical_denominator'] = int(np.isin(truth, [1, 2]).sum())
-    result['false_alarm_denominator'] = int(np.sum(np.asarray(truth) == 3))
-    return result
-
-
-def evaluate_holdout(metadata, prediction, output):
-    """Persist predictions with group keys, full reports and subgroup metrics."""
-    output.mkdir(parents=True, exist_ok=False)
-    predictions = metadata[['instance_id', 'specimen_id', 'source_dataset', 'label']].copy()
-    predictions['prediction'] = prediction
-    predictions.to_csv(output / 'predictions.csv', index=False)
-    truth = predictions.label.to_numpy()
-    metrics = metrics_for_group(truth, prediction)
-    (output / 'metrics.json').write_text(json.dumps(metrics, indent=2) + '\n')
-    pd.DataFrame(confusion_matrix(truth, prediction, labels=[0, 1, 2, 3]),
-                 index=[f'true_{i}' for i in range(4)], columns=[f'pred_{i}' for i in range(4)]).to_csv(output / 'confusion_matrix.csv')
-    pd.DataFrame(classification_report(truth, prediction, labels=[0, 1, 2, 3], output_dict=True, zero_division=0)).T.to_csv(output / 'classification_report.csv')
-    for key in ('specimen_id', 'source_dataset'):
-        rows = []
-        for group, frame in predictions.groupby(key, sort=True):
-            with warnings.catch_warnings():
-                warnings.simplefilter('ignore')  # absent classes are explicit in supports
-                rows.append({key: group, 'points': len(frame), **metrics_for_group(frame.label, frame.prediction)})
-        pd.DataFrame(rows).to_csv(output / f'by_{key}.csv', index=False)
-    return metrics
 
 
 def run_baseline(split_dir, feature_dir, output_dir, seed=42):
@@ -139,11 +95,7 @@ def run_baseline(split_dir, feature_dir, output_dir, seed=42):
         config.update({'feature_set': feature_set, 'validation_role': 'primary feature-set comparison',
                        'test_role': 'exploratory comparison only; not for model or feature-set selection'})
         (provenance / 'config.json').write_text(json.dumps(config, indent=2) + '\n')
-    tracking = output_dir / 'mlflow.db'
-    mlflow.set_tracking_uri('sqlite:///' + str(tracking.resolve()))
-    mlflow.MlflowClient().create_experiment(
-        'thz-specimen-holdout-v1', artifact_location=(output_dir / 'mlartifacts').resolve().as_uri())
-    mlflow.set_experiment('thz-specimen-holdout-v1')
+    set_project_experiment('thz-specimen-holdout-v1')
     mlflow.sklearn.autolog(disable=True)
     rows = []
     for name, model in models.items():
@@ -153,10 +105,9 @@ def run_baseline(split_dir, feature_dir, output_dir, seed=42):
         try:
             with warnings.catch_warnings(record=True) as caught, threadpool_limits(limits=1):
                 warnings.simplefilter('always')
-                start = time.perf_counter()
-                model.fit(train, ytrain)
-                duration = time.perf_counter() - start
-                predictions = {'validation': model.predict(val), 'test': model.predict(test)}
+                predictions, duration, _ = fit_and_predict(
+                    model, train, ytrain, {'validation': val, 'test': test},
+                )
             save_model(model, name, model_dir)
             (provenance / f'{name}_warnings.json').write_text(json.dumps([str(w.message) for w in caught], indent=2) + '\n')
             all_metrics = {}

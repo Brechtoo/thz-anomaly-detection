@@ -7,6 +7,7 @@ pulse. All thresholds below are frozen before CV; no previous holdout is accesse
 from dataclasses import dataclass
 
 import numpy as np
+import pandas as pd
 from scipy.ndimage import gaussian_filter1d
 from scipy.signal import correlate, find_peaks
 
@@ -102,3 +103,22 @@ def extract_variant(path,variant,extension_columns,template=None):
         return result,dict(status='ok',anchor_x=float(x[index]),post_start=start,ncc=score)
     except (ValueError,IndexError,ZeroDivisionError,FloatingPointError) as exc:
         return np.full(len(extension_columns),np.nan),dict(status=str(exc),anchor_x=np.nan,post_start=np.nan,ncc=np.nan)
+
+def _extract_record(task):
+    return extract_variant(*task)
+
+
+def extract_matrix(cohort, base, variant, columns, template, output, pool):
+    """Extract a signal-wise matrix in cohort order and save ID-linked diagnostics."""
+    tasks = [(path, variant, columns, template) for path in cohort.file_path]
+    records = list(pool.map(_extract_record, tasks, chunksize=32))
+    matrix = base.copy()
+    matrix[:, 17:] = np.array([values for values, _ in records])
+    diagnostics = [
+        dict(instance_id=instance_id, **diagnostic)
+        for instance_id, (_, diagnostic) in zip(cohort.instance_id, records)
+    ]
+    pd.DataFrame(diagnostics).to_csv(output.with_suffix('.csv'), index=False)
+    np.savez_compressed(output, X=matrix)
+    failures = sum(row['status'] != 'ok' for row in diagnostics)
+    print(f'Extracted {variant}: failures={failures}/{len(cohort)}', flush=True)

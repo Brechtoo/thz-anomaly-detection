@@ -17,6 +17,7 @@ wurde im Rahmen der Git-Vorbereitung verändert oder erneut trainiert.
 | Signal-/Oberflächenankerdiagnostik | [Bericht](surface_anchor_review_20261110.md) | `results/analysis/surface_anchor_review_20261110/` | Rohsignale/Annotationen; keine Features oder Modelle geändert |
 | Vier Anker-/Fenstervarianten | [Bericht](experimental_anchor_group_cv.md), [OOF](evidence/anchor_group_cv_v1/cv/pooled_oof_metrics.csv) | `results/experiments/anchor_group_cv_v1/` | 84 Fits, ausschließlich 23 Trainingskörper; frühe Ankerung stärkster interner Kandidat |
 | Training mit/ohne Klasse 2 | [Bericht](class2_training_group_cv.md), [Zielmetriken](evidence/class2_group_cv_v1/known_metrics.csv) | `results/experiments/class2_group_cv_v1/` | 42 Fits, gleiche Trainingskörper/Folds; kritische 1→3-Fehler steigen ohne 2 |
+| Frühe manuelle Merkmale plus tsfresh | [Fusionsvergleich](specimen_feature_fusion.md) | `results/feature_tables/specimen_manual52_early_tsfresh_fused_v1.parquet`, `results/experiments/specimen_fusion_v1/` | 8 tabellarische Klassifikatoren, feste Prüfkörper-Folds und Holdouts |
 
 Die drei Körper-Folds sind zusätzlich pfadfrei unter
 `configs/anchor_group_cv_v1/specimen_folds.csv` gespiegelt (23 Zeilen mit ID/Fold).
@@ -43,6 +44,12 @@ bleiben erhalten; ihre Abweichung zu [four_label_v2](error_metrics.md) bleibt si
 
 ## Aufbewahrung und aktive Pfade
 
+- **MLflow für neue Trainingsläufe:** Die überwachten Runner in
+  `src/experiments/` mit MLflow-Anbindung schreiben in die gemeinsame
+  `mlflow.db` im Projektstamm. Neue Experimente legen ihre Artefakte unter
+  `mlruns/<Experimentname>/` ab. Für die UI aus dem Projektstamm
+  `.venv/bin/python -m mlflow ui --backend-store-uri sqlite:///mlflow.db --port 5001` verwenden.
+  Historische Berichte nennen die Speicherorte der jeweils ausgeführten Läufe.
 - **Aktiver Katalog:** `data/measurements/combined_dataset.csv`. Die zentrale
   Pfadkonfiguration ist darauf vereinheitlicht. `results/measurements/` ist ein
   historischer Pfad in alten Berichten/Manifesten und bleibt ebenfalls ignoriert.

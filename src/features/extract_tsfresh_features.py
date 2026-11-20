@@ -107,7 +107,7 @@ def extract_measurement(task):
 # 3. IMPUTATION UND FEATURE-SELEKTION
 # ============================================================
 
-def select_training_features(features, labels, train_index, *, n_jobs=0):
+def select_training_features(features, labels, train_index, *, n_jobs=0, return_ranges=False):
     """
     Ersetzt ungültige Feature-Werte und selektiert Features.
 
@@ -160,7 +160,8 @@ def select_training_features(features, labels, train_index, *, n_jobs=0):
     # aus dem vollständigen DataFrame.
     #
     # Ergebnis: Alle Messungen, aber nur relevante Features.
-    return features.loc[:, selected.columns]
+    result = features.loc[:, selected.columns]
+    return (result, ranges) if return_ranges else result
 
 
 # ============================================================

@@ -5,27 +5,38 @@ from pathlib import Path
 
 import pandas as pd
 
+from src.paths import EXPERIMENTS_ROOT
+
 METRICS = ['accuracy', 'balanced_accuracy', 'macro_f1', 'weighted_f1',
            'critical_errors', 'critical_error_rate', 'false_alarms', 'false_alarm_rate']
 
 
-def paired_comparison(manual, tsfresh, split):
+def paired_comparison(manual, tsfresh, split, *, feature_names=('manual52', 'tsfresh708')):
     """Align fixed models; never pool validation and test observations."""
     left = manual.loc[manual.split.eq(split)].set_index('model').sort_index()
     right = tsfresh.loc[tsfresh.split.eq(split)].set_index('model').sort_index()
     if left.empty or not left.index.is_unique or not right.index.is_unique or not left.index.equals(right.index):
         raise ValueError('Exactly one row per matching model and split required')
     if 'critical_denominator' in left and 'critical_denominator' in right:
-        if not left.critical_denominator.equals(right.critical_denominator):
+        if not left.critical_denominator.eq(right.critical_denominator).all():
             raise ValueError('Critical error supports differ')
+    if 'false_alarm_denominator' in left and 'false_alarm_denominator' in right:
+        if not left.false_alarm_denominator.eq(right.false_alarm_denominator).all():
+            raise ValueError('False alarm supports differ')
+    left_name, right_name = feature_names
+    delta = 'manual_minus_tsfresh' if feature_names == ('manual52', 'tsfresh708') else f'{left_name}_minus_{right_name}'
+    evaluation_role = {
+        'cv': 'training_group_cv',
+        'validation': 'primary_validation_comparison',
+        'test': 'exploratory_test_comparison_not_for_selection',
+    }[split]
     rows = []
     for model in left.index:
-        row = {'model': model, 'evaluation_role': ('primary_validation_comparison' if split == 'validation'
-                                                  else 'exploratory_test_comparison_not_for_selection')}
+        row = {'model': model, 'evaluation_role': evaluation_role}
         for key in METRICS:
-            row[f'manual52_{key}'] = float(left.loc[model, key])
-            row[f'tsfresh708_{key}'] = float(right.loc[model, key])
-            row[f'delta_manual_minus_tsfresh_{key}'] = float(left.loc[model, key] - right.loc[model, key])
+            row[f'{left_name}_{key}'] = float(left.loc[model, key])
+            row[f'{right_name}_{key}'] = float(right.loc[model, key])
+            row[f'delta_{delta}_{key}'] = float(left.loc[model, key] - right.loc[model, key])
         rows.append(row)
     return pd.DataFrame(rows)
 
@@ -63,12 +74,48 @@ def write_comparison(manual_csv, tsfresh_csv, output_dir):
     return summary
 
 
+def write_fusion_comparison(fusion_run, baseline_comparison, output_dir):
+    """Compare the same cohorts and only model pairs that have actual results."""
+    fused_cv = pd.read_csv(fusion_run / 'pooled_oof_metrics.csv').assign(split='cv')
+    fused_holdout = pd.read_csv(fusion_run / 'holdout_metrics.csv')
+    reference_cv = pd.read_csv(baseline_comparison / 'cv_comparison.csv').assign(split='cv')
+    if {'critical_1_support', 'critical_2_support'} <= set(reference_cv):
+        reference_cv['critical_denominator'] = reference_cv.critical_1_support + reference_cv.critical_2_support
+    reference_holdout = pd.read_csv(baseline_comparison / 'holdout_comparison.csv')
+    fused = pd.concat([fused_cv, fused_holdout], ignore_index=True).assign(feature_set='fusion')
+    reference = pd.concat([reference_cv, reference_holdout], ignore_index=True)
+    ranks = pd.concat([fused, reference], ignore_index=True).sort_values(
+        ['split', 'critical_errors', 'false_alarms', 'feature_set', 'model'],
+    )
+    pairs = []
+    for (split, feature_set), right in reference.groupby(['split', 'feature_set'], sort=False):
+        left = fused.loc[fused.split.eq(split) & fused.model.isin(right.model)]
+        paired = paired_comparison(
+            left, right.dropna(axis=1, how='all'), split, feature_names=('fusion', 'reference'),
+        )
+        paired.insert(0, 'split', split)
+        paired.insert(1, 'reference_feature_set', feature_set)
+        pairs.append(paired)
+    output_dir.mkdir(parents=True, exist_ok=False)
+    ranks.to_csv(output_dir / 'ranked_results.csv', index=False)
+    pd.concat(pairs, ignore_index=True).to_csv(output_dir / 'paired_deltas.csv', index=False)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ['manual', 'tsfresh', 'output-dir']:
-        parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--output-dir', type=Path, required=True)
+    parser.add_argument('--manual', type=Path)
+    parser.add_argument('--tsfresh', type=Path)
+    parser.add_argument('--fusion-run', type=Path)
+    parser.add_argument('--baseline-comparison', type=Path,
+                        default=EXPERIMENTS_ROOT / 'svm_group_cv_comparison_v1')
     args = parser.parse_args()
-    print(json.dumps(write_comparison(args.manual, args.tsfresh, args.output_dir), indent=2))
+    if args.fusion_run is not None and args.manual is None and args.tsfresh is None:
+        write_fusion_comparison(args.fusion_run, args.baseline_comparison, args.output_dir)
+    elif args.fusion_run is None and args.manual is not None and args.tsfresh is not None:
+        print(json.dumps(write_comparison(args.manual, args.tsfresh, args.output_dir), indent=2))
+    else:
+        parser.error('Specify --fusion-run or both --manual and --tsfresh')
 
 
 if __name__ == '__main__':

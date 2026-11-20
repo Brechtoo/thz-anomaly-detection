@@ -85,3 +85,5 @@ results/analysis/herai_error_analysis_*/
 results/analysis/surface_anchor_review_*/
 results/experiments/anchor_group_cv_*/
 results/experiments/class2_group_cv_*/
+results/experiments/svm_group_cv_*/
+results/experiments/specimen_fusion_*/

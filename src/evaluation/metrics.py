@@ -9,6 +9,23 @@ from sklearn.metrics import (
 
 ERROR_METRICS_VERSION = "four_label_v2"
 
+
+def critical_breakdown(y_true, y_pred):
+    """Split the critical 1/2 → 3 count by true class."""
+    truth, prediction = np.asarray(y_true), np.asarray(y_pred)
+    result = {}
+    for label in (1, 2):
+        mask = truth == label
+        support = int(mask.sum())
+        count = int((mask & (prediction == 3)).sum())
+        result.update({
+            f"critical_{label}_support": support,
+            f"critical_{label}_errors": count,
+            f"critical_{label}_rate": 100 * count / support if support else np.nan,
+        })
+    return result
+
+
 def evaluate_predictions(y_true, y_pred):
     results = {
         "accuracy": accuracy_score(y_true, y_pred),

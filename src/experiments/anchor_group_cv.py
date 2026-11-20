@@ -8,7 +8,6 @@ post-selection estimate of a winning variant. Existing artifacts are read-only.
 import argparse
 import importlib.metadata
 import json
-import time
 import warnings
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
@@ -25,11 +24,17 @@ from threadpoolctl import threadpool_limits
 
 from src.data.reference_measurements import require_no_references
 from src.data.split_manifest import sha256_file
-from src.evaluation.metrics import calculate_error_counts, evaluate_predictions
+from src.evaluation.metrics import (
+    calculate_error_counts,
+    critical_breakdown,
+    evaluate_predictions,
+)
 from src.experiments.model_registry import build_models
 from src.experiments.provenance import capture_git_state, snapshot_source_tree
+from src.experiments.tracking import set_project_experiment
+from src.experiments.training import fit_and_predict
 from src.features.experimental_anchor_calculator import extension_at_anchor
-from src.features.experimental_anchors import VARIANTS, extract_variant, fit_template
+from src.features.experimental_anchors import VARIANTS, extract_matrix, fit_template
 from src.features.extract_extension_block1_features import (
     extract_extension_block1_features,
 )
@@ -73,19 +78,6 @@ def make_folds(cohort,n_splits=3):
         if set(ordered.label.iloc[train])!={0,1,2,3} or set(ordered.label.iloc[val])!={0,1,2,3}:raise ValueError('Missing class in fold')
         folds[val]=fold
     return ordered,folds
-
-
-def work(task):
-    path,variant,columns,template=task
-    return extract_variant(path,variant,columns,template)
-
-
-def extract_matrix(cohort,base,variant,columns,template,out,pool):
-    records=list(pool.map(work,[(p,variant,columns,template) for p in cohort.file_path],chunksize=32))
-    matrix=base.copy();matrix[:,17:]=np.array([r[0] for r in records])
-    pd.DataFrame([dict(instance_id=i,**r[1]) for i,r in zip(cohort.instance_id,records)]).to_csv(out.with_suffix('.csv'),index=False)
-    np.savez_compressed(out,X=matrix)
-    print(f'Extracted {variant}: failures={sum(r[1]["status"]!="ok" for r in records)}/{len(cohort)}',flush=True)
 
 
 def prepare(output,workers=4):
@@ -140,10 +132,7 @@ def scores(y,pred):
     result=evaluate_predictions(y,pred)
     result={k:float(v) for k,v in result.items() if k not in ['confusion_matrix','classification_report']}
     result.update(calculate_error_counts(y,pred))
-    for label in [1,2]:
-        n=int(np.sum(np.asarray(y)==label));errors=int(np.sum((np.asarray(y)==label)&(np.asarray(pred)==3)))
-        result[f'critical_{label}_support']=n;result[f'critical_{label}_errors']=errors
-        result[f'critical_{label}_rate']=100*errors/n if n else np.nan
+    result.update(critical_breakdown(y,pred))
     return result
 
 
@@ -161,9 +150,7 @@ def train(output):
         if sha256_file(output/'features'/name)!=h:raise ValueError('Features changed')
     data=pd.read_csv(output/'cohort_folds.csv');folds=data.fold.to_numpy();y=data.label.to_numpy()
     destination.mkdir();(destination/'models').mkdir();(destination/'predictions').mkdir()
-    mlflow.set_tracking_uri('sqlite:///'+str((destination/'mlflow.db').resolve()))
-    client=mlflow.MlflowClient();client.create_experiment('anchor-training-bodies-group-cv',artifact_location=(destination/'mlartifacts').resolve().as_uri())
-    mlflow.set_experiment('anchor-training-bodies-group-cv')
+    set_project_experiment('anchor-training-bodies-group-cv')
     mlflow.sklearn.autolog(disable=True)
     rows=[];oof={(variant,name):np.full(len(data),-1) for variant in VARIANTS for name in build_models()}
     for fold in range(3):
@@ -175,7 +162,10 @@ def train(output):
                 print(f'Fold {fold+1}/3 {variant} {name}',flush=True)
                 model=fold_pipeline(factory);params={k:str(v) for k,v in factory.get_params(deep=True).items()}
                 with warnings.catch_warnings(record=True) as caught,threadpool_limits(limits=1):
-                    warnings.simplefilter('always');start=time.perf_counter();model.fit(X[tr],y[tr]);prediction=model.predict(X[va]);elapsed=time.perf_counter()-start
+                    warnings.simplefilter('always')
+                    predictions, fit, duration = fit_and_predict(model, X[tr], y[tr], {'validation': X[va]})
+                    prediction = predictions['validation']
+                    elapsed = fit + duration['validation']
                 oof[(variant,name)][va]=prediction
                 metrics=scores(y[va],prediction);row=dict(fold=fold,variant=variant,model=name,train_groups=data.specimen_id.iloc[tr].nunique(),val_groups=data.specimen_id.iloc[va].nunique(),seconds=elapsed,**metrics)
                 rows.append(row);pd.DataFrame(rows).to_csv(destination/'fold_metrics.csv',index=False)
