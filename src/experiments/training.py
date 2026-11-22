@@ -22,7 +22,7 @@ def fit_and_predict(model, X, y, evaluations):
     return predictions, fit_seconds, durations
 
 
-def shared_rbf_candidates(X_train, X_val, y_train, pool, output, *, grid, seed):
+def shared_rbf_candidates(X_train, X_val, y_train, pool, output, *, grid, seed, probabilities=False):
     """Reuse exact RBF matrices within one fold, backing the largest array by disk."""
     preprocessing = create_model('rbf_svm', seed=seed)[:-1]
     train = preprocessing.fit_transform(X_train)
@@ -45,6 +45,7 @@ def shared_rbf_candidates(X_train, X_val, y_train, pool, output, *, grid, seed):
             def fit(i, train_kernel):
                 model = create_model('rbf_svm', seed=seed)[-1]
                 model.set_params(kernel='precomputed', cache_size=192,
+                                 probability=probabilities,
                                  **{key.removeprefix('model__'): value for key, value in grid[i].items()})
                 start = time.perf_counter()
                 model.fit(train_kernel, y_train)
@@ -54,6 +55,7 @@ def shared_rbf_candidates(X_train, X_val, y_train, pool, output, *, grid, seed):
             del kernel
         started = time.perf_counter()
         predictions = np.empty((len(indices), len(val)), dtype=int)
+        distributions = [np.empty((len(val), len(model.classes_))) for model, _ in fitted] if probabilities else None
         predict_seconds = np.zeros(len(indices))
         kernel_seconds = 0.0
         for start in range(0, len(val), block_size):
@@ -64,12 +66,17 @@ def shared_rbf_candidates(X_train, X_val, y_train, pool, output, *, grid, seed):
             for j, (model, _) in enumerate(fitted):
                 predict_started = time.perf_counter()
                 predictions[j, start:end] = model.predict(block)
+                if distributions is not None:
+                    distributions[j][start:end] = model.predict_proba(block)
                 predict_seconds[j] += time.perf_counter() - predict_started
         print(f'shared gamma {specification}: {train_kernel_seconds:.1f}s train kernel, '
               f'{time.perf_counter() - started:.1f}s validation incl. kernel', flush=True)
         for j, (i, (model, fit_seconds)) in enumerate(zip(indices, fitted)):
-            yield i, predictions[j], dict(
+            details = dict(
                 training_seconds=fit_seconds, prediction_seconds=float(predict_seconds[j]),
                 train_kernel_seconds=train_kernel_seconds, validation_kernel_seconds=kernel_seconds,
                 support_vectors=int(model.n_support_.sum()),
             )
+            if distributions is not None:
+                details.update(probabilities=distributions[j], probability_classes=model.classes_)
+            yield i, predictions[j], details

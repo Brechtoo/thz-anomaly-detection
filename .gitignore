@@ -87,3 +87,9 @@ results/experiments/anchor_group_cv_*/
 results/experiments/class2_group_cv_*/
 results/experiments/svm_group_cv_*/
 results/experiments/specimen_fusion_*/
+
+results/analysis/physical_echo_review_*/
+
+results/experiments/specimen_feature_grid_*/
+results/analysis/rbf_svm_oof_thresholds_*/
+results/experiments/specimen_svm_nested_hpo_*/

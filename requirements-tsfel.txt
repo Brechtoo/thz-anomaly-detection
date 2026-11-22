@@ -1,0 +1,2 @@
+# Optional dependency for the independent specimen TSFEL feature set.
+tsfel==0.3.0
