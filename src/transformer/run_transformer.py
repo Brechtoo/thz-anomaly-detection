@@ -29,14 +29,11 @@ WEIGHT_CONFIGS = {
 
 
 def main():
+    """Compare class weights on the legacy validation split."""
 
     np.random.seed(42)
 
     torch.manual_seed(42)
-
-    # --------------------------------------------------------
-    # data load and split
-    # --------------------------------------------------------
 
     df = pd.read_csv(METADATA_PATH)
 
@@ -55,10 +52,6 @@ def main():
 
     train_loader, val_loader = (create_data_loaders(X_train, X_val, y_train, y_val, batch_size=BATCH_SIZE))
 
-    # --------------------------------------------------------
-    # weight configs
-    # --------------------------------------------------------
-
     all_results = []
 
     for name, weight_config in (WEIGHT_CONFIGS.items()):
@@ -73,10 +66,6 @@ def main():
         )
 
         all_results.append(result)
-
-    # --------------------------------------------------------
-    # save
-    # --------------------------------------------------------
 
     comparison = pd.DataFrame(all_results)
 

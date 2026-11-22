@@ -6,7 +6,7 @@ NO_HOHLRAUM_LABEL = 3
 
 
 def threshold_predict(probabilities, classes, red_threshold=0.5, green_threshold=0.99):
-
+    """Apply the cavity threshold first, then clear the point or mark it uncertain."""
     class_to_idx = {label: idx
         for idx, label in enumerate(classes)
     }
@@ -30,7 +30,7 @@ def threshold_predict(probabilities, classes, red_threshold=0.5, green_threshold
 
 
 def predict_with_thresholds(model, X, red_threshold=0.5, green_threshold=0.99):
-
+    """Use probability thresholds when supported, falling back to hard predictions."""
     if hasattr(model, "predict_proba"):
         probabilities = model.predict_proba(X)
 

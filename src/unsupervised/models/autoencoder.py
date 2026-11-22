@@ -16,6 +16,7 @@ def train_autoencoder(X_train, random_state):
         verbose=False,
     )
 
+    # Learn the identity through a bottleneck so residuals can serve as anomaly scores.
     model.fit(X_train, X_train)
 
     return model

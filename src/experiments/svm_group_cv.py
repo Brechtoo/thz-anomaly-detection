@@ -59,6 +59,7 @@ def select_candidate(truth, oof):
 
 
 def tune(features, train, kind, output, jobs):
+    """Make one out-of-fold prediction per training point and candidate."""
     labels = train.label
     oof = np.full((len(GRID), len(train)), -1)
     rows = []
@@ -66,6 +67,8 @@ def tune(features, train, kind, output, jobs):
         for fold in sorted(train.fold.unique()):
             val = train.fold.eq(fold).to_numpy()
             start = time.perf_counter()
+            # Learn tsfresh imputation and label-based feature selection on the
+            # fit specimens, then use the same columns for every candidate.
             matrix = (select_training_features(features, labels, train.index[~val])
                       if kind == 'tsfresh' else features)
             prep_seconds = time.perf_counter() - start
@@ -193,6 +196,7 @@ def run(kind, output, jobs):
             for path in sorted(output.glob('fold_*_features.json')):
                 mlflow.log_artifact(str(path))
             mlflow.log_artifacts(str(output / 'oof'), artifact_path='oof')
+        # Selection is fixed before preparing the validation and test features.
         prep_start = time.perf_counter()
         matrix = (early_holdouts(output, membership, features, features.columns.tolist(), jobs)
                   if kind == 'manual52_early' else load_tsfresh_holdout(membership, ts))

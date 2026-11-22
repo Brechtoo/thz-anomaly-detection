@@ -15,10 +15,6 @@ from src.paths import (
     PERMUTATION_IMPORTANCE_RESULTS,
 )
 
-# ============================================================
-# settings
-# ============================================================
-
 EXPERIMENT_DIR = EXTENDED_EXPERIMENT_DIR
 
 MODEL_DIR = EXPERIMENT_DIR / "models"
@@ -57,41 +53,23 @@ BASELINE_FEATURES = [
 ]
 
 
-# ============================================================
-# permutation importance
-# ============================================================
-
 def calculate_permutation_importance(model_name, model_path, X_train, X_val, y_train, y_val):
+    """Refit the archived estimator configuration and score shuffles on validation."""
 
     print(f"\npermutation importance für {model_name.upper()}...")
-
-    # --------------------------------------------------------
-    # model laden und zurücksetzen
-    # --------------------------------------------------------
 
     model = joblib.load(model_path)
 
     model = clone(model)
 
-    # --------------------------------------------------------
-    # missing values
-    # --------------------------------------------------------
-
+    # Use the same training medians for both partitions.
     train_medians = X_train.median()
 
     X_train_clean = X_train.fillna(train_medians)
 
     X_val_clean = X_val.fillna(train_medians)
 
-    # --------------------------------------------------------
-    # class weighting
-    # --------------------------------------------------------
-
     sample_weight = compute_sample_weight(class_weight="balanced", y=y_train,)
-
-    # --------------------------------------------------------
-    # train model
-    # --------------------------------------------------------
 
     if isinstance(model, Pipeline):
 
@@ -103,15 +81,7 @@ def calculate_permutation_importance(model_name, model_path, X_train, X_val, y_t
 
         model.fit(X_train_clean, y_train, sample_weight=sample_weight)
 
-    # --------------------------------------------------------
-    # permutation importance
-    # --------------------------------------------------------
-
     permutation_result = permutation_importance(model, X_val_clean, y_val, scoring=SCORING, n_repeats=N_REPEATS, random_state=RANDOM_STATE, n_jobs=-1)
-
-    # --------------------------------------------------------
-    # result
-    # --------------------------------------------------------
 
     importance_df = pd.DataFrame({
         "feature": X_val_clean.columns,
@@ -125,10 +95,6 @@ def calculate_permutation_importance(model_name, model_path, X_train, X_val, y_t
 
     return importance_df
 
-
-# ============================================================
-# save
-# ============================================================
 
 def save_results(model_name, importance_df):
 
@@ -156,15 +122,7 @@ def save_results(model_name, importance_df):
     print(f"ergebnisse gespeichert unter: {txt_path} und {csv_path}")
 
 
-# ============================================================
-# main
-# ============================================================
-
 def main():
-
-    # --------------------------------------------------------
-    # dataset
-    # --------------------------------------------------------
 
     df = pd.read_csv(FEATURE_TABLE_ROOT)
 
@@ -174,14 +132,11 @@ def main():
 
     X_train, X_val, X_test, y_train, y_val, y_test = create_splits(X, y)
 
-    # --------------------------------------------------------
-    # safety cleanup
-    # --------------------------------------------------------
-
     X_train = X_train.replace([np.inf, -np.inf], np.nan)
 
     X_val = X_val.replace([np.inf, -np.inf], np.nan)
 
+    # A feature can only be imputed if training supplies a finite value.
     valid_columns = (~X_train.isna().all())
 
     X_train = X_train.loc[:, valid_columns]
@@ -193,10 +148,6 @@ def main():
     print(f"validation set: {len(X_val)}")
 
     print(f"features: {X_train.shape[1]}")
-
-    # --------------------------------------------------------
-    # models
-    # --------------------------------------------------------
 
     for model_name, model_path in MODELS.items():
 

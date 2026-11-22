@@ -29,6 +29,14 @@ der separate Modellvergleich bewahrt `rtol=1e-11`, `atol=1e-13`.
 Die Skripte dokumentieren Befunde in JSON/CSV; ein erfolgreicher Prozessabschluss
 allein bestätigt nicht, dass sämtliche numerischen Vergleichskriterien erfüllt sind.
 
+Die historische HGB-Modellprüfung verwendet den vollständigen Datenstand
+einschließlich der 972 Referenzmessungen. Die heutige Datenaufbereitung weist
+diesen Eingabestand ab. Für die reine Inferenzprüfung das aktuelle
+`verify_model_consistency.py` in einem separaten Checkout des Tags
+`baseline-audit-2026-11-02` unter `scripts/reproducibility/` ausführen. Die
+Eingabedateien per absolutem Pfad übergeben und `mlflow.db` aus dem
+Arbeitsrepository einbinden, damit das Skript ihre Prüfsumme kontrollieren kann.
+
 Split-Manifeste, Lockdatei und Referenztabellen werden weiterhin aus dem Projekt
 verwendet. Der Modellvergleich schützt auch die vorhandene `mlflow.db` per Hash.
 Alte Logs nennen weiterhin `results/measurements/`; der aktive Katalogpfad ist

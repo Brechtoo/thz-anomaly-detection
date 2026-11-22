@@ -8,10 +8,6 @@ from src.data.reference_measurements import require_no_references
 from src.features.loading import load_measurement
 from src.paths import FEATURE_BASELINE_ROOT, TRANSFORMER_RESULTS
 
-# ============================================================
-# setings
-# ============================================================
-
 RANDOM_STATE = 42
 
 N_POINTS = 256
@@ -35,12 +31,9 @@ WEIGHT_CONFIGS = {
     "balanced": "balanced",
 }
 
-# ============================================================
-# load functions
-# ============================================================
-
 
 def load_signal(file_path):
+    """Align to the strongest surface-window extremum and resample the next 80 time units."""
 
     df = load_measurement(file_path)
 
@@ -85,6 +78,7 @@ def prepare_signals(df):
 
 
 def standardize_signals(X_train, X_val):
+    """Apply a single mean and standard deviation estimated over training waveforms."""
 
     mean = X_train.mean()
     std = X_train.std()

@@ -31,6 +31,7 @@ def extract_coordinates(file_path):
 
 
 def evaluate_model(name, model, X, coordinates):
+    """Map predictions to scan coordinates and summarize traffic-light probabilities."""
     predictions = model.predict(X)
     proba = model.predict_proba(X)
 

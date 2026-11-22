@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import joblib
 import pandas as pd
 
@@ -11,9 +9,9 @@ from src.evaluation.metrics import (
     evaluate_predictions,
 )
 from src.evaluation.thresholding import predict_with_thresholds
-from src.paths import FEATURE_TABLE_ROOT
+from src.paths import EXTENDED_EXPERIMENT_DIR, FEATURE_TABLE_ROOT
 
-EXPERIMENT_DIR = Path("/results/experiments/extended_features")
+EXPERIMENT_DIR = EXTENDED_EXPERIMENT_DIR
 
 OPTIMIZATION_DIR = EXPERIMENT_DIR / "optimization"
 
@@ -34,6 +32,7 @@ RED_THRESHOLDS = [
 
 
 def compare_optimized_thresholds():
+    """Sweep decision thresholds on validation using the saved optimized models."""
 
     df = pd.read_csv(FEATURE_TABLE_ROOT)
 

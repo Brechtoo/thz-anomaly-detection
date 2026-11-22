@@ -49,6 +49,7 @@ def fit_template(training_rows, per_specimen=12):
             pulse=np.interp(x[index]+GRID,x,y);pulse-=np.median(pulse)
             norm=np.linalg.norm(pulse)
             if norm<=0: continue
+            # Align polarity before taking the sample-wise median across pulses.
             pulse*=np.sign(pulse[np.argmin(abs(GRID))]) or 1
             pulses.append(pulse/norm);ids.append(row.instance_id)
     if len(pulses)<5: raise ValueError('Insufficient fold-training template pulses')
@@ -63,6 +64,7 @@ def template_index(x,y,template):
     z=values-np.median(values)
     dot=correlate(z,template.values,mode='valid',method='fft')
     sums=correlate(z,ones,mode='valid',method='fft')
+    # Recover each sliding window's centered energy from the sum and sum of squares.
     energy=correlate(z*z,ones,mode='valid',method='fft')-sums*sums/length
     scores=np.abs(dot)/np.sqrt(np.maximum(energy,1e-20))
     centers=grid[:len(scores)]-GRID[0]
@@ -76,7 +78,7 @@ def template_index(x,y,template):
 
 
 def adapted_start(x,y,index):
-    """Guard the pulse packet: post start 6..9 units; no blind +3 relabeling."""
+    """Use the last elevated envelope sample to place the window 6–9 units after the anchor."""
     t=x-x[index];dt=np.median(np.diff(x))
     envelope=gaussian_filter1d(abs(y-np.median(y)),sigma=max(.15/dt,.5))
     local=(t>=-2.5)&(t<=8)

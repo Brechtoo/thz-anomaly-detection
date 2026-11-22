@@ -4,10 +4,6 @@ from matplotlib import pyplot as plt
 
 from src.paths import BASELINE_ANALYSIS_RESULTS, FEATURE_BASELINE_ROOT
 
-# ============================================================
-# daten laden, features bestimmen
-# ============================================================
-
 INPUT_PATH = FEATURE_BASELINE_ROOT
 
 OUTPUT_DIR = BASELINE_ANALYSIS_RESULTS
@@ -25,10 +21,6 @@ EXCLUDE_COLUMNES = ["label", "file_path", "x", "y", "source_dataset", "instance_
 FEATURES = [col for col in df.columns if col not in EXCLUDE_COLUMNES]
 
 corr = df[FEATURES].corr()
-
-# ============================================================
-# heatmap
-# ============================================================
 
 fig, ax = plt.subplots(figsize=(12, 10))
 
@@ -78,6 +70,7 @@ corr_matrix = df[FEATURES].corr()
 
 high_corr = []
 
+# Report each feature pair once and include both signs of correlation.
 for i in range(len(corr_matrix.columns)):
     for j in range(i + 1, len(corr_matrix.columns)):
 

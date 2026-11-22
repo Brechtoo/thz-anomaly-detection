@@ -1,15 +1,12 @@
 import torch
 import torch.nn as nn
 
-# ============================================================
-# settings
-# ============================================================
-
 N_POINTS = 256
 N_CLASSES = 4
 
 
 class TransformerModel(nn.Module):
+    """Encode the aligned waveform and pool sample embeddings for classification."""
 
     def __init__(self):
 

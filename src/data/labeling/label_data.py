@@ -32,7 +32,7 @@ def extract_coordinates(filename: str):
 
 
 def build_labeled_dataset(measurement_root, label_file):
-    """Read existing annotation assignments, never infer or replace labels."""
+    """Join original annotations one-to-one on rounded scan coordinates."""
     root = Path(measurement_root)
     labels = pd.read_csv(label_file, sep=r"\s+", comment="#", names=["x", "y", "label"])
     numeric = labels.apply(pd.to_numeric, errors="raise")

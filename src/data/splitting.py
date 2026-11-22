@@ -6,6 +6,7 @@ TEST_SIZE_OF_TEMP = 20 / 36
 
 
 def create_splits(X, y):
+    """Create the historical pointwise 64/16/20 split with label stratification."""
     X_train, X_temp, y_train, y_temp = train_test_split(
         X, y,
         test_size=TEMP_SIZE,

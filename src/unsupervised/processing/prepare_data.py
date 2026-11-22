@@ -24,6 +24,7 @@ def load_feature_data(data_path, target_col, exclude_columns, return_df=False):
 
 
 def prepare_feature_data(X, y, random_state=42, test_size=0.2, scale=True):
+    """Keep the legacy row split and fit imputation and scaling on training only."""
 
     X_train, X_test, y_train, y_test = (train_test_split(X, y, test_size=test_size, random_state=random_state))
 

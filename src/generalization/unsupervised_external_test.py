@@ -25,10 +25,6 @@ from src.unsupervised.models.pca import calculate_reconstruction_scores as pca_s
 from src.unsupervised.models.pca import train_pca
 from src.unsupervised.processing.prepare_data import load_feature_data
 
-# ============================================================
-# settings
-# ============================================================
-
 DATA_PATH = FEATURE_EXTENSION_BLOCK1_ROOT
 DATA_DIR = EXTERNAL_SCAN_ROOT
 OUTPUT_DIR = EXTERNAL_TEST_RESULTS / "unsupervised"
@@ -55,10 +51,6 @@ def extract_coordinates(file_path):
     return float(match.group(1)), float(match.group(2))
 
 
-# ============================================================
-# data
-# ============================================================
-
 X, y = load_feature_data(DATA_PATH, TARGET_COL, EXCLUDE_COLUMNS)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=RANDOM_STATE)
@@ -71,10 +63,7 @@ X_external = X_external[X.columns]
 coordinates = [extract_coordinates(file_path) for file_path in files]
 
 
-# ============================================================
-# preprocessing
-# ============================================================
-
+# Both comparison sets use preprocessing fitted on the reference training split.
 imputer = SimpleImputer(strategy="median")
 
 X_train_imputed = imputer.fit_transform(X_train)
@@ -88,18 +77,11 @@ X_test_scaled = scaler.transform(X_test_imputed)
 X_external_scaled = scaler.transform(X_external_imputed)
 
 
-# ============================================================
-# train
-# ============================================================
-
+# Reconstruction models use scaled features, and the isolation forest uses imputed features.
 pca = train_pca(X_train_scaled, n_components=N_COMPONENTS)
 autoencoder = train_autoencoder(X_train_scaled, RANDOM_STATE)
 isolation_forest = train_isolation_forest(X_train_imputed, random_state=RANDOM_STATE)
 
-
-# ============================================================
-# scores
-# ============================================================
 
 models = {
     "pca": (
@@ -116,10 +98,6 @@ models = {
     ),
 }
 
-
-# ============================================================
-# sum
-# ============================================================
 
 for name, (reference_scores, external_scores) in models.items():
 

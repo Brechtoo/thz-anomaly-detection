@@ -182,6 +182,7 @@ def run(source, output):
     oof = {(arm, name): np.full((len(data), 4), np.nan) for arm in ARMS for name in build_models()}
     predictions = {key: np.full(len(data), -1) for key in oof}
     for fold in range(3):
+        # Both arms predict the same held-out points, including class 2.
         va = np.flatnonzero(data.fold.to_numpy() == fold)
         for arm, classes in ARMS.items():
             tr = training_indices(data, fold, classes)
@@ -199,6 +200,8 @@ def run(source, output):
                 elapsed = time.perf_counter() - start
                 predictions[(arm, name)][va] = pred
                 oof[(arm, name)][va] = proba
+                # Compare known-class errors on identical support; keep class 2
+                # probabilities for the separate uncertainty review.
                 known = data.label.to_numpy()[va] != 2
                 metrics = known_metrics(data.label.to_numpy()[va][known], pred[known])
                 tag = f"{arm}__{name}__fold{fold}"

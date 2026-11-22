@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import joblib
 import pandas as pd
 
@@ -12,15 +10,12 @@ from src.evaluation.metrics import (
 )
 from src.evaluation.reporting import save_evaluation_report
 from src.evaluation.thresholding import predict_with_thresholds
-from src.paths import FEATURE_TABLE_ROOT
+from src.paths import EXTENDED_EXPERIMENT_DIR, FEATURE_TABLE_ROOT
 
-EXPERIMENT_DIR = Path("/results/experiments/extended_features")
+EXPERIMENT_DIR = EXTENDED_EXPERIMENT_DIR
 
 OPTIMIZATION_DIR = EXPERIMENT_DIR / "optimization"
 FINAL_EVALUATION_DIR = EXPERIMENT_DIR / "final_evaluation"
-
-FINAL_EVALUATION_DIR.mkdir(parents=True, exist_ok=True)
-
 
 CONFIGURATIONS = [
     {
@@ -39,6 +34,7 @@ CONFIGURATIONS = [
 
 
 def final_evaluation():
+    """Evaluate the fixed HGB threshold configurations on the legacy test split."""
 
     df = pd.read_csv(FEATURE_TABLE_ROOT)
 
@@ -48,12 +44,12 @@ def final_evaluation():
 
     model = joblib.load(OPTIMIZATION_DIR / "hgb_optimized.joblib")
 
-    # Für rot/gelb/grün-evaluation:
-    # 0 und 2 werden beide als gelb behandelt
+    # The traffic-light report groups poor-quality and uncertain measurements as yellow.
     y_test_rgy = y_test.replace({0: 2,})
 
     results = []
 
+    FINAL_EVALUATION_DIR.mkdir(parents=True, exist_ok=True)
     for config in CONFIGURATIONS:
 
         y_pred = predict_with_thresholds(model, X_test, red_threshold=config["red_threshold"], green_threshold=config["green_threshold"],)

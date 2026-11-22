@@ -16,10 +16,6 @@ from src.paths import (
 )
 from src.transformer.load_signal import prepare_signals
 
-# ============================================================
-# settings
-# ============================================================
-
 MODEL_PATH = TRANSFORMER_RESULTS / "transformer_class1_weight2.pt"
 METADATA_PATH = FEATURE_EXTENSION_BLOCK1_ROOT
 DATA_DIR = EXTERNAL_SCAN_ROOT
@@ -37,10 +33,7 @@ def extract_coordinates(file_path):
     return float(match.group(1)), float(match.group(2))
 
 
-# ============================================================
-# bekannte skalierung
-# ============================================================
-
+# Recover the historical normalization from the training partition.
 df = pd.read_csv(METADATA_PATH)
 
 train_df, _, _, _, _, _ = create_splits(df, df["label"])
@@ -56,10 +49,6 @@ if DEVICE == "mps":
     torch.mps.empty_cache()
 
 
-# ============================================================
-# new data
-# ============================================================
-
 files = list(DATA_DIR.glob("*.txt"))
 
 external_df = pd.DataFrame({
@@ -73,10 +62,7 @@ X = prepare_signals(external_df)
 X = (X - mean) / std
 
 
-# ============================================================
-# model
-# ============================================================
-
+# Keep prediction rows aligned with the scan coordinates.
 dataset = TensorDataset(torch.tensor(X, dtype=torch.float32))
 loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=False)
 
@@ -93,10 +79,6 @@ model.load_state_dict(
 model.eval()
 
 
-# ============================================================
-# preds
-# ============================================================
-
 probabilities = []
 
 with torch.no_grad():
@@ -111,10 +93,6 @@ proba = np.concatenate(probabilities)
 
 predictions = np.argmax(proba, axis=1)
 
-
-# ============================================================
-# results
-# ============================================================
 
 results = pd.DataFrame({
     "x": [coord[0] for coord in coordinates],
@@ -138,10 +116,6 @@ results["p_gelb"] = results["p0"] + results["p2"]
 results["p_gruen"] = results["p3"]
 
 
-# ============================================================
-# plot
-# ============================================================
-
 colors = results["ampel"].map({
     "rot": "red",
     "gelb": "gold",
@@ -164,10 +138,6 @@ plt.savefig(
 
 plt.close()
 
-
-# ============================================================
-# sum
-# ============================================================
 
 summary = pd.DataFrame({
     "ampel": ["rot", "gelb", "grün"],

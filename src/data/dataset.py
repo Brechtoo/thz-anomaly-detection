@@ -15,6 +15,7 @@ EXCLUDE_COLUMNS = [
 
 def prepare_dataset(df):
     require_no_references(df)
+    # Keep x/y coordinates and identifiers out of the predictors to limit scan-specific shortcuts.
     X = df.drop(columns=EXCLUDE_COLUMNS).drop(
         columns=["specimen_id", "measurement_role", "training_eligible", "assignment_status"], errors="ignore")
     y = df[TARGET_COL]

@@ -7,10 +7,6 @@ from src.unsupervised.models.autoencoder import (
 )
 from src.unsupervised.processing import evaluation, prepare_data
 
-# ============================================================
-# settings
-# ============================================================
-
 DATA_PATH = FEATURE_EXTENSION_BLOCK1_ROOT
 OUTPUT_DIR = AUTOENCODER_RESULTS
 
@@ -34,10 +30,6 @@ MODEL_RANDOM_STATES = [1, 21, 42, 84, 123]
 TOP_K_VALUES = [20, 50, 100, 500]
 
 
-# ============================================================
-# einzelne random states
-# ============================================================
-
 def run_single_random_state(X_train, X_test, y_test, random_state):
     model = train_autoencoder(X_train, random_state)
 
@@ -48,15 +40,12 @@ def run_single_random_state(X_train, X_test, y_test, random_state):
     return metrics
 
 
-# ============================================================
-# main
-# ============================================================
-
 def main():
     X, y = prepare_data.load_feature_data(DATA_PATH, TARGET_COL, EXCLUDE_COLUMNS)
 
     X_train, X_test, y_train, y_test = prepare_data.prepare_feature_data(X, y, random_state=SPLIT_RANDOM_STATE)
 
+    # Keep the data split fixed across model initializations.
     all_results = []
 
     for random_state in MODEL_RANDOM_STATES:

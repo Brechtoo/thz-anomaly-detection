@@ -4,11 +4,6 @@ import pandas as pd
 
 from src.paths import BASELINE_ANALYSIS_RESULTS, FEATURE_BASELINE_ROOT
 
-# ============================================================
-# daten laden, features aufgrund der ergebnisse von
-# basic_stats_and_correlations.py bestimmen
-# ============================================================
-
 INPUT_PATH = FEATURE_BASELINE_ROOT
 
 OUTPUT_DIR = BASELINE_ANALYSIS_RESULTS
@@ -17,6 +12,7 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 df = pd.read_csv(INPUT_PATH)
 
+# Historical feature selection from basic_stats_and_correlation.py.
 FEATURES = [
     "y_min",
     "y_peak_to_peak",
@@ -24,10 +20,6 @@ FEATURES = [
     "y_median",
     "first_third_std"
 ]
-
-# ============================================================
-# boxplots erzeugen
-# ============================================================
 
 for feature in FEATURES:
 

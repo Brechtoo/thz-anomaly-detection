@@ -21,19 +21,19 @@ RANDOM_STATE = 42
 
 
 def optimize_models():
-
+    """Replay the historical point-wise HGB and MLP hyperparameter search."""
     df = pd.read_csv(FEATURE_TABLE_ROOT)
 
     X, y = prepare_dataset(df)
 
     X_train, X_val, X_test, y_train, y_val, y_test = create_splits(X, y)
 
+    # Historical tuning preserves label proportions but can place measurements
+    # from the same specimen in different folds.
     cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=RANDOM_STATE)
 
-    # ============================================================
-    # hgb
-    # ============================================================
-
+    # Keep imputation and scaling in the pipelines so each CV fit learns
+    # preprocessing statistics from its own training rows.
     hgb = Pipeline([
         (
             "imputer",
@@ -60,10 +60,6 @@ def optimize_models():
     print("optimize hgb ...")
 
     hgb_search.fit(X_train, y_train)
-
-    # ============================================================
-    # mlp
-    # ============================================================
 
     mlp = Pipeline([
         (
@@ -111,17 +107,10 @@ def optimize_models():
 
     mlp_search.fit(X_train, y_train)
 
-    # ============================================================
-    # modelle speichern
-    # ============================================================
-
+    # RandomizedSearchCV refits the selected pipelines on the full training split.
     joblib.dump(hgb_search.best_estimator_, OUTPUT_DIR / "hgb_optimized.joblib")
 
     joblib.dump(mlp_search.best_estimator_, OUTPUT_DIR / "mlp_optimized.joblib")
-
-    # ============================================================
-    # ergebnisse speichern
-    # ============================================================
 
     results = pd.DataFrame([
         {

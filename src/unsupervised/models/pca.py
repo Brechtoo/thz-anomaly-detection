@@ -12,6 +12,7 @@ def train_pca(X_train, n_components):
 
 
 def calculate_reconstruction_scores(model, X):
+    """Measure squared residuals from the PCA subspace per observation."""
 
     X_reduced = model.transform(X)
 

@@ -187,6 +187,8 @@ def run(output, feature_file):
         mlflow.log_artifacts(str(output / 'source'), artifact_path='source')
         mlflow.log_params({'seed': SEED, 'feature_set': FEATURE_SET, 'error_metrics': ERROR_METRICS_VERSION})
         prep_start = time.perf_counter()
+        # The final table uses preprocessing fitted on all training specimens.
+        # Group CV rebuilds the features from separate raw inputs below.
         final = write_fused_table(feature_file, output, membership, train,
                                   manual, load_tsfresh_holdout(membership, manifest))
         mlflow.log_artifact(str(output / 'final_features.json'))
@@ -205,6 +207,8 @@ def run(output, feature_file):
             fit_ids = train.index[~mask]
             phase = f'fold_{fold}'
             prep_start = time.perf_counter()
+            # Fit both tsfresh preprocessing and cross-block deduplication on
+            # the same fold-training IDs so held-out specimens cannot select columns.
             selected, ranges = select_training_features(raw, train.label, fit_ids, return_ranges=True)
             matrix, state = fuse_features(manual, selected, fit_ids)
             prep_seconds = time.perf_counter() - prep_start

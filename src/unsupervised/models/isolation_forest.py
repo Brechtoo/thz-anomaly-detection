@@ -16,6 +16,7 @@ def train_isolation_forest(X_train, random_state):
 
 
 def calculate_anomaly_scores(model, X):
+    """Return scores with larger values indicating more anomalous observations."""
     scores = -model.score_samples(X)
     labels = model.predict(X)
 

@@ -3,30 +3,23 @@ from sklearn.metrics import average_precision_score, roc_auc_score
 
 
 def evaluate_anomaly_scores(y_true, scores, top_k_values):
+    """Evaluate known-class discrimination and anomaly retrieval across all labels."""
 
     results = pd.DataFrame({
         "label": y_true.to_numpy(),
         "score": scores
     })
 
-    # --------------------------------------------------------
-    # label 1 vs 3
-    # --------------------------------------------------------
-
     binary = results[results["label"].isin([1, 3])].copy()
 
-    # label 1 = positive klasse
     y_binary = (binary["label"] == 1).astype(int)
 
     roc_auc = roc_auc_score(y_binary, binary["score"])
 
     average_precision = (average_precision_score(y_binary, binary["score"]))
 
+    # Positive prevalence gives the reference average precision for random ranking.
     baseline_ap = y_binary.mean()
-
-    # --------------------------------------------------------
-    # top k
-    # --------------------------------------------------------
 
     ranked = results.sort_values("score", ascending=False)
 

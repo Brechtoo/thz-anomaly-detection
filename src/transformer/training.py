@@ -41,6 +41,7 @@ def predict(model, loader):
 
 
 def train_model(model, train_loader, val_loader, loss_function, optimizer):
+    """Select the epoch by validation macro F1 and restore its weights."""
 
     best_val_f1 = -np.inf
     best_model = None
@@ -73,6 +74,7 @@ def train_model(model, train_loader, val_loader, loss_function, optimizer):
 
             best_val_f1 = val_f1
 
+            # Keep a copy because subsequent optimizer steps update the tensors in place.
             best_model = copy.deepcopy(model.state_dict())
 
     model.load_state_dict(best_model)

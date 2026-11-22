@@ -15,10 +15,6 @@ from src.models.transformer import TransformerModel
 from src.paths import FEATURE_TABLE_ROOT, TRANSFORMER_RESULTS
 from src.transformer.load_signal import prepare_signals
 
-# ============================================================
-# settings
-# ============================================================
-
 BATCH_SIZE = 128
 
 RED_THRESHOLD = 0.45
@@ -30,41 +26,22 @@ MODEL_PATH = TRANSFORMER_RESULTS / "transformer_class1_weight2.pt"
 
 OUTPUT_PATH = TRANSFORMER_RESULTS / "transformer_final_results.csv"
 
-# ============================================================
-# main
-# ============================================================
-
 if __name__ == "__main__":
-
-    # --------------------------------------------------------
-    # load and split
-    # --------------------------------------------------------
 
     df = pd.read_csv(FEATURE_TABLE_ROOT)
 
     train_df, _, test_df, _, _, y_test = create_splits(df, df["label"])
-
-    # --------------------------------------------------------
-    # rohe signale
-    # --------------------------------------------------------
 
     X_train = prepare_signals(train_df)
     X_test = prepare_signals(test_df)
 
     y_test = y_test.to_numpy()
 
-    # --------------------------------------------------------
-    # skalierung
-    # --------------------------------------------------------
-
+    # Reconstruct the input normalization using the training partition.
     mean = X_train.mean()
     std = X_train.std()
 
     X_test = (X_test - mean) / std
-
-    # --------------------------------------------------------
-    # test loader
-    # --------------------------------------------------------
 
     test_dataset = TensorDataset(torch.tensor(X_test, dtype=torch.float32), torch.tensor(y_test, dtype=torch.long))
 
@@ -74,19 +51,11 @@ if __name__ == "__main__":
         shuffle=False,
     )
 
-    # --------------------------------------------------------
-    # ungewichtetes modell
-    # --------------------------------------------------------
-
     model = TransformerModel().to(DEVICE)
 
     model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
 
     model.eval()
-
-    # --------------------------------------------------------
-    # wahrscheinlichkeiten
-    # --------------------------------------------------------
 
     probabilities = []
 
@@ -104,10 +73,6 @@ if __name__ == "__main__":
 
     probabilities = np.array(probabilities)
 
-    # --------------------------------------------------------
-    # threshold logik
-    # --------------------------------------------------------
-
     y_pred = threshold_predict(
         probabilities,
         classes=np.array([0, 1, 2, 3]),
@@ -117,18 +82,10 @@ if __name__ == "__main__":
 
     y_test_rgy = pd.Series(y_test).replace({0: 2})
 
-    # --------------------------------------------------------
-    # evaluation
-    # --------------------------------------------------------
-
     metrics = evaluate_predictions(y_test_rgy, y_pred)
 
-    # Error metrics require original labels, not the 0 → 2 RGY copy.
+    # Keep poor-quality measurements out of the critical-error denominator.
     errors = calculate_error_counts(y_test, y_pred)
-
-    # --------------------------------------------------------
-    # save
-    # --------------------------------------------------------
 
     results = {
         "model": "transformer_class1_weight2",

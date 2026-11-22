@@ -42,6 +42,7 @@ def fuse_features(manual, tsfresh, train_index):
     if training.empty or not training.columns.is_unique or not np.isfinite(combined.to_numpy()).all():
         raise ValueError('Fusion requires a finite matrix and unique feature names')
     constants, duplicates, representatives = [], {}, {}
+    # Manual columns come first, so equivalent tsfresh columns are discarded in their favor.
     keep = []
     for name, column in training.items():
         data = column.to_numpy(dtype=np.float64, copy=True)

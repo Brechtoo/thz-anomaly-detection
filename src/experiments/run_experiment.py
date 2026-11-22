@@ -29,10 +29,6 @@ from src.experiments.saving import create_experiment_dir, save_model, save_resul
 from src.models.hgb import create_hgb, train_hgb
 from src.paths import EXPERIMENTS_ROOT, FEATURE_TABLE_ROOT, PROJECT_ROOT
 
-# ============================================================
-# settings
-# ============================================================
-
 EXPERIMENT_NAME = "hgb_baseline_reproducibility"
 
 RESULTS_DIR = EXPERIMENTS_ROOT
@@ -56,7 +52,7 @@ def calculate_file_hash(file_path):
 
 
 def run_hgb_baseline():
-
+    """Replay frozen HGB on its original validation split and archive run metadata."""
     # Validate all inputs before creating output files or MLflow runs.
     if os.environ.get("MLFLOW_RUN_ID") or mlflow.active_run() is not None:
         raise ValueError("Baseline requires a new MLflow run; clear MLFLOW_RUN_ID and end active runs")
@@ -85,10 +81,6 @@ def run_hgb_baseline():
         log_post_training_metrics=False
     )
 
-    # ============================================================
-    # experimentenordner erstellen
-    # ============================================================
-
     run_name = (
         EXPERIMENT_NAME + "_" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         + "_" + uuid4().hex[:8]
@@ -115,10 +107,6 @@ def run_hgb_baseline():
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, target)
 
-    # ============================================================
-    # metadaten der gespeicherten splits
-    # ============================================================
-
     split_info = {
         "n_train": len(X_train),
         "n_val": len(X_val),
@@ -132,10 +120,6 @@ def run_hgb_baseline():
         "split_source": "saved_instance_ids",
     }
 
-    # ============================================================
-    # modelle (aktuell nur hgb)
-    # ============================================================
-
     models = {
         "hgb": {
             "model": create_hgb(),
@@ -143,15 +127,7 @@ def run_hgb_baseline():
         },
     }
 
-    # ============================================================
-    # results
-    # ============================================================
-
     all_results = []
-
-    # ============================================================
-    # training und validierung
-    # ============================================================
 
     for model_name, config in models.items():
 
@@ -185,19 +161,16 @@ def run_hgb_baseline():
             model = config["model"]
             train_function = config["train_function"]
 
-            # Training
             if train_function is None:
                 model.fit(X_train, y_train)
             else:
                 model = train_function(model, X_train, y_train)
 
-            # Modell wie bisher speichern
             save_model(model, model_name, models_dir)
 
-            # Vorhersagen
+            # Test rows are restored for membership checks. Evaluate validation only.
             y_pred = model.predict(X_val)
 
-            # Evaluation
             results = evaluate_predictions(y_val, y_pred)
             errors = calculate_error_counts(y_val, y_pred)
 
@@ -205,7 +178,6 @@ def run_hgb_baseline():
                 y_val, y_pred, experiment_dir, model_name
             )
 
-            # Eigene Metriken in MLflow
             mlflow.log_metrics({
                 "val_accuracy": results["accuracy"],
                 "val_balanced_accuracy": results["balanced_accuracy"],
@@ -214,7 +186,6 @@ def run_hgb_baseline():
                 **{f"val_{key}": value for key, value in errors.items()},
             })
 
-            # Bestehende Ergebnisübersicht beibehalten
             all_results.append({
                 "model": model_name,
                 **{
@@ -225,10 +196,6 @@ def run_hgb_baseline():
                 **errors,
                 "error_metrics_version": ERROR_METRICS_VERSION,
             })
-
-    # ============================================================
-    # save
-    # ============================================================
 
     results_df = pd.DataFrame(all_results)
 

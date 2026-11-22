@@ -69,7 +69,7 @@ def train_cohort():
 
 
 def make_folds(cohort,n_splits=3):
-    """Canonical order makes SGKF independent of incoming table order."""
+    """Assign whole specimens to folds in a reproducible order."""
     ordered=cohort.sort_values('instance_id').reset_index(drop=True)
     splitter=StratifiedGroupKFold(n_splits=n_splits,shuffle=True,random_state=42)
     folds=np.full(len(ordered),-1)
@@ -114,6 +114,8 @@ def prepare(output,workers=4):
     with ProcessPoolExecutor(max_workers=workers) as pool:
         for variant in ['early_legacy_windows','early_adapted']:
             extract_matrix(cohort,base,variant,extension,None,output/'features'/f'{variant}.npz',pool)
+        # Learn one pulse template per training fold and use it for all rows
+        # evaluated by that fold's models.
         for fold in range(3):
             train=cohort.loc[folds!=fold]
             template=fit_template(train)
@@ -137,7 +139,7 @@ def scores(y,pred):
 
 
 def fold_pipeline(factory):
-    """Only new step: fold-training median imputation before unchanged registry steps."""
+    """Fit median imputation within the fold while retaining all-missing columns."""
     return Pipeline([('imputer',SimpleImputer(strategy='median',keep_empty_features=True)),*factory.steps])
 
 

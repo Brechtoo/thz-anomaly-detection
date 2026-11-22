@@ -87,6 +87,7 @@ def choose_groups(data, seed=42, candidates=4096):
     splitter = GroupShuffleSplit(n_splits=candidates, test_size=.20, random_state=seed)
     indices = np.arange(len(groups))
     for candidate, (remaining, test) in enumerate(splitter.split(indices, groups=groups)):
+        # Compute the validation size from all specimens, then draw it from the non-test pool.
         inner = GroupShuffleSplit(n_splits=1, test_size=max(1, round(len(groups) * .15)),
                                   random_state=seed + candidate + 1)
         train_local, val_local = next(inner.split(remaining, groups=np.array(groups)[remaining]))

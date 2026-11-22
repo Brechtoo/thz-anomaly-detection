@@ -15,6 +15,7 @@ def extension_at_anchor(x, y, surface_idx, post_start=3.0, noise_start=70.0, noi
     START_OF_SIGNAL_FROM_SHIFTED_X = -2.5
     WINDOW_HALF_WIDTH = 2.5
     INTERPOLATION_POINTS = 201
+    # The anchor is the time origin for all analysis windows.
     surface_time = x[surface_idx]
     x = x - surface_time
     noise_region_mask = (x >= NOISE_REGION_START) & (x <= noise_end)
@@ -35,6 +36,7 @@ def extension_at_anchor(x, y, surface_idx, post_start=3.0, noise_start=70.0, noi
     y = y[post_peak_mask] - noise_region
     if len(y) < 3:
         raise ValueError('post peak region too small')
+    # Request width and prominence for both polarities before ranking lobes by amplitude.
     second_max_peaks, second_max_properties = find_peaks(y, prominence=0, width=0)
     second_min_peaks, second_min_properties = find_peaks(-y, prominence=0, width=0)
     positive_mask = y[second_max_peaks] > 0
@@ -100,6 +102,7 @@ def extension_at_anchor(x, y, surface_idx, post_start=3.0, noise_start=70.0, noi
         raise ValueError('surface window too small')
     if len(second_x) < 2:
         raise ValueError('second peak window too small')
+    # Align both windows on their local peak so correlation compares waveform shape.
     x_interp = np.linspace(-WINDOW_HALF_WIDTH, WINDOW_HALF_WIDTH, INTERPOLATION_POINTS)
     surface_interp = np.interp(x_interp, surface_x, surface_y)
     second_interp = np.interp(x_interp, second_x, second_y)

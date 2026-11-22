@@ -1,4 +1,3 @@
-
 import pandas as pd
 
 from src.paths import FEATURE_EXTENSION_BLOCK1_ROOT, PCA_RESULTS
@@ -8,10 +7,6 @@ from src.unsupervised.processing.prepare_data import (
     load_feature_data,
     prepare_feature_data,
 )
-
-# ============================================================
-# settings
-# ============================================================
 
 DATA_PATH = FEATURE_EXTENSION_BLOCK1_ROOT
 OUTPUT_DIR = PCA_RESULTS
@@ -47,10 +42,6 @@ def save_scores(y_test, scores):
     return results
 
 
-# ============================================================
-# save
-# ============================================================
-
 def save_score_distribution(results):
     distribution = results.groupby("label")["score"].agg(["count", "mean", "median", "std", "min", "max"]).reset_index()
 
@@ -72,52 +63,23 @@ def save_pca_info(model):
     info.to_csv(OUTPUT_DIR / "pca_info.csv", index=False)
 
 
-# ============================================================
-# main
-# ============================================================
-
 def main():
-
-    # ============================================================
-    # load and prepare data
-    # ============================================================
-
-
+    """Fit the PCA subspace on training data and score held-out residuals."""
     X, y = load_feature_data(DATA_PATH, TARGET_COL, EXCLUDE_COLUMNS)
 
     X_train, X_test, y_train, y_test = prepare_feature_data(X, y, random_state=RANDOM_STATE)
-
-    # --------------------------------------------------------
-    # train
-    # --------------------------------------------------------
 
     model = train_pca(X_train, n_components=N_COMPONENTS)
 
     save_pca_info(model)
 
-    # --------------------------------------------------------
-    # scores
-    # --------------------------------------------------------
-
     scores = calculate_reconstruction_scores(model, X_test)
-
-    # --------------------------------------------------------
-    # save scores
-    # --------------------------------------------------------
 
     results = save_scores(y_test, scores)
 
     save_score_distribution(results)
 
-    # --------------------------------------------------------
-    # eval
-    # --------------------------------------------------------
-
     metrics = evaluate_anomaly_scores(y_test, scores, TOP_K_VALUES)
-
-    # --------------------------------------------------------
-    # save results
-    # --------------------------------------------------------
 
     save_results(metrics)
 

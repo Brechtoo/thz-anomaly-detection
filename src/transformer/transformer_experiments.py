@@ -19,49 +19,27 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def run_configuration(name, weight_config, train_loader, val_loader, y_train, val_df):
+    """Train one weight configuration and save its selected checkpoint and predictions."""
 
     np.random.seed(42)
 
     torch.manual_seed(42)
 
-    # --------------------------------------------------------
-    # loss
-    # --------------------------------------------------------
-
     loss_function, weights = (create_loss_function(weight_config, y_train))
-
-    # --------------------------------------------------------
-    # model
-    # --------------------------------------------------------
 
     model = TransformerModel().to(DEVICE)
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=LEARNING_RATE)
 
-    # --------------------------------------------------------
-    # train
-    # --------------------------------------------------------
-
     model, best_val_f1 = train_model(model, train_loader, val_loader, loss_function, optimizer)
 
-    # --------------------------------------------------------
-    # pred
-    # --------------------------------------------------------
-
     y_true, y_pred, proba = predict(model, val_loader)
-
-    # --------------------------------------------------------
-    # eval
-    # --------------------------------------------------------
 
     metrics = evaluate_predictions(y_true, y_pred)
 
     error_counts = calculate_error_counts(y_true, y_pred)
 
-    # --------------------------------------------------------
-    # save
-    # --------------------------------------------------------
-
+    # The validation loader preserves row order for the metadata export.
     results = val_df.copy()
 
     results["y_pred"] = y_pred

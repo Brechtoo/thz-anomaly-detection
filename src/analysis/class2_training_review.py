@@ -161,7 +161,7 @@ def representative_waves(output, context, source):
 
 
 def body_bootstrap(output, data, models, draws=2000):
-    """Paired body bootstrap of fixed OOF predictions, not repeated training CV."""
+    """Resample whole specimens with fixed out-of-fold predictions for paired comparisons."""
     from sklearn.metrics import confusion_matrix
     bodies = sorted(data.specimen_id.unique())
     weights = np.random.default_rng(42).multinomial(len(bodies), np.full(len(bodies), 1 / len(bodies)), size=draws)

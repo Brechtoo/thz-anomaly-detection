@@ -12,10 +12,6 @@ from src.unsupervised.processing.prepare_data import (
     prepare_feature_data,
 )
 
-# ============================================================
-# settings
-# ============================================================
-
 DATA_PATH = FEATURE_EXTENSION_BLOCK1_ROOT
 OUTPUT_DIR = ISOLATION_FOREST_RESULTS
 
@@ -37,11 +33,8 @@ RANDOM_STATE = 42
 TOP_K_VALUES = [20, 50, 100, 500]
 
 
-# ============================================================
-# results
-# ============================================================
-
 def build_results(df, y_test, scores, if_labels):
+    """Use the original row indices to reattach the held-out measurement paths."""
 
     results = pd.DataFrame({
         "label": y_test.to_numpy(),
@@ -54,10 +47,6 @@ def build_results(df, y_test, scores, if_labels):
 
     return results.reset_index(drop=True)
 
-
-# ============================================================
-# main
-# ============================================================
 
 def main():
     df, X, y = load_feature_data(DATA_PATH, TARGET_COL, EXCLUDE_COLUMNS, return_df=True)
