@@ -93,3 +93,5 @@ results/analysis/physical_echo_review_*/
 results/experiments/specimen_feature_grid_*/
 results/analysis/rbf_svm_oof_thresholds_*/
 results/experiments/specimen_svm_nested_hpo_*/
+results/experiments/specimen_spatial_postprocessing_*/
+results/experiments/specimen_spatial_features_*/
