@@ -1,3 +1,4 @@
+"""Historische HGB-Baseline mit Median-Imputation und Klassengewichten aus dem Trainingssatz."""
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline

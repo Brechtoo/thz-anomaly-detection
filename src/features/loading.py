@@ -1,3 +1,4 @@
+# Kopfzeilen und unlesbare Werte in den ersten beiden Signalspalten fallen beim Einlesen weg.
 import pandas as pd
 
 

@@ -21,8 +21,6 @@ METADATA_PATH = FEATURE_EXTENSION_BLOCK1_ROOT
 DATA_DIR = EXTERNAL_SCAN_ROOT
 OUTPUT_DIR = EXTERNAL_TEST_RESULTS / "transformer"
 
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
 BATCH_SIZE = 128
 
 DEVICE = "mps" if torch.backends.mps.is_available() else "cpu"
@@ -33,132 +31,139 @@ def extract_coordinates(file_path):
     return float(match.group(1)), float(match.group(2))
 
 
-# Recover the historical normalization from the training partition.
-df = pd.read_csv(METADATA_PATH)
+def main():
+    """Project the trained Transformer onto the external scan using the original training normalization."""
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    # Recover the historical normalization from the training partition.
+    df = pd.read_csv(METADATA_PATH)
 
-train_df, _, _, _, _, _ = create_splits(df, df["label"])
+    train_df, _, _, _, _, _ = create_splits(df, df["label"])
 
-X_train = prepare_signals(train_df)
+    X_train = prepare_signals(train_df)
 
-mean = X_train.mean()
-std = X_train.std()
+    mean = X_train.mean()
+    std = X_train.std()
 
-del X_train
+    del X_train
 
-if DEVICE == "mps":
-    torch.mps.empty_cache()
-
-
-files = list(DATA_DIR.glob("*.txt"))
-
-external_df = pd.DataFrame({
-    "file_path": files
-})
-
-coordinates = [extract_coordinates(file_path) for file_path in files]
-
-X = prepare_signals(external_df)
-
-X = (X - mean) / std
+    if DEVICE == "mps":
+        torch.mps.empty_cache()
 
 
-# Keep prediction rows aligned with the scan coordinates.
-dataset = TensorDataset(torch.tensor(X, dtype=torch.float32))
-loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=False)
+    files = list(DATA_DIR.glob("*.txt"))
+
+    external_df = pd.DataFrame({
+        "file_path": files
+    })
+
+    coordinates = [extract_coordinates(file_path) for file_path in files]
+
+    X = prepare_signals(external_df)
+
+    X = (X - mean) / std
 
 
-model = TransformerModel().to(DEVICE)
+    # Keep prediction rows aligned with the scan coordinates.
+    dataset = TensorDataset(torch.tensor(X, dtype=torch.float32))
+    loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=False)
 
-model.load_state_dict(
-    torch.load(
-        MODEL_PATH,
-        map_location=DEVICE
+
+    model = TransformerModel().to(DEVICE)
+
+    model.load_state_dict(
+        torch.load(
+            MODEL_PATH,
+            map_location=DEVICE
+        )
     )
-)
 
-model.eval()
-
-
-probabilities = []
-
-with torch.no_grad():
-    for (X_batch,) in loader:
-        X_batch = X_batch.to(DEVICE)
-
-        proba_batch = torch.softmax(model(X_batch), dim=1)
-
-        probabilities.append(proba_batch.cpu().numpy())
-
-proba = np.concatenate(probabilities)
-
-predictions = np.argmax(proba, axis=1)
+    model.eval()
 
 
-results = pd.DataFrame({
-    "x": [coord[0] for coord in coordinates],
-    "y": [coord[1] for coord in coordinates],
-    "pred": predictions,
-    "p0": proba[:, 0],
-    "p1": proba[:, 1],
-    "p2": proba[:, 2],
-    "p3": proba[:, 3],
-})
+    probabilities = []
 
-results["ampel"] = results["pred"].map({
-    0: "gelb",
-    1: "rot",
-    2: "gelb",
-    3: "grün",
-})
+    with torch.no_grad():
+        for (X_batch,) in loader:
+            X_batch = X_batch.to(DEVICE)
 
-results["p_rot"] = results["p1"]
-results["p_gelb"] = results["p0"] + results["p2"]
-results["p_gruen"] = results["p3"]
+            proba_batch = torch.softmax(model(X_batch), dim=1)
+
+            probabilities.append(proba_batch.cpu().numpy())
+
+    proba = np.concatenate(probabilities)
+
+    predictions = np.argmax(proba, axis=1)
 
 
-colors = results["ampel"].map({
-    "rot": "red",
-    "gelb": "gold",
-    "grün": "green",
-})
+    results = pd.DataFrame({
+        "x": [coord[0] for coord in coordinates],
+        "y": [coord[1] for coord in coordinates],
+        "pred": predictions,
+        "p0": proba[:, 0],
+        "p1": proba[:, 1],
+        "p2": proba[:, 2],
+        "p3": proba[:, 3],
+    })
 
-plt.scatter(results["x"], results["y"], c=colors, s=8)
+    results["ampel"] = results["pred"].map({
+        0: "gelb",
+        1: "rot",
+        2: "gelb",
+        3: "grün",
+    })
 
-plt.xlabel("Xpos [mm]")
-plt.ylabel("Ypos [mm]")
-
-plt.gca().set_aspect("equal")
-
-plt.tight_layout()
-
-plt.savefig(
-    OUTPUT_DIR / "prediction_map.png",
-    dpi=300
-)
-
-plt.close()
+    results["p_rot"] = results["p1"]
+    results["p_gelb"] = results["p0"] + results["p2"]
+    results["p_gruen"] = results["p3"]
 
 
-summary = pd.DataFrame({
-    "ampel": ["rot", "gelb", "grün"],
-    "count": [
-        int((results["ampel"] == "rot").sum()),
-        int((results["ampel"] == "gelb").sum()),
-        int((results["ampel"] == "grün").sum()),
-    ],
-    "share": [
-        float((results["ampel"] == "rot").mean()),
-        float((results["ampel"] == "gelb").mean()),
-        float((results["ampel"] == "grün").mean()),
-    ],
-    "mean_probability": [
-        float(results["p_rot"].mean()),
-        float(results["p_gelb"].mean()),
-        float(results["p_gruen"].mean()),
-    ]
-})
+    colors = results["ampel"].map({
+        "rot": "red",
+        "gelb": "gold",
+        "grün": "green",
+    })
 
-summary.to_csv(
-    OUTPUT_DIR / "summary.csv",
-    index=False
-)
+    plt.scatter(results["x"], results["y"], c=colors, s=8)
+
+    plt.xlabel("Xpos [mm]")
+    plt.ylabel("Ypos [mm]")
+
+    plt.gca().set_aspect("equal")
+
+    plt.tight_layout()
+
+    plt.savefig(
+        OUTPUT_DIR / "prediction_map.png",
+        dpi=300
+    )
+
+    plt.close()
+
+
+    summary = pd.DataFrame({
+        "ampel": ["rot", "gelb", "grün"],
+        "count": [
+            int((results["ampel"] == "rot").sum()),
+            int((results["ampel"] == "gelb").sum()),
+            int((results["ampel"] == "grün").sum()),
+        ],
+        "share": [
+            float((results["ampel"] == "rot").mean()),
+            float((results["ampel"] == "gelb").mean()),
+            float((results["ampel"] == "grün").mean()),
+        ],
+        "mean_probability": [
+            float(results["p_rot"].mean()),
+            float(results["p_gelb"].mean()),
+            float(results["p_gruen"].mean()),
+        ]
+    })
+
+    summary.to_csv(
+        OUTPUT_DIR / "summary.csv",
+        index=False
+    )
+
+
+if __name__ == "__main__":
+    main()

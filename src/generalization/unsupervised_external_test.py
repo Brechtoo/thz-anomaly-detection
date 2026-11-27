@@ -29,8 +29,6 @@ DATA_PATH = FEATURE_EXTENSION_BLOCK1_ROOT
 DATA_DIR = EXTERNAL_SCAN_ROOT
 OUTPUT_DIR = EXTERNAL_TEST_RESULTS / "unsupervised"
 
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
 TARGET_COL = "label"
 
 EXCLUDE_COLUMNS = [
@@ -51,82 +49,89 @@ def extract_coordinates(file_path):
     return float(match.group(1)), float(match.group(2))
 
 
-X, y = load_feature_data(DATA_PATH, TARGET_COL, EXCLUDE_COLUMNS)
+def main():
+    """Compare anomaly scores on the reference split and the external scan."""
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    X, y = load_feature_data(DATA_PATH, TARGET_COL, EXCLUDE_COLUMNS)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=RANDOM_STATE)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=RANDOM_STATE)
 
-files = list(DATA_DIR.glob("*.txt"))
+    files = list(DATA_DIR.glob("*.txt"))
 
-X_external = pd.DataFrame([extract_all_features(file_path) for file_path in files])
-X_external = X_external[X.columns]
+    X_external = pd.DataFrame([extract_all_features(file_path) for file_path in files])
+    X_external = X_external[X.columns]
 
-coordinates = [extract_coordinates(file_path) for file_path in files]
-
-
-# Both comparison sets use preprocessing fitted on the reference training split.
-imputer = SimpleImputer(strategy="median")
-
-X_train_imputed = imputer.fit_transform(X_train)
-X_test_imputed = imputer.transform(X_test)
-X_external_imputed = imputer.transform(X_external)
-
-scaler = StandardScaler()
-
-X_train_scaled = scaler.fit_transform(X_train_imputed)
-X_test_scaled = scaler.transform(X_test_imputed)
-X_external_scaled = scaler.transform(X_external_imputed)
+    coordinates = [extract_coordinates(file_path) for file_path in files]
 
 
-# Reconstruction models use scaled features, and the isolation forest uses imputed features.
-pca = train_pca(X_train_scaled, n_components=N_COMPONENTS)
-autoencoder = train_autoencoder(X_train_scaled, RANDOM_STATE)
-isolation_forest = train_isolation_forest(X_train_imputed, random_state=RANDOM_STATE)
+    # Both comparison sets use preprocessing fitted on the reference training split.
+    imputer = SimpleImputer(strategy="median")
+
+    X_train_imputed = imputer.fit_transform(X_train)
+    X_test_imputed = imputer.transform(X_test)
+    X_external_imputed = imputer.transform(X_external)
+
+    scaler = StandardScaler()
+
+    X_train_scaled = scaler.fit_transform(X_train_imputed)
+    X_test_scaled = scaler.transform(X_test_imputed)
+    X_external_scaled = scaler.transform(X_external_imputed)
 
 
-models = {
-    "pca": (
-        pca_scores(pca, X_test_scaled),
-        pca_scores(pca, X_external_scaled),
-    ),
-    "autoencoder": (
-        autoencoder_scores(autoencoder, X_test_scaled),
-        autoencoder_scores(autoencoder, X_external_scaled),
-    ),
-    "isolation_forest": (
-        calculate_anomaly_scores(isolation_forest, X_test_imputed)[0],
-        calculate_anomaly_scores(isolation_forest, X_external_imputed)[0],
-    ),
-}
+    # Reconstruction models use scaled features, and the isolation forest uses imputed features.
+    pca = train_pca(X_train_scaled, n_components=N_COMPONENTS)
+    autoencoder = train_autoencoder(X_train_scaled, RANDOM_STATE)
+    isolation_forest = train_isolation_forest(X_train_imputed, random_state=RANDOM_STATE)
 
 
-for name, (reference_scores, external_scores) in models.items():
+    models = {
+        "pca": (
+            pca_scores(pca, X_test_scaled),
+            pca_scores(pca, X_external_scaled),
+        ),
+        "autoencoder": (
+            autoencoder_scores(autoencoder, X_test_scaled),
+            autoencoder_scores(autoencoder, X_external_scaled),
+        ),
+        "isolation_forest": (
+            calculate_anomaly_scores(isolation_forest, X_test_imputed)[0],
+            calculate_anomaly_scores(isolation_forest, X_external_imputed)[0],
+        ),
+    }
 
-    model_output = OUTPUT_DIR / name
-    model_output.mkdir(parents=True, exist_ok=True)
 
-    summary = pd.DataFrame({
-        "dataset": ["reference_test", "external"],
-        "count": [len(reference_scores), len(external_scores)],
-        "mean": [np.mean(reference_scores), np.mean(external_scores)],
-        "median": [np.median(reference_scores), np.median(external_scores)],
-        "std": [np.std(reference_scores), np.std(external_scores)],
-        "min": [np.min(reference_scores), np.min(external_scores)],
-        "max": [np.max(reference_scores), np.max(external_scores)],
-    })
+    for name, (reference_scores, external_scores) in models.items():
 
-    summary.to_csv(model_output / "summary.csv", index=False)
+        model_output = OUTPUT_DIR / name
+        model_output.mkdir(parents=True, exist_ok=True)
 
-    plt.scatter(
-        [coord[0] for coord in coordinates],
-        [coord[1] for coord in coordinates],
-        c=external_scores,
-        s=8,
-    )
+        summary = pd.DataFrame({
+            "dataset": ["reference_test", "external"],
+            "count": [len(reference_scores), len(external_scores)],
+            "mean": [np.mean(reference_scores), np.mean(external_scores)],
+            "median": [np.median(reference_scores), np.median(external_scores)],
+            "std": [np.std(reference_scores), np.std(external_scores)],
+            "min": [np.min(reference_scores), np.min(external_scores)],
+            "max": [np.max(reference_scores), np.max(external_scores)],
+        })
 
-    plt.xlabel("Xpos [mm]")
-    plt.ylabel("Ypos [mm]")
-    plt.colorbar(label="Anomalie-Score")
-    plt.gca().set_aspect("equal")
-    plt.tight_layout()
-    plt.savefig(model_output / "anomaly_map.png", dpi=300)
-    plt.close()
+        summary.to_csv(model_output / "summary.csv", index=False)
+
+        plt.scatter(
+            [coord[0] for coord in coordinates],
+            [coord[1] for coord in coordinates],
+            c=external_scores,
+            s=8,
+        )
+
+        plt.xlabel("Xpos [mm]")
+        plt.ylabel("Ypos [mm]")
+        plt.colorbar(label="Anomalie-Score")
+        plt.gca().set_aspect("equal")
+        plt.tight_layout()
+        plt.savefig(model_output / "anomaly_map.png", dpi=300)
+        plt.close()
+
+
+if __name__ == "__main__":
+    main()

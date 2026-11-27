@@ -1,54 +1,34 @@
-# ==========================================
 # macOS
-# ==========================================
 .DS_Store
 
-
-# ==========================================
 # PyCharm / IDE
-# ==========================================
 .idea/
 
-
-# ==========================================
 # Python
-# ==========================================
 __pycache__/
 *.py[cod]
 
-
-# ==========================================
 # Jupyter
-# ==========================================
 .ipynb_checkpoints/
 
-
-# ==========================================
 # Generated datasets / feature tables
-# ==========================================
 data/measurements/
 results/measurements/
 results/feature_tables/
 # Rebuildable reference-filtered catalog contains local waveform paths.
 data/metadata_reference_excluded/specimen_dataset.csv
 
-
-# ==========================================
 # Personal notes
-# ==========================================
 docs/fragen papenbrock
 docs/notes anomaly detection
 docs/fragen cornelius
 
-# ============================================================
 # joblibs
-# ============================================================
 *.joblib
 *.pkl
 *.pickle
 *.pt
 *.pth
-
 
 # MLflow
 mlflow.db

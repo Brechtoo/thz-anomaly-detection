@@ -1,4 +1,3 @@
-
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -7,10 +6,6 @@ from src.paths import BASELINE_ANALYSIS_RESULTS, FEATURE_BASELINE_ROOT
 INPUT_PATH = FEATURE_BASELINE_ROOT
 
 OUTPUT_DIR = BASELINE_ANALYSIS_RESULTS
-
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-df = pd.read_csv(INPUT_PATH)
 
 # Historical feature selection from basic_stats_and_correlation.py.
 FEATURES = [
@@ -21,27 +16,36 @@ FEATURES = [
     "first_third_std"
 ]
 
-for feature in FEATURES:
 
-    plt.figure(figsize=(7, 5))
+def main():
+    """Plot the five selected amplitude features for each annotated class."""
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    df = pd.read_csv(INPUT_PATH)
+    for feature in FEATURES:
 
-    df.boxplot(
-        column=feature,
-        by="label",
-        grid=False,
-    )
+        plt.figure(figsize=(7, 5))
 
-    plt.title(feature)
-    plt.suptitle("")
-    plt.xlabel("Klasse")
-    plt.ylabel(feature)
+        df.boxplot(
+            column=feature,
+            by="label",
+            grid=False,
+        )
 
-    plt.tight_layout()
+        plt.title(feature)
+        plt.suptitle("")
+        plt.xlabel("Klasse")
+        plt.ylabel(feature)
 
-    output_path = OUTPUT_DIR / f"{feature}_boxplot.png"
-    plt.savefig(output_path, dpi=300)
+        plt.tight_layout()
 
-    plt.close()
+        output_path = OUTPUT_DIR / f"{feature}_boxplot.png"
+        plt.savefig(output_path, dpi=300)
+
+        plt.close()
 
 
-print(f"boxplots gespeichert unter: {OUTPUT_DIR}")
+    print(f"boxplots gespeichert unter: {OUTPUT_DIR}")
+
+
+if __name__ == "__main__":
+    main()

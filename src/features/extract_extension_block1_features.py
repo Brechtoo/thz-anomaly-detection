@@ -3,10 +3,6 @@ from scipy.signal import find_peaks
 
 from src.features.loading import load_measurement
 
-# ============================================================
-# settings
-# ============================================================
-
 POST_PEAK_START = 3
 NOISE_REGION_START = 70
 END_OF_SIGNAL = 80
@@ -19,10 +15,6 @@ WINDOW_HALF_WIDTH = 2.5
 INTERPOLATION_POINTS = 201
 
 
-# ============================================================
-# feature extraction
-# ============================================================
-
 def extract_extension_block1_features(file_path):
 
     raw_measurements = load_measurement(file_path)
@@ -33,9 +25,7 @@ def extract_extension_block1_features(file_path):
     if len(y) == 0:
         raise ValueError("empty measurement")
 
-    # ========================================================
-    # surface peak
-    # ========================================================
+    # Surface peak
 
     surface_mask = ((x >= SURFACE_START) & (x <= SURFACE_END))
 
@@ -52,9 +42,7 @@ def extract_extension_block1_features(file_path):
 
     x = x - surface_time
 
-    # ========================================================
-    # baseline / noise
-    # ========================================================
+    # Baseline / noise
 
     noise_region_mask = ((x >= NOISE_REGION_START) & (x <= END_OF_SIGNAL))
 
@@ -75,9 +63,7 @@ def extract_extension_block1_features(file_path):
             not np.isfinite(surface_amp) or surface_amp == 0):
         raise ValueError("invalid surface amp")
 
-    # ========================================================
-    # baseline corrected complete signal
-    # ========================================================
+    # Baseline corrected complete signal
 
     total_mask = ((x >= START_OF_SIGNAL_FROM_SHIFTED_X) & (x <= END_OF_SIGNAL))
 
@@ -85,9 +71,7 @@ def extract_extension_block1_features(file_path):
 
     y_total = (y[total_mask] - noise_region)
 
-    # ========================================================
-    # post peak region
-    # ========================================================
+    # Post peak region
 
     post_peak_mask = ((x >= POST_PEAK_START) & (x <= END_OF_SIGNAL))
 
@@ -98,9 +82,7 @@ def extract_extension_block1_features(file_path):
     if len(y) < 3:
         raise ValueError("post peak region too small")
 
-    # ========================================================
-    # second peak features
-    # ========================================================
+    # Second peak features
 
     second_max_peaks, second_max_properties = (find_peaks(y, prominence=0, width=0))
 
@@ -164,9 +146,7 @@ def extract_extension_block1_features(file_path):
 
     second_peak_to_surface_ratio = (abs(second_peak_amp) / abs(surface_amp))
 
-    # ========================================================
-    # local std / energy
-    # ========================================================
+    # Local std / energy
 
     y_fifths = np.array_split(y, 5)
 
@@ -188,9 +168,7 @@ def extract_extension_block1_features(file_path):
 
     x_of_max_window_energy = np.mean(x_fifths[max_window_energy_idx])
 
-    # ========================================================
-    # post peak stats
-    # ========================================================
+    # Post peak stats
 
     post_peak_energy = np.sum(y ** 2)
 
@@ -198,9 +176,7 @@ def extract_extension_block1_features(file_path):
 
     post_peak_abs_area = np.trapezoid(np.abs(y), x)
 
-    # ========================================================
-    # derivatives
-    # ========================================================
+    # Derivatives
 
     dy_dx = np.gradient(y, x)
 
@@ -218,9 +194,7 @@ def extract_extension_block1_features(file_path):
 
     post_peak_max_sec_neg_slope = np.min(dy2_dx2)
 
-    # ========================================================
-    # surface / second peak correlation
-    # ========================================================
+    # Surface / second peak correlation
 
     surface_mask = ((x_total >= -WINDOW_HALF_WIDTH) & (x_total <= WINDOW_HALF_WIDTH))
 
@@ -269,9 +243,6 @@ def extract_extension_block1_features(file_path):
     if not np.isfinite(second_peak_surface_corr):
         raise ValueError("invalid shape correlation")
 
-    # ========================================================
-    # result
-    # ========================================================
 
     return {
         # second peak

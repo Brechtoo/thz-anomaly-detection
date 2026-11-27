@@ -1,12 +1,7 @@
-
 import pandas as pd
 
 from src.features.extract_all_features import extract_all_features
 from src.paths import COMBINED_DATASET_ROOT, FEATURE_TABLE_ROOT
-
-# ============================================================
-# settings
-# ============================================================
 
 INPUT_PATH = COMBINED_DATASET_ROOT
 
@@ -14,11 +9,9 @@ OUTPUT_PATH = FEATURE_TABLE_ROOT
 
 MAX_MEASUREMENTS = None
 
-# ============================================================
-# feature table creation
-# ============================================================
 
 def create_feature_table(df):
+    """Extrahiere eine Zeile je Messdatei und übernimm die zugehörigen Katalogschlüssel."""
 
     rows = []
 
@@ -28,9 +21,6 @@ def create_feature_table(df):
 
         features = extract_all_features(file_path)
 
-        # ------------------------------------------------
-        # metadata
-        # ------------------------------------------------
 
         features["file_path"] = file_path
 
@@ -54,10 +44,6 @@ def create_feature_table(df):
     return feature_df
 
 
-# ============================================================
-# main
-# ============================================================
-
 def main():
 
     df = pd.read_csv(INPUT_PATH)
@@ -68,11 +54,8 @@ def main():
 
     print(f"messungen: {len(df)}")
 
-    feature_df = (create_feature_table(df))
+    feature_df = create_feature_table(df)
 
-    # ========================================================
-    # save
-    # ========================================================
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
 

@@ -1,3 +1,4 @@
+# Beide Blöcke teilen sich einen Namensraum, damit die Modellspalten eindeutig bleiben.
 from src.features.extract_baseline_features import (
     extract_baseline_features,
 )
