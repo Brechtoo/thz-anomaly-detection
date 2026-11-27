@@ -18,6 +18,9 @@ def reference_mask(frame):
         parsed = frame.instance_id.astype(str).str.extract(
             r'^(?P<source_dataset>messreihe_[123])_x(?P<x>-?\d+)_y(?P<y>-?\d+)$')
         parsed[['x', 'y']] = parsed[['x', 'y']].apply(pd.to_numeric)
+        # Imported catalogs can carry local IDs alongside original scan coordinates.
+        if {'source_dataset', 'x', 'y'} <= set(frame) and parsed.source_dataset.isna().any():
+            parsed = parsed.fillna(frame[parsed.columns])
     elif {'source_dataset', 'x', 'y'} <= set(frame):
         parsed = frame
     else:

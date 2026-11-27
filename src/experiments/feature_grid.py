@@ -267,7 +267,8 @@ def run_holdouts(output, grid, membership, combos, parent_id):
                 paths = [output/'fits'/combo/model/f'fold_{i}' for i in range(3)]
                 if all(path.exists() for path in paths):
                     completed[(combo, model)] = pd.concat([completed_predictions(path) for path in paths])
-        if not completed:
+        # A failed fold must not silently remove a candidate before shortlist selection.
+        if len(completed) != len(combos) * len(MODELS):
             return
         write_json(validation_plan, {'source': 'pooled OOF only', 'pairs': rank(completed)[:SHORTLIST]})
     shortlist = [tuple(pair) for pair in read_json(validation_plan)['pairs']]
@@ -311,7 +312,8 @@ def run(output, jobs, *, retry_failed=False, cv_only=False):
         if plan_path.exists():
             if read_json(plan_path) != plan:
                 raise ValueError('Plan, data split or runtime changed; use a new output directory')
-            pd.testing.assert_frame_equal(pd.read_parquet(output / 'cohort.parquet'), train)
+            # Parquet stores the ordered IDs and labels, but omits the pandas row index.
+            pd.testing.assert_frame_equal(pd.read_parquet(output / 'cohort.parquet'), train.reset_index(drop=True))
         else:
             train.to_parquet(output / 'cohort.parquet', index=False)
             write_json(plan_path, plan)

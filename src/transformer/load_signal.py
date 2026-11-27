@@ -1,35 +1,12 @@
-from pathlib import Path
-
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
 from src.data.reference_measurements import require_no_references
 from src.features.loading import load_measurement
-from src.paths import FEATURE_BASELINE_ROOT, TRANSFORMER_RESULTS
-
-RANDOM_STATE = 42
 
 N_POINTS = 256
 BATCH_SIZE = 128
-EPOCHS = 30
-LEARNING_RATE = 1e-3
-
-N_CLASSES = 4
-
-METADATA_PATH = Path(FEATURE_BASELINE_ROOT)
-
-OUTPUT_DIR = TRANSFORMER_RESULTS
-
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-DEVICE = ("mps" if torch.backends.mps.is_available() else "cpu")
-
-WEIGHT_CONFIGS = {
-    "no_weights": None,
-    "class1_weight2": [1.0, 2.0, 1.0, 1.0],
-    "balanced": "balanced",
-}
 
 
 def load_signal(file_path):
@@ -116,13 +93,13 @@ def create_data_loaders(X_train, X_val, y_train, y_val, batch_size=BATCH_SIZE):
 
     train_loader = DataLoader(
         train_dataset,
-        batch_size=BATCH_SIZE,
+        batch_size=batch_size,
         shuffle=True,
     )
 
     val_loader = DataLoader(
         val_dataset,
-        batch_size=BATCH_SIZE,
+        batch_size=batch_size,
         shuffle=False,
     )
 

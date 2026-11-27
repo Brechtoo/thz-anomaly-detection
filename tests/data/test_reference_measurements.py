@@ -35,3 +35,12 @@ def test_confirmed_reference_mapping_and_training_guard():
             frame[c] = 0
     with pytest.raises(ValueError, match='reference measurements'):
         prepare_dataset(frame)
+
+
+def test_missing_or_custom_id_uses_original_coordinates_row_by_row():
+    frame = pd.DataFrame({
+        'instance_id': [None, 'custom', 'messreihe_3_x-28_y112'],
+        'source_dataset': ['messreihe_1', 'external', 'external'],
+        'x': [-28, -28, 0], 'y': [102, 102, 0],
+    }, index=[9, 3, 5])
+    assert reference_mask(frame).tolist() == [True, False, True]

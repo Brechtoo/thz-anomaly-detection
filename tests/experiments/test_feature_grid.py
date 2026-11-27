@@ -82,3 +82,35 @@ def test_holdout_locks_one_selection_before_any_test_prediction(tmp_path, monkey
     feature_grid.run_holdouts(tmp_path, Grid(), membership, combinations, 'synthetic-run')
     assert tests == [['tsfel', 'mlp']]
     assert not (tmp_path / 'holdout/manual/mlp/test').exists()
+
+
+def test_partial_cv_cannot_freeze_shortlist(tmp_path, monkeypatch):
+    monkeypatch.setattr(feature_grid, 'MODELS', ('mlp',))
+    for fold in range(3):
+        (tmp_path / 'fits/manual/mlp' / f'fold_{fold}').mkdir(parents=True)
+    monkeypatch.setattr(feature_grid, 'completed_predictions', lambda path: pd.DataFrame())
+    feature_grid.run_holdouts(tmp_path, None, None, {'manual': [], 'tsfel': []}, 'test')
+    assert not (tmp_path / 'shortlist.json').exists()
+
+
+def test_resume_compares_saved_rows_even_with_sparse_input_index(tmp_path, monkeypatch):
+    train = pd.DataFrame({'instance_id': ['a', 'c'], 'fold': [0, 1]}, index=[1, 5])
+    train.to_parquet(tmp_path / 'cohort.parquet', index=False)
+    write_json(tmp_path / 'plan.json', {'feature_inputs_sha256': {}})
+    monkeypatch.setattr(feature_grid, 'plan_config', dict)
+    monkeypatch.setattr(feature_grid, 'load_cohorts', lambda: (train, train))
+    from types import SimpleNamespace
+
+    from src.features import specimen_grid
+
+    monkeypatch.setattr(specimen_grid, 'GridFeatures', lambda *args: SimpleNamespace(source_fingerprints={}))
+
+    def stop_before_tracking(name):
+        raise RuntimeError('cohort verified')
+
+    monkeypatch.setattr(feature_grid, 'set_project_experiment', stop_before_tracking)
+    with pytest.raises(RuntimeError, match='cohort verified'):
+        feature_grid.run(tmp_path, 1, cv_only=True)
+    train.iloc[::-1].to_parquet(tmp_path / 'cohort.parquet', index=False)
+    with pytest.raises(AssertionError):
+        feature_grid.run(tmp_path, 1, cv_only=True)
