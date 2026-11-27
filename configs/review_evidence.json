@@ -254,5 +254,13 @@
       "false_alarms",
       "false_alarm_rate"
     ]
+  },
+  {
+    "source": "results/analysis/nested_release_pareto_v1/nested.csv",
+    "destination": "nested_release_pareto_v1/nested.csv"
+  },
+  {
+    "source": "results/analysis/specimen_ood_review_v2/totals.csv",
+    "destination": "specimen_ood_review_v2/totals.csv"
   }
 ]

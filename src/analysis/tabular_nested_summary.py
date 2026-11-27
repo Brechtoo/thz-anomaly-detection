@@ -83,11 +83,9 @@ def write_summary(output=OUTPUT):
                      f'{fmt(bodies.delta_without_critical_error_rate.max())}'])
     text.extend([
         '## Einfluss einzelner Prüfkörper',
-        'Je Familie zeigt die Tabelle das Feature-Set mit der niedrigsten beobachteten adaptiven kritischen Rate. '
-        'Diese Auswahl dient der Beschreibung. Die erste Zählspalte enthält ausschließlich Körper mit '
-        'kritischen Sollklassen. Die letzte Spalte gibt die verbleibende gepoolte Ratendifferenz an, wenn je '
-        'ein Körper mit allen seinen Messungen aus der Auswertung entfällt. Ein Vorzeichenwechsel zeigt, '
-        'dass schon ein einzelner Körper die Richtung des Vergleichs ändern kann.',
+        'Je Familie ist das Feature-Set mit der niedrigsten adaptiven kritischen Rate dargestellt. Die '
+        'Zählung umfasst Körper mit wahren 1/2. Die letzte Spalte zeigt den Bereich der gepoolten '
+        'Differenz beim Weglassen je eines Körpers.',
         table(['Modell', 'Features', 'Weniger/gleich/mehr Fehler', 'Kleinste Fehlerdifferenz',
                'Größte Fehlerdifferenz', 'Δ kritisch ohne je einen Körper (Prozentpunkte)'], rows),
         '## Klassenweise Güte der beschriebenen Betriebspunkte',
@@ -95,12 +93,10 @@ def write_summary(output=OUTPUT):
               [[r.family, r.inputs, *[fmt(getattr(r, f'f1_{i}'), 3) for i in range(4)], fmt(r.release_rate)]
                for r in pd.concat([best, pooled.query("model == 'rbf_svm' and mode == 'adapted'")]).itertuples()]),
         '## Unsicherheit und Interpretation',
-        'Die 95-%-Perzentilintervalle verwenden 2.000 gepaarte Bootstrap-Ziehungen ganzer Prüfkörper '
-        'innerhalb der äußeren Folds bei festen OOF-Vorhersagen. Der gepoolte Schätzer gewichtet '
-        'Messungen nach ihrem Vorkommen. Prüfkörper mit vielen kritischen Messungen haben entsprechend '
-        'größeren Einfluss. Die Intervalle beschreiben die Variation der untersuchten Körper. '
-        'Überlappende Trainingsmengen, Modelltraining auf anderen Kohorten, Vorauswahl der Familien '
-        'auf historischen OOF-Ergebnissen derselben Körper und Mehrfachvergleiche begrenzen die Inferenz.',
+        'Die Intervalle stammen aus 2.000 gepaarten Bootstrap-Ziehungen ganzer Körper innerhalb der '
+        'äußeren Folds bei festen Vorhersagen. Die gepoolten Raten gewichten Messpunkte. Familientests '
+        'auf denselben Körpern, überlappende Trainingsmengen und Mehrfachvergleiche begrenzen die '
+        'Übertragbarkeit.',
     ])
     if complete:
         top = best.iloc[0]
@@ -115,12 +111,10 @@ def write_summary(output=OUTPUT):
                                str(sum(c['below_target'] for c in choices)), str(sum(outer.critical_error_rate.lt(2))),
                                str(sum(c['gate'] != 'predict' or c['threshold'] > 0 for c in choices))])
         text.extend(['## Innere Auswahl und äußere Überprüfung',
-                     'Jede Familie umfasst neun Entscheidungen (drei Feature-Sets × drei äußere Folds). '
-                     'Die innere Zielerfüllung bezieht sich auf die zur Auswahl herangezogenen OOF-Entscheidungen. '
-                     'Der äußere Fold prüft den gewählten Betriebspunkt an anderen Körpern. Die neun '
-                     'Bewertungen einer Familie verwenden dieselben drei äußeren Gruppen wiederholt.',
+                     'Je Familie wurden drei Feature-Sets auf denselben drei äußeren Folds bewertet. Innen wurden Fit '
+                     'und Regel ausgewählt, außen an anderen Körpern geprüft.',
                      table(['Modell', 'Innere Qualitätsschranken erfüllt', 'Kritisch < 2 % innen',
-                            'Kritisch < 2 % außen', 'Adaptive Regel weicht von predict ab'], selections)])
+                            'Kritisch < 2 % außen', 'Auswahl mit Score-Regel oder Schwelle'], selections)])
         text.extend(['## Folgerung', f'{len(target)} von 15 adaptiven Varianten erreichen gepoolt eine kritische '
                      f'Fehlerrate unter 2 %. Den niedrigsten beobachteten Wert hat {top.family} ({top.inputs}) '
                      f'mit {int(top.critical_errors)} kritischen Fehlern ({fmt(top.critical_error_rate)} %), '

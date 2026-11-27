@@ -1,47 +1,12 @@
-# Wiederverwendbare historische Prüfskripte
+# Historische HGB-Prüfungen
 
-Aus der Projektwurzel mit `.venv/bin/python scripts/reproducibility/<Skript> --help`
-aufrufen. Alle Eingaben sind explizit; relative Eingaben beziehen sich auf das
-Arbeitsverzeichnis. `--output-dir` muss neu sein. Es erfolgt kein Training.
-Die ursprünglichen Fassungen bleiben vollständig im externen Archiv; dessen
-Zuordnung steht im [zentralen Überblick](../../docs/reproducibility_checks.md).
+Alle vier Skripte erwarten explizite Eingaben und ein neues `--output-dir`. Mit `.venv/bin/python scripts/reproducibility/<skript> --help` die Argumente anzeigen.
 
-| Skript | Erforderliche Argumente zusätzlich zu `--output-dir` |
+| Skript | Prüfung |
 | --- | --- |
-| `feature_probe.py` | `--catalog` kombinierter Katalog; `--reference` Referenz-Feature-CSV |
-| `verify_features.py` | `--catalog`; `--reference` |
-| `verify_model_consistency.py` | `--reference`; `--rebuilt` neu extrahierte Feature-CSV; `--model` vertrauenswürdiges historisches `model.pkl`; `--predictions` historische Validierungsvorhersagen; `--reference-run-id` |
-| `audit_catalog_leakage.py` | `--raw-root` Rohdatenwurzel; `--prior-check-dir` vollständiger ursprünglicher Feature-Prüfordner mit `initial_state.json` und `feature_rebuild/` |
+| `feature_probe.py` | 64 gleichmäßig verteilte Katalogzeilen gegen die Feature-Referenz |
+| `verify_features.py` | Vollständiger Neuaufbau und Vergleich mit ursprünglichem Kriterium 1e-12 |
+| `verify_model_consistency.py` | Gespeichertes HGB auf Referenz und Neuaufbau, mit rtol=1e-11 und atol=1e-13 |
+| `audit_catalog_leakage.py` | Katalog aus Originalannotationen, Split-Überlappung und Duplikate |
 
-Beispiel für eine kleine Vorprüfung (liest auch Dateigrößen des gesamten Katalogs):
-
-```sh
-.venv/bin/python scripts/reproducibility/feature_probe.py \
-  --catalog data/measurements/combined_dataset.csv \
-  --reference results/feature_tables/feature_table.csv \
-  --output-dir results/reproducibility_checks/new_probe
-```
-
-Der vollständige Feature- und Katalogneuaufbau liest alle Rohmessungen und kann
-mehrere Minuten dauern. Für wiederholte Aufrufe jeweils neue Ausgabeziele wählen.
-Der Featurevergleich bewahrt das ursprüngliche strenge Kriterium `1e-12`;
-der separate Modellvergleich bewahrt `rtol=1e-11`, `atol=1e-13`.
-Die Skripte dokumentieren Befunde in JSON/CSV; ein erfolgreicher Prozessabschluss
-allein bestätigt nicht, dass sämtliche numerischen Vergleichskriterien erfüllt sind.
-
-Die historische HGB-Modellprüfung verwendet den vollständigen Datenstand
-einschließlich der 972 Referenzmessungen. Die heutige Datenaufbereitung weist
-diesen Eingabestand ab. Für die reine Inferenzprüfung das aktuelle
-`verify_model_consistency.py` in einem separaten Checkout des Tags
-`baseline-audit-2026-11-02` unter `scripts/reproducibility/` ausführen. Die
-Eingabedateien per absolutem Pfad übergeben und `mlflow.db` aus dem
-Arbeitsrepository einbinden, damit das Skript ihre Prüfsumme kontrollieren kann.
-
-Split-Manifeste, Lockdatei und Referenztabellen werden weiterhin aus dem Projekt
-verwendet. Der Modellvergleich schützt auch die vorhandene `mlflow.db` per Hash.
-Alte Logs nennen weiterhin `results/measurements/`; der aktive Katalogpfad ist
-inzwischen `data/measurements/`. Historische Logs und Prüfsummen werden nicht geändert.
-Die Katalogprüfung verwendet historische Eingabe- und Quellcodehashes: bei einem
-abweichenden Daten-/Code-Stand bricht sie absichtlich ab. Das ist keine portable
-Rekonstruktion der ursprünglichen absoluten Messpfade. Die Probe verwendet wie
-historisch 64 gleichmäßig verteilte Katalogzeilen. Keine neue Zufallsaufteilung.
+Die HGB-Inferenzprüfung benötigt den historischen Datenstand einschließlich Metallreferenzen. Das heutige Prüfskript dafür in einem separaten Checkout von `baseline-audit-2026-11-02` unter demselben relativen Pfad ausführen, Eingaben absolut angeben und die historische `mlflow.db` für die Hashprüfung bereitstellen. Für die Bewertung die erzeugten JSON-/CSV-Vergleiche lesen. [Audit und Archivpfade](../../docs/reproducibility_checks.md)
